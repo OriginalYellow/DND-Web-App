@@ -4,4 +4,4 @@ A little project for practicing Vue.js, webpack, and various backend thingies on
 
 ## Setup
 
-just clone and run ```npm install```, then open up index.html in the dist folder.
+Just clone and run ```npm install```, then open up index.html in the dist folder.
