@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        // "strict": false, //NOTE: added this because vuetify doesn't fully support typescript, so I thought it might solve some issues. Alternatively you could use the below options and try keeping on strict mode - maybe they will work together. Alternatively you could just keep strict mode on and see if it causes compiler errors - im not sure if turning it off actually does fix anything.
+        // "noImplicitThis": false,
+        // "noImplicitAny": false,
+        "module": "es2015",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "allowSyntheticDefaultImports": true, 
+        "types": ["vuetify", "vue-chartjs"], //NOTE: put this in here becaues of https://github.com/vuetifyjs/vuetify/issues/3943
+        "experimentalDecorators": true
+    },
+    "files": [
+        "./src/vue-shims.d.ts" //NOTE: idk... (https://github.com/vuejs/vue/issues/5298)
+    ],
+    "include": [
+        "./src/**/*"
+    ]
+
+
+    //NOTE: required for using typescript with vue:
+    // "compilerOptions": {
+    //     // this aligns with Vue's browser support
+    //     "target": "es5",
+    //     // this enables stricter inference for data properties on `this`
+    //     "strict": true,
+    //     // if using webpack 2+ or rollup, to leverage tree shaking:
+    //     "module": "es2015",
+    //     "moduleResolution": "node"
+    // }
+
+    // "exclude": [
+    //     "node_modules",
+    // ]
+}
