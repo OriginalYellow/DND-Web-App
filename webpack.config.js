@@ -3,9 +3,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-    // mode: "none",
-    mode: "production",
-    entry: path.resolve(__dirname, "src/app.ts"),
+    mode: "none",
+    // mode: "production",
+    entry: path.resolve(__dirname, "src/App.ts"),
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist/",
@@ -48,10 +48,10 @@ module.exports = {
     ]),
     optimization: {
         noEmitOnErrors: true,
-        minimize: true
+        // minimize: true
     },
-    // devtool: 'inline-source-map',
-    // devServer: {
-    //     contentBase: './dist'
-    // },
+    devtool: 'inline-source-map',
+    devServer: {
+        contentBase: './dist'
+    },
 }

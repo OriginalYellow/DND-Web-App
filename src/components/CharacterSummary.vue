@@ -26,15 +26,27 @@
                 </v-card-text>
         </v-img>
     </v-card>
-    <!-- <span>fug</span> -->
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend({
-    name: 'CharacterSummary',
-    props: {
-        name: {type: String},
-        }
-})
+import { Component, Prop } from 'vue-property-decorator'
+
+//MIKE: define this in the parent or somewhere else as a last resort
+interface CharacterClass {
+    name: string;
+    icon: string;
+}
+
+@Component
+export default class CharacterSummary extends Vue {
+    @Prop({required: true})
+    characterClass!: CharacterClass;
+
+    @Prop({required: true})
+    name!: string;
+
+    @Prop({required: true})
+    bio!: string;
+}
 </script>
