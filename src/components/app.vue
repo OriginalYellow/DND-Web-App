@@ -16,7 +16,8 @@
                         <character-summary 
                         :character-class="characterClass" 
                         :name="name"
-                        :bio="bio" ></character-summary>
+                        :bio="bio" 
+                    ></character-summary>
                     </v-flex>
                     <v-flex xs4 md2>
                         <v-card color="grey lighten-2">

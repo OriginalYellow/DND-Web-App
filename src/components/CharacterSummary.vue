@@ -5,25 +5,25 @@
             src="https://liamrainsford.files.wordpress.com/2013/06/oughaval-wood-s.jpg"
             gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
         >
-                <v-card-title>
-                    <h1>
-                        <v-avatar>
-                            <img src="http://www.paolini.net/wp-content/uploads/2017/09/Kvothe-Overlay100.jpg" alt="avatar">
-                        </v-avatar>
-                        {{ name }}
-                    </h1>
-                </v-card-title>
-                <v-card-text>
-                    <p>
-                        {{ characterClass.name }}
-                        <v-icon small>
-                            {{ characterClass.icon }}
-                        </v-icon>
-                    </p>
-                    <p>
-                        {{ bio }}
-                    </p>
-                </v-card-text>
+            <v-card-title>
+                <h1>
+                    <v-avatar>
+                        <img src="http://www.paolini.net/wp-content/uploads/2017/09/Kvothe-Overlay100.jpg" alt="avatar">
+                    </v-avatar>
+                    {{ name }}
+                </h1>
+            </v-card-title>
+            <v-card-text>
+                <p>
+                    {{ characterClass.name }}
+                    <v-icon small>
+                        {{ characterClass.icon }}
+                    </v-icon>
+                </p>
+                <p>
+                    {{ bio }}
+                </p>
+            </v-card-text>
         </v-img>
     </v-card>
 </template>

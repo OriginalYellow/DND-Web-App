@@ -4,6 +4,33 @@
         <h3>Main Stats</h3>
         <v-divider></v-divider>
         <p>
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
+            <!-- YOU WERE HERE -->
             DEX: {{ stats.dex }}
             <br>
             STR: {{ stats.str }}
@@ -35,38 +62,14 @@
                 </v-card-title>
                     <v-container grid-list-md>
                         <v-layout row wrap>
-                            <v-flex xs3>
+                            <v-flex v-for="(stat, index) in mainStats" :key="`stat-${index}`" xs3>
                                 <v-text-field
-                                    label="DEX"
-                                    :placeholder="`${stats.dex}`"
+                                    :label="stat.shortName"
+                                    :placeholder="`${stat.val}`"
                                     outline
-                                    v-model="formStats.dex"
+                                    v-model="formStats[index]"
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs3>
-                                <v-text-field
-                                    label="STR"
-                                    :placeholder="`${stats.str}`"
-                                    outline
-                                    v-model="formStats.str"
-                                ></v-text-field>
-                            </v-flex>
-                            <v-flex xs3>
-                                <v-text-field
-                                    label="INT"
-                                    :placeholder="`${stats.int}`"
-                                    outline
-                                    v-model="formStats.int"
-                                ></v-text-field>
-                            </v-flex>
-                            <v-flex xs3>
-                                <v-text-field
-                                    label="CHAR"
-                                    :placeholder="`${stats.char}`"
-                                    outline
-                                    v-model="formStats.char"
-                                ></v-text-field>
-                            </v-flex>                         
                         </v-layout>
                     </v-container>
                 <v-divider></v-divider>
@@ -96,25 +99,18 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component, Prop, Watch } from 'vue-property-decorator'
-
-//MIKE: define this in the parent or somewhere else as a last resort
-interface MainStats {
-    ac: number;
-    dex: number;
-    str: number;
-    int: number;
-    char: number;
-}
+import { Stat } from '../Stat'
 
 @Component
 export default class CharacterSummary extends Vue {
     @Prop({required: true})
-    mainStats!: MainStats;
+    mainStats!: Stat[];
 
-    formStats!: MainStats;
+    formStats = this.mainStats;
 
-//     get UpperCaseStat() {
-//     return Math.random()
-//   }
+    submitForm(): void {
+        //MIKE: emit something instead of doing this
+        // this.mainStats = this.formStats;
+    }
 }
 </script>
