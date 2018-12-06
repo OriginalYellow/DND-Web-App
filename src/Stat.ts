@@ -22,6 +22,6 @@ export class Stat {
     }
 
     public static Char(val: number) {
-        return new Stat('Char', 'Charisma', val);
+        return new Stat('CHAR', 'Charisma', val);
     }
 }
