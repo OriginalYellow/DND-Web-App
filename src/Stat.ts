@@ -5,23 +5,13 @@ export class Stat {
         public val: number
     ) { }
 
-    public static AC(val: number) {
-        return new Stat('AC', 'Armor Class', val);
-    }
+    public static AC = Stat.CreateFactory('ac', 'armor class');
+    public static Dex = Stat.CreateFactory('dex', 'dexterity');
+    public static Str = Stat.CreateFactory('str', 'strength');
+    public static Int = Stat.CreateFactory('int', 'intelligence');
+    public static Char = Stat.CreateFactory('char', 'charisma');
 
-    public static Dex(val: number) {
-        return new Stat('DEX', 'Dexterity', val);
-    }
-
-    public static Str(val: number) {
-        return new Stat('STR', 'Strength', val);
-    }
-
-    public static Int(val: number) {
-        return new Stat('INT', 'Intelligence', val);
-    }
-
-    public static Char(val: number) {
-        return new Stat('CHAR', 'Charisma', val);
+    private static CreateFactory(shortName: string, longName: string): (val: number) => Stat {
+        return (val: number) => new Stat(shortName, longName, val);
     }
 }

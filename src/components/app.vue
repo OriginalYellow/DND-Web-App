@@ -5,121 +5,139 @@
 <!-- MIKE: look into using "steppers" for character creation (see "stepper" doc page) -->
 
 <template>
-    <v-app>
-        <v-toolbar dark color="grey darken-3" app>
-            <v-toolbar-title>Mike's Cool Tool</v-toolbar-title>
-        </v-toolbar>
-        <v-content>
-            <v-container grid-list-md>
-                <v-layout row wrap>
-                    <v-flex xs12 md6>
-                        <character-summary 
-                            :character-class="characterClass" 
-                            :name="name"
-                            :bio="bio" 
-                        ></character-summary>
-                    </v-flex>
-                    <v-flex xs4 md2>
-                        <stats-card></stats-card>
-                    </v-flex>
-                    <v-flex xs4 md2>
-                        <v-card  color="grey lighten-2">
-                            <v-card-text>   
-                                <h3>Other Stats</h3>
-                                <v-divider></v-divider>
-                                <p>
-                                    AC: {{ stats.ac }}
-                                    <br>
-                                    INIT: +{{ init }}
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <v-flex xs4 md2>
-                        <v-card  color="grey lighten-2">
-                            <v-card-text>   
-                                <h3>Other Stats</h3>
-                                <v-divider></v-divider>
-                                <p>
-                                    AC: {{ stats.ac }}
-                                    <br>
-                                    INIT: +{{ init }}
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-content>
-    </v-app>
+  <v-app>
+    <v-toolbar
+      dark
+      color="grey darken-3"
+      app
+    >
+      <v-toolbar-title>Mike's Cool Tool</v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-container grid-list-md>
+        <v-layout
+          row
+          wrap
+        >
+          <v-flex
+            xs12
+            md6
+          >
+            <character-summary
+              :character-class="characterClass"
+              :name="name"
+              :bio="bio"
+            ></character-summary>
+          </v-flex>
+          <v-flex
+            xs4
+            md2
+          >
+            <!-- MIKE: pass in the stat objects as props -->
+            <stats-card></stats-card>
+          </v-flex>
+          <v-flex
+            xs4
+            md2
+          >
+            <v-card color="grey lighten-2">
+              <v-card-text>
+                <h3>Other Stats</h3>
+                <v-divider></v-divider>
+                <p>
+                  AC: {{ stats.ac }}
+                  <br>
+                  INIT: +{{ init }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex
+            xs4
+            md2
+          >
+            <v-card color="grey lighten-2">
+              <v-card-text>
+                <h3>Other Stats</h3>
+                <v-divider></v-divider>
+                <p>
+                  AC: {{ stats.ac }}
+                  <br>
+                  INIT: +{{ init }}
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-// import RadarChart from './RadarChart.vue';
-import CharacterSummary from './CharacterSummary.vue'
-import StatsCard from './StatsCard.vue'
-// import R from 'ramda';
+import CharacterSummary from "./CharacterSummary.vue";
+import StatsCard from "./StatsCard.vue";
+import { Component, Prop } from "vue-property-decorator";
 
+//NEW
+@Component({
+  components: {
+    CharacterSummary,
+    StatsCard
+  }
+})
+export default class App extends Vue {
+  name: string = "philbough swaggins";
 
+  characterClass = {
+    name: "bard",
+    icon: "music_note"
+  };
 
-// Vue.extend({components: [CharacterSummary]})
+  //MIKE: replace these with stat objects
+  stats = {
+    ac: 8,
+    dex: 5,
+    str: 10,
+    int: 14,
+    char: 14
+  };
 
-export default Vue.extend({
-    name: 'CharacterSheet',
-    components: { CharacterSummary, StatsCard },
-    data()
-    {
-        return {
-            name: 'Philbough Swaggins',
-            characterClass: 
-                {
-                    name: 'Bard',
-                    icon: 'music_note'
-                },
-            stats: {
-                ac: 8,
-                dex: 5,
-                str: 10,
-                int: 14,
-                char: 14,
-            },
-            bio: "A cool guy who knows what's what.",
-            alignment: 'chaotic good',
-            dialog: true,
-            formStats:
-            {
-                dex: 0,
-                str: 0,
-                int: 0,
-                char: 0
-            },
-            remainingPoints: 20,
-            // rules: [(v:) => v <= 25 || 'Max 25 characters'],
+  bio = "A cool guy who knows what's what.";
 
-        }
-    },
-    mounted (): void {
-        // console.log(this.$vuetify.breakpoint);
-        this.formStats.dex = this.stats.dex;
-        this.formStats.str = this.stats.str;
-        this.formStats.int = this.stats.int;
-        this.formStats.char = this.stats.char;
-    },
-    computed: {
-        init: function (): number {
-            return this.stats.dex
-        }
-    },
-    methods: 
-    {
-        submitForm(): void {
-            this.stats.dex = this.formStats.dex;
-            this.stats.str = this.formStats.str;
-            this.stats.int = this.formStats.int;
-            this.stats.char = this.formStats.char;
-            this.dialog = false;
-        }
-    }
-});
+  alignment = "chaotic good";
+
+  dialog = true;
+
+  formStats = {
+    dex: 0,
+    str: 0,
+    int: 0,
+    char: 0
+  };
+
+  // remainingPoints = 20;
+  // rules: [(v:) => v <= 25 || 'Max 25 characters'],
+
+  mounted(): void {
+    console.log(this.$vuetify.breakpoint);
+    this.formStats.dex = this.stats.dex;
+    this.formStats.str = this.stats.str;
+    this.formStats.int = this.stats.int;
+    this.formStats.char = this.stats.char;
+  }
+
+  get init(): number {
+    return this.stats.dex;
+  }
+
+  submitForm(): void {
+    this.stats.dex = this.formStats.dex;
+    this.stats.str = this.formStats.str;
+    this.stats.int = this.formStats.int;
+    this.stats.char = this.formStats.char;
+    this.dialog = false;
+  }
+}
 </script>

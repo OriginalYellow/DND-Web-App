@@ -9,19 +9,19 @@
       gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
     >
       <v-card-title>
-				<h1>
+        <h1>
           <v-avatar>
             <img
               src="http://www.paolini.net/wp-content/uploads/2017/09/Kvothe-Overlay100.jpg"
               alt="avatar"
             >
           </v-avatar>
-          {{ name }}
+          {{ name | CapitalizeWords }}
         </h1>
       </v-card-title>
       <v-card-text>
         <p>
-          {{ characterClass.name }}
+          {{ characterClass.name | Capitalize}}
           <v-icon small>
             {{ characterClass.icon }}
           </v-icon>
@@ -37,6 +37,10 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import * as R from "ramda";
+import { Capitalize, CapitalizeWords } from "../playground-001";
+
+
 
 //MIKE: define this in the parent or somewhere else as a last resort
 interface CharacterClass {
@@ -44,7 +48,12 @@ interface CharacterClass {
   icon: string;
 }
 
-@Component
+@Component({
+  filters: {
+    Capitalize,
+    CapitalizeWords
+  }
+})
 export default class CharacterSummary extends Vue {
   @Prop({ required: true })
   characterClass!: CharacterClass;

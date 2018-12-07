@@ -9,10 +9,10 @@
           :key="index"
         >
           <v-list-tile-content>
-            <v-list-tile-title>{{stat.shortName}}</v-list-tile-title>
+            <v-list-tile-title>{{stat.shortName | AllCaps}}</v-list-tile-title>
           </v-list-tile-content>
-          <v-list-tile-content class="align-end">
-            <v-list-tile-sub-title>{{stat.val}}</v-list-tile-sub-title>
+          <v-list-tile-content >
+            <v-list-tile-sub-title class="text-xs-right">{{stat.val}}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -46,7 +46,7 @@
                 xs3
               >
                 <v-text-field
-                  :label="stat.shortName"
+                  :label="stat.shortName | AllCaps"
                   :placeholder="`${stat.val}`"
                   outline
                   v-model="formStats[index].val"
@@ -82,9 +82,11 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { Stat } from "../Stat";
+import { AllCaps } from "../playground-001";
+
 // import { Maybe }  from 'tsmonad';
 
-@Component
+@Component({filters: {AllCaps}})
 export default class StatsCard extends Vue {
   @Prop({
     default: () => [Stat.Dex(10), Stat.Int(14), Stat.Char(6), Stat.AC(10)]
