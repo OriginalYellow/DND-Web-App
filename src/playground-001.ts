@@ -1,5 +1,6 @@
 //MIKE: it would be cool if you could add some kind of "pure function" test here
 //MIKE: you can optimize better if you tell webpack that these are pure
+//MIKE: wait are they even pure? - yes they are
 
 import * as R from "ramda";
 
@@ -17,7 +18,7 @@ export const Capitalize = function (x: string): string {
 }
 
 export const AllCaps = function(x: string): string {
-  return x.toUpperCase();
+  return R.toUpper(x);
 }
 
 //TEST

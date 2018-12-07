@@ -37,10 +37,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import * as R from "ramda";
 import { Capitalize, CapitalizeWords } from "../playground-001";
-
-
 
 //MIKE: define this in the parent or somewhere else as a last resort
 interface CharacterClass {
