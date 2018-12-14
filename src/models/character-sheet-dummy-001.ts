@@ -1,18 +1,18 @@
-import { CharacterSheet } from './CharacterSheet';
-import { Stat } from '../Stat';
+import { CharacterSheetModel } from './characterSheet';
+import { Stat } from '../structures/stat';
 
-export const data: CharacterSheet = {
+export const data: CharacterSheetModel = {
   name: 'philbough swaggins',
   characterClass: {
     name: 'bard',
     icon: 'music_note'
   },
   stats: {
-    ac: Stat.AC(8),
-    dex: Stat.Dex(5),
-    str: Stat.Str(10),
-    int: Stat.Int(14),
-    char: Stat.Char(14),
+    ac: {shortName: 'ac', longName: 'armor class', val: 5},
+    dex: {shortName: 'dex', longName: 'dexterity', val: 5},
+    str: {shortName: 'str', longName: 'strength', val: 5},
+    int: {shortName: 'int', longName: 'intelligence', val: 5},
+    char: {shortName: 'char', longName: 'charisma', val: 5}
   },
   bio: 'The coolest guy around.',
   alignment: 'lawful evil'

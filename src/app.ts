@@ -3,10 +3,12 @@ import 'vuetify/dist/vuetify.min.css';
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import app from './components/App.vue'; 
+import store from './store/index';
 
 Vue.use(Vuetify);
 
 new Vue({
   el: '#app',
+  store,
   render: h => h(app)
 });

@@ -1,6 +1,6 @@
-import { Stat } from '../Stat';
+import { Stat } from '../structures/stat';
 
-export interface CharacterSheet {
+export interface CharacterSheetModel {
   name: string,
   stats: {
     ac: Stat,
@@ -9,10 +9,14 @@ export interface CharacterSheet {
     int: Stat,
     char: Stat
   },
-  characterClass: {
-    name: 'bard' | 'warrior',
-    icon: 'music_note' | 'some_other_icon',
-  },
+  characterClass: CharacterClass
   bio: string,
-  alignment: 'chaotic evil' | 'chaotic neutral' | 'chaotic good' | 'true neutral' | 'neutral good' | 'neutral evil' | 'lawful evil' | 'lawful good' | 'lawful neutral'
+  alignment: Alignment
+}
+
+export type Alignment = 'chaotic evil' | 'chaotic neutral' | 'chaotic good' | 'true neutral' | 'neutral good' | 'neutral evil' | 'lawful evil' | 'lawful good' | 'lawful neutral';
+
+export type CharacterClass = {
+  name: 'bard' | 'warrior',
+  icon: 'music_note' | 'some_other_icon',
 }

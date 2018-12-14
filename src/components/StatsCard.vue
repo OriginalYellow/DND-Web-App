@@ -5,7 +5,7 @@
       <v-divider></v-divider>
       <v-list dense>
         <v-list-tile
-          v-for="(stat, index) in mainStats"
+          v-for="(stat, index) in stats"
           :key="index"
         >
           <v-list-tile-content>
@@ -41,7 +41,7 @@
               wrap
             >
               <v-flex
-                v-for="(stat, index) in mainStats"
+                v-for="(stat, index) in stats"
                 :key="index"
                 xs3
               >
@@ -81,25 +81,40 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { Stat } from "../Stat";
-import { AllCaps } from "../playground-001";
+import { State, Action, namespace } from "vuex-class";
+import { Stat } from "../structures/stat"; //if its a .d.ts or something maybe i don't have to do this?
+import { AllCaps } from "../filters/capitalization";
+import { CharacterSheetModel, CharacterClass } from "../models/characterSheet";
 
-// import { Maybe }  from 'tsmonad';
+const characterSheet = namespace("CharacterSheet");
 
 @Component({filters: {AllCaps}})
 export default class StatsCard extends Vue {
-  @Prop({
-    default: () => [Stat.Dex(10), Stat.Int(14), Stat.Char(6), Stat.AC(10)]
-  })
-  mainStats!: Stat[];
+  //OLD
+  // @characterSheet.State("stats")
+  // stats!: Stat[]
+
+  @Prop({ required: true })
+  stats!: CharacterSheetModel['stats'];
+
+  @characterSheet.Action('incr')
+  increment!: (statShortName: string) => void;
 
   dialog: boolean = false;
 
-  formStats = this.mainStats;
+  formStats: Stat[] = [];
 
   submitForm(): void {
-    //MIKE: emit something instead of doing this
+    //OLD
     // this.mainStats = this.formStats;
+  }
+
+  beforeMount() {
+    this.formStats = this.stats;
+  }
+
+  mounted() {
+    this.increment('dex');
   }
 }
 </script>

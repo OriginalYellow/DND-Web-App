@@ -27,14 +27,15 @@ module.exports = {
                     'css-loader'
                 ]
             },
-            { 
-                test: /\.ts$/, 
+            {
+                test: /\.ts$/,
                 loader: "ts-loader",
                 exclude: /node_modules/,
-                options: { 
+                options: {
                     appendTsSuffixTo: [/\.vue$/], //NOTE so you can import vue files in your typescript "script" blocks
                     onlyCompileBundledFiles: true,
-                 }  
+                    // transpileOnly: true, //NOTE: tells typescript to stfu and gtfo
+                }
             },
         ]
     },
@@ -48,7 +49,6 @@ module.exports = {
     ]),
     optimization: {
         noEmitOnErrors: true,
-        // minimize: true
     },
     devtool: 'inline-source-map',
     devServer: {

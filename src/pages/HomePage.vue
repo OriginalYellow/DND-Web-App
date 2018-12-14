@@ -1,4 +1,3 @@
-<!-- MIKE: use a data iterator (see "data iterator" doc) instead of cards for displaying stats. Alternatively, use a "list" (see "list" doc) -->
 <!-- MIKE: use "button dropdowns" for editing stats (see "button dropdown varients" in buttons doc) -->
 <!-- MIKE: look into using "chips" for displaying short bits of data inline (see "chip" doc). Also check out the "In selects" section of the "chip" doc for selecting chips (the example has a really nice contextual selector) -->
 <!-- MIKE: look into using "timelines" (see "timeline" doc page) for advanced features - like a chronicle of the adventure -->
@@ -23,10 +22,11 @@
             xs12
             md6
           >
+            <!-- MIKE: REALLY COOL IDEA: use vuex getters to convert parts of the state into models and pass those to components. BUT first you should just do more of that validation tutorial to learn about v-model more and use that -->
             <character-summary
-              :character-class="characterSheet.characterClass"
-              :name="characterSheet.name"
-              :bio="characterSheet.bio"
+              :character-class="characterClass"
+              :name="name"
+              :bio="bio"
             ></character-summary>
           </v-flex>
           <v-flex
@@ -36,38 +36,6 @@
             <!-- MIKE: pass in the stat objects as props -->
             <stats-card></stats-card>
           </v-flex>
-          <v-flex
-            xs4
-            md2
-          >
-            <v-card color="grey lighten-2">
-              <v-card-text>
-                <h3>Other Stats</h3>
-                <v-divider></v-divider>
-                <p>
-                  AC: {{ characterSheet.stats.ac.val }}
-                  <br>
-                  INIT: +{{ init.val }}
-                </p>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-          <v-flex
-            xs4
-            md2
-          >
-            <v-card color="grey lighten-2">
-              <v-card-text>
-                <h3>Other Stats</h3>
-                <v-divider></v-divider>
-                <p>
-                  AC: {{ characterSheet.stats.ac.val }}
-                  <br>
-                  INIT: +{{ init.val }}
-                </p>
-              </v-card-text>
-            </v-card>
-          </v-flex>
         </v-layout>
       </v-container>
     </v-content>
@@ -75,14 +43,17 @@
 </template>
 
 <script lang="ts">
+//MIKE: put common exports into a single index file and rexport them for less boilerlate
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+import { State, Getter, Action, Mutation, namespace } from "vuex-class";
+
 import CharacterSummary from "../components/CharacterSummary.vue";
 import StatsCard from "../components/StatsCard.vue";
-import { Component, Prop } from "vue-property-decorator";
-import { CharacterSheet } from "../models/CharacterSheet";
-import { Stat } from "../Stat"
+import { CharacterSheetModel, CharacterClass } from "../models/characterSheet";
+import { Stat } from "../structures/stat";
 
-//MIKE: you need to set state from the props because I don't think props are menat to change
+const characterSheet = namespace("CharacterSheet");
 
 @Component({
   components: {
@@ -91,21 +62,25 @@ import { Stat } from "../Stat"
   }
 })
 export default class HomePage extends Vue {
-  @Prop({ required: true })
-  initialCharacterSheet!: CharacterSheet;
+  @characterSheet.State((state: CharacterSheetModel) => state.characterClass)
+  characterClass!: CharacterClass;
 
-  characterSheet = this.initialCharacterSheet;
+  @characterSheet.State((state: CharacterSheetModel) => state.bio)
+  bio!: string;
+
+  @characterSheet.State((state: CharacterSheetModel) => state.name)
+  name!: string;
+
+  @characterSheet.State((state: CharacterSheetModel) => state.stats)
+  stats!: Stat[];
+
+  @characterSheet.Action("incr")
+  increment!: (statShortName: string) => void;
+
   dialog = true;
-
-  // remainingPoints = 20;
-  // rules: [(v:) => v <= 25 || 'Max 25 characters'],
 
   mounted(): void {
     console.log(this.$vuetify.breakpoint);
-  }
-
-  get init(): Stat {
-    return this.characterSheet.stats.dex;
   }
 }
 </script>

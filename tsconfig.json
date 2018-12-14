@@ -4,12 +4,13 @@
         // "strict": false, //NOTE: added this because vuetify doesn't fully support typescript, so I thought it might solve some issues. Alternatively you could use the below options and try keeping on strict mode - maybe they will work together. Alternatively you could just keep strict mode on and see if it causes compiler errors - im not sure if turning it off actually does fix anything.
         // "noImplicitThis": false,
         // "noImplicitAny": false,
+        // "strictFunctionTypes": false, //NOTE: added this to see if it randomly reduces type errors when using ramda
         "module": "es2015",
         "moduleResolution": "node",
         "noEmitOnError": true,
         "removeComments": false,
         "sourceMap": true,
-        "target": "es5",
+        "target": "es6",
         "allowSyntheticDefaultImports": true, 
         "types": ["vuetify", "vue-chartjs"], //NOTE: put this in here becaues of https://github.com/vuetifyjs/vuetify/issues/3943
         "experimentalDecorators": true
