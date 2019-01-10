@@ -1,0 +1,16 @@
+-you can use .text-truncate for dynamic elipses on text (source: https://vuetifyjs.com/en/framework/typography)
+
+VUETIFY LAYOUT:
+-from their examples, it seems that you are generally expected to wrap components in one v-container (no nested v-containers) and then use v-layout from there. also keep in mind that they accept many of the same props but with some key differences.
+
+VUETIFY COLORS:
+-"Each color from the spec gets converted to a background and text variant for styling within your application through a class, e.g. <div class="red"> or <span class="red--text">"
+
+VUETIFY TOOLBAR:
+-dense seems to only have an effect on xs screen sizes (possibly some larger sizes as well - didn't test)
+
+REFACTORING:
+-use mixins to define global constants (like your theme color names)
+
+VUETIFY CENTERING:
+-https://stackoverflow.com/questions/46404884/vuetify-center-items-into-v-flex

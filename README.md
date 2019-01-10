@@ -1,11 +1,29 @@
-# A Little DND Site
+# new-dnd-project
 
-A little project for practicing Vue.js, webpack, and various backend thingies once I get to it.
+## Project setup
+```
+npm install
+```
 
-## Setup
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-Just clone and run ```npm install```
+### Compiles and minifies for production
+```
+npm run build
+```
 
-## Running
+### Run your tests
+```
+npm run test
+```
 
-Run ```npm run start``` to start the dev server. Saving files while the dev server is running will recompile and reload the bundle.
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
