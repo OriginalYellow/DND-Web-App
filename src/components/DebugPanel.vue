@@ -6,6 +6,13 @@
     >
       <v-btn
         color="secondary"
+        @click="openDrawer"
+        flat
+      >
+        open drawer
+      </v-btn>
+      <v-btn
+        color="secondary"
         @click="logBreakpoint"
         flat
       >
@@ -18,15 +25,15 @@
       >
         Log State
       </v-btn>
-      <v-btn
+      <!-- <v-btn
         color="secondary"
         @click="createRecords"
         flat
       >
         Create Records
-      </v-btn>
+      </v-btn> -->
     </v-layout>
-    <v-layout
+    <!-- <v-layout
       row
       wrap
     >
@@ -77,7 +84,7 @@
       >
         Increase Stat
       </v-btn>
-    </v-layout>
+    </v-layout> -->
   </v-container>
 </template>
 
@@ -88,6 +95,7 @@ import User from '@/models/User';
 import Stat from '@/models/Stat';
 import Character from '@/models/Character';
 import StatType from '@/models/StatType';
+import * as T from '@/store/mutation-types';
 
 import * as U from '@/util';
 import * as R from 'ramda';
@@ -147,23 +155,23 @@ export default {
         .with('stat_type')
         .get();
 
-      const projectStatType = R.pipe(
+      const transformStatType = R.pipe(
         R.prop('stat_type'),
         R.pick(['shortName', 'longName']),
       );
 
-      const projectStat = R.pipe(
+      const transformStat = R.pipe(
         R.pick(['id', 'val']),
         RA.renameKeys({ id: 'key' }),
       );
 
-      const projectedStatsWithType = R.zipWith(
+      const transformedStatsWithType = R.zipWith(
         R.merge,
-        R.map(projectStatType, statsWithType),
-        R.map(projectStat, statsWithType),
+        R.map(transformStatType, statsWithType),
+        R.map(transformStat, statsWithType),
       );
 
-      console.log(projectedStatsWithType);
+      console.log(transformedStatsWithType);
     },
 
     logQuery3() {
@@ -192,6 +200,10 @@ export default {
           email: 'douche@guy.cum',
         },
       }).then(U.log);
+    },
+
+    openDrawer() {
+      this.$store.dispatch(T.TOGGLE_DRAWER);
     },
   },
 };

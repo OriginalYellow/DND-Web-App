@@ -25,7 +25,9 @@ database.register(User);
 database.register(StatTypes);
 database.register(Post, posts);
 
-const state = () => ({});
+const state = () => ({
+  drawerIsOpen: false,
+});
 
 const store = {
   state,

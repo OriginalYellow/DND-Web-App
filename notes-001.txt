@@ -14,3 +14,6 @@ REFACTORING:
 
 VUETIFY CENTERING:
 -https://stackoverflow.com/questions/46404884/vuetify-center-items-into-v-flex
+
+VUETIFY NAVIGATION DRAWER:
+-"Using null as the starting value for its v-model will initialize the drawer as closed on mobile and as open on desktop."

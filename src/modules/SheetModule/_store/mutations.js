@@ -1,18 +1,18 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
-import * as MT from './mutation-types';
+import * as T from './mutation-types';
 
 export default {
-  [MT.INCREASE_STAT](state, key) {
+  [T.INCREASE_STAT](state, key) {
     state.stats[key].val++;
   },
-  [MT.DECREASE_STAT](state, key) {
+  [T.DECREASE_STAT](state, key) {
     state.stats[key].val++;
   },
-  [MT.INCREASE_STAT_POOL](state) {
+  [T.INCREASE_STAT_POOL](state) {
     state.statPool++;
   },
-  [MT.DECREASE_STAT_POOL](state) {
+  [T.DECREASE_STAT_POOL](state) {
     state.statPool--;
   },
 };

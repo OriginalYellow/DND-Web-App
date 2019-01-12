@@ -16,6 +16,7 @@
     "ramda-lens-map": "^1.0.1",
     "roboto-fontface": "*",
     "rxjs": "^6.3.3",
+    "tiptap": "^1.7.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.2",
     "vuelidate": "^0.7.4",
