@@ -12,7 +12,7 @@
         <v-flex xs12>
           <character-info-card title="editor">
             <v-container
-              grid-list-xs
+              grid-list-md
               class="pa-0"
             >
               <v-layout
@@ -23,7 +23,6 @@
                   <editor-menu-bar :editor="editor">
                     <v-btn-toggle
                       slot-scope="{ commands, isActive }"
-                      @change="handleButtonGroupChange"
                       flat
                       multiple
                       class="v-btn-toggle--only-child"
@@ -69,6 +68,38 @@
                         >
                           <v-icon>format_strikethrough</v-icon>
                         </v-btn>
+                        <v-btn
+                          flat
+                          :class="{ 'v-btn--active': isActive.heading({ level: 1 }) }"
+                          @click="commands.heading({ level: 1 })"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>format_size</v-icon>
+                          <sup>1</sup>
+                        </v-btn>
+                        <v-btn
+                          flat
+                          :class="{ 'v-btn--active': isActive.heading({ level: 3 }) }"
+                          @click="commands.heading({ level: 3 })"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>format_size</v-icon>
+                          <sup>2</sup>
+                        </v-btn>
+                        <v-btn
+                          flat
+                          @click="commands.undo()"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>undo</v-icon>
+                        </v-btn>
+                        <v-btn
+                          flat
+                          @click="commands.redo()"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>redo</v-icon>
+                        </v-btn>
                       </template>
                     </v-btn-toggle>
                   </editor-menu-bar>
@@ -90,11 +121,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
-import * as R from 'ramda';
+import { mapState } from "vuex";
+import CharacterInfoCard from "@/components/CharacterInfoCard.vue";
+import * as R from "ramda";
 
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
   CodeBlock,
@@ -112,13 +143,15 @@ import {
   Strike,
   Underline,
   History,
-} from 'tiptap-extensions';
+  Image,
+  Mention
+} from "tiptap-extensions";
 
 export default {
   components: {
     EditorMenuBar,
     EditorContent,
-    CharacterInfoCard,
+    CharacterInfoCard
   },
 
   data() {
@@ -142,32 +175,47 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new Image(),
+          new Mention()
         ],
         content: `
-          <h1>Yay Headlines!</h1>
-          <p>All these <strong>cool tags</strong> are working now.</p>
-        `,
-        onUpdate: this.handleEditorContentUpdate,
-      }),
-      lastButtonGroupStates: [],
+          <h1>TOP NEP!</h1>
+          <h3>Why nep is the best and better than the rest!</h3>
+          <p>As you can see by this digram, nep is clearly the best:</p>
+          <p>
+            <img src="http://pa1.narvii.com/6266/c557f97f2ba4bbc5500b0a20959259c62f8a9015_128.gif" contenteditable="false" draggable="true" class="">
+          </p>
+          <p>And if you look at this list you'll see my point:</p>
+          <ul>
+            <li>
+              <p>Nep is cute</p>
+            </li>
+            <li>
+              <p>Nep is perfect</p>
+            </li>
+            <li>
+              <p>Nep is the best</p>
+            </li>
+          </ul>
+          `,
+        onUpdate: this.handleEditorContentUpdate
+      })
     };
   },
 
   computed: {
-    ...mapState(['drawerIsOpen']),
+    ...mapState(["drawerIsOpen"])
   },
 
   methods: {
-    handleButtonGroupChange(buttonGroupStates) {},
-
     handleEditorContentUpdate(stuff) {
       console.log(stuff);
-    },
+    }
   },
 
   beforeDestroy() {
     this.editor.destroy();
-  },
+  }
 };
 </script>
 

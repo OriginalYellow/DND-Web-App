@@ -162,12 +162,3 @@ export default {
 .stats-container
   padding: 0
 </style>
-
-<!-- <v-layout row fill-height align-center>
-  <v-flex xs7>
-    <p class="title">{{characterSummary.name | titleCase}}</p>
-  </v-flex>
-  <v-flex xs5>
-    <p>{{levelAndClassText | titleCase}}</p>
-  </v-flex>
-</v-layout> -->

@@ -25,66 +25,7 @@
       >
         Log State
       </v-btn>
-      <!-- <v-btn
-        color="secondary"
-        @click="createRecords"
-        flat
-      >
-        Create Records
-      </v-btn> -->
     </v-layout>
-    <!-- <v-layout
-      row
-      wrap
-    >
-      <v-btn
-        color="secondary"
-        @click="logQuery"
-        flat
-      >
-        Log Query
-      </v-btn>
-      <v-btn
-        color="secondary"
-        @click="insertUser"
-        flat
-      >
-        Insert User
-      </v-btn>
-      <v-btn
-        color="secondary"
-        @click="updateUser"
-        flat
-      >
-        Update User
-      </v-btn>
-    </v-layout>
-    <v-layout
-      row
-      wrap
-    >
-      <v-btn
-        color="secondary"
-        @click="logQuery2"
-        flat
-      >
-        Log Query 2
-      </v-btn>
-      <v-btn
-        color="secondary"
-        @click="logQuery3"
-        flat
-      >
-        Log Query 3
-      </v-btn>
-      <v-btn
-        color="secondary"
-        @click="increaseStat"
-        flat
-      >
-        Increase Stat
-      </v-btn>
-    </v-layout> -->
   </v-container>
 </template>
 
