@@ -7,4 +7,7 @@ export default {
   [T.TOGGLE_DRAWER]({ commit }) {
     commit(T.TOGGLE_DRAWER);
   },
+  [T.OPEN_DRAWER]({ commit }) {
+    commit(T.OPEN_DRAWER);
+  },
 };

@@ -6,4 +6,7 @@ export default {
   [T.TOGGLE_DRAWER](state) {
     state.drawerIsOpen = !state.drawerIsOpen;
   },
+  [T.OPEN_DRAWER](state) {
+    state.drawerIsOpen = true;
+  },
 };

@@ -144,8 +144,8 @@ export default {
       value: '11/18',
       topCaption: 'hit',
       bottomCaption: 'points',
-      color: 'primaryLight',
-      dark: false,
+      color: 'health',
+      dark: true,
     }),
 
     levelRaceClassText() {
