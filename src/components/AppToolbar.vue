@@ -163,7 +163,6 @@ export default {
   padding: 0
 </style>
 
-
 <!-- <v-layout row fill-height align-center>
   <v-flex xs7>
     <p class="title">{{characterSummary.name | titleCase}}</p>

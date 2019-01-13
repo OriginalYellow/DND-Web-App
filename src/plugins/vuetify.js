@@ -7,8 +7,8 @@ Vue.use(Vuetify, {
   theme: {
     primary: colors.grey.darken3,
     primaryLight: colors.grey.lighten2,
-    secondary: colors.blueGrey.darken1,
-    secondaryLight: colors.blueGrey.lighten3,
+    secondary: colors.grey.darken1,
+    secondaryLight: colors.grey.lighten2,
     accent: colors.indigo.lighten1,
     accentLight: colors.indigo.lighten2,
     health: colors.red.darken3,

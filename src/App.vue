@@ -1,24 +1,6 @@
 <template>
   <v-app>
     <app-toolbar />
-    <v-content>
-      <router-view />
-      <v-container>
-        <v-layout row>
-          <debug-panel></debug-panel>
-        </v-layout>
-      </v-container>
-    </v-content>
-    <v-navigation-drawer
-      class="setting-drawer"
-      temporary
-      right
-      fixed
-      :width="500"
-      v-model="drawerIsOpen"
-    >
-      <reference-container />
-    </v-navigation-drawer>
     <v-btn
       absolute
       fixed
@@ -32,6 +14,15 @@
     >
       <v-icon large>arrow_back</v-icon>
     </v-btn>
+    <v-content>
+      <router-view />
+      <v-container>
+        <v-layout row>
+          <debug-panel></debug-panel>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <reference-container />
   </v-app>
 </template>
 

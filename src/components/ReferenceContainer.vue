@@ -1,67 +1,98 @@
 <template>
-  <v-container row>
-    <v-layout>
-      <v-flex xs12>
-        <character-info-card title="editor">
-          <v-container
-            grid-list-xs
-            class="pa-0"
-          >
-            <v-layout
-              row
-              wrap
+  <v-navigation-drawer
+    class="setting-drawer"
+    temporary
+    right
+    fixed
+    :width="500"
+    v-model="drawerIsOpen"
+  >
+    <v-container row>
+      <v-layout>
+        <v-flex xs12>
+          <character-info-card title="editor">
+            <v-container
+              grid-list-xs
+              class="pa-0"
             >
-              <v-flex xs12>
-                <editor-content
-                  class="editor-content"
-                  :editor="editor"
-                />
-              </v-flex>
-              <v-flex xs12>
-                <editor-menu-bar :editor="editor">
-                  <v-btn-toggle
-                    class="v-btn-toggle--only-child v-btn-toggle--selected"
-                    slot-scope="{ commands, isActive }"
-                    v-model="toggle_multiple"
-                    multiple
-                    @change="handleButtonGroupChange"
-                    flat
-                  >
-                    <v-btn
-                      @click="isFormatToggled = !isFormatToggled"
-                      color="accent"
-                      dark
-                      :ripple="false"
+              <v-layout
+                row
+                wrap
+              >
+                <v-flex xs12>
+                  <editor-menu-bar :editor="editor">
+                    <v-btn-toggle
+                      slot-scope="{ commands, isActive }"
+                      @change="handleButtonGroupChange"
+                      flat
+                      multiple
+                      class="v-btn-toggle--only-child"
                     >
-                      <v-icon>text_format</v-icon>
-                    </v-btn>
-                    <template v-if="isFormatToggled">
-                      <v-btn flat>
-                        <v-icon>format_bold</v-icon>
+                      <v-btn
+                        @click="isFormatToggled = !isFormatToggled"
+                        :flat="!isFormatToggled"
+                        color="accentLight"
+                        :ripple="false"
+                      >
+                        <v-icon>text_format</v-icon>
                       </v-btn>
-                      <v-btn flat>
-                        <v-icon>format_italic</v-icon>
-                      </v-btn>
-                      <v-btn flat>
-                        <v-icon>format_underlined</v-icon>
-                      </v-btn>
-                      <v-btn flat>
-                        <v-icon>format_strikethrough</v-icon>
-                      </v-btn>
-                    </template>
-                  </v-btn-toggle>
-                </editor-menu-bar>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </character-info-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+                      <template v-if="isFormatToggled">
+                        <v-btn
+                          flat
+                          :class="{ 'v-btn--active': isActive.bold() }"
+                          @click.stop.prevent="commands.bold()"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>format_bold</v-icon>
+                        </v-btn>
+                        <v-btn
+                          flat
+                          :class="{ 'v-btn--active': isActive.italic() }"
+                          @click.stop.prevent="commands.italic()"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>format_italic</v-icon>
+                        </v-btn>
+                        <v-btn
+                          flat
+                          :class="{ 'v-btn--active': isActive.underline() }"
+                          @click.stop.prevent="commands.underline()"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>format_underlined</v-icon>
+                        </v-btn>
+                        <v-btn
+                          flat
+                          :class="{ 'v-btn--active': isActive.strike() }"
+                          @click.stop.prevent="commands.strike()"
+                          active-class="asdfasdf"
+                        >
+                          <v-icon>format_strikethrough</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-btn-toggle>
+                  </editor-menu-bar>
+                </v-flex>
+                <v-flex xs12>
+                  <editor-content
+                    class="editor-content"
+                    :editor="editor"
+                    spellcheck="false"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </character-info-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-navigation-drawer>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
+import * as R from 'ramda';
 
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
@@ -118,14 +149,16 @@ export default {
         `,
         onUpdate: this.handleEditorContentUpdate,
       }),
-      toggle_multiple: [],
+      lastButtonGroupStates: [],
     };
   },
 
+  computed: {
+    ...mapState(['drawerIsOpen']),
+  },
+
   methods: {
-    handleButtonGroupChange(stuff) {
-      console.log(stuff);
-    },
+    handleButtonGroupChange(buttonGroupStates) {},
 
     handleEditorContentUpdate(stuff) {
       console.log(stuff);

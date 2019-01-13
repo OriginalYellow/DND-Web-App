@@ -1,5 +1,8 @@
 <template>
-  <v-card color="primaryLight">
+  <v-card
+   color="primaryLight"
+   flat
+   >
     <v-card-title
       primary-title
       class="pt-2 pb-2"
