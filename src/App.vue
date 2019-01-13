@@ -1,19 +1,109 @@
 <template>
   <v-app>
     <app-toolbar />
-    <v-btn
-      absolute
+    <v-btn-toggle
+      flat
+      multiple
+      class="v-btn-toggle--only-child"
+      :style="{'z-index': 1000}"
+    >
+      <v-btn
+        @click="isFormatToggled = !isFormatToggled"
+        :flat="!isFormatToggled"
+        color="accentLight"
+        :ripple="false"
+      >
+        <v-icon>text_format</v-icon>
+      </v-btn>
+      <template v-if="isFormatToggled">
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>format_bold</v-icon>
+        </v-btn>
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>format_italic</v-icon>
+        </v-btn>
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>format_underlined</v-icon>
+        </v-btn>
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>format_size</v-icon>
+          <sup>1</sup>
+        </v-btn>
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>format_size</v-icon>
+          <sup>2</sup>
+        </v-btn>
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>undo</v-icon>
+        </v-btn>
+        <v-btn
+          flat
+          active-class="asdfasdf"
+        >
+          <v-icon>redo</v-icon>
+        </v-btn>
+      </template>
+    </v-btn-toggle>
+    <!-- <v-speed-dial
+      v-model="fab"
       fixed
-      dark
-      fab
       bottom
       right
-      color="accent"
-      class="nav-fab"
-      @click="$router.go(-1)"
+      direction="top"
+      :style="{'z-index': 1000}"
     >
-      <v-icon large>arrow_back</v-icon>
-    </v-btn>
+      <v-btn
+        dark
+        fab
+        outline
+        color="accent"
+        slot="activator"
+      >
+        <v-icon large>arrow_back</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="green"
+      >
+        <v-icon>edit</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="indigo"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="red"
+      >
+        <v-icon>delete</v-icon>
+      </v-btn>
+    </v-speed-dial> -->
     <v-content>
       <router-view />
       <v-container>
@@ -45,11 +135,12 @@ export default {
     ReferenceContainer,
   },
 
-  // data() {
-  //   return {
-  //     drawerIsOpen: false,
-  //   };
-  // },
+  data() {
+    return {
+      // drawerIsOpen: false,
+      isFormatToggled: false,
+    };
+  },
 
   computed: {
     ...mapState(['drawerIsOpen']),
