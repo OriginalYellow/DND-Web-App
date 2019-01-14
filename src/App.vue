@@ -1,69 +1,44 @@
 <template>
   <v-app>
     <app-toolbar />
-    <v-btn-toggle
-      flat
-      multiple
-      class="v-btn-toggle--only-child"
-      :style="{'z-index': 1000}"
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="290"
+      :style="{'z-index': 1002}"
     >
       <v-btn
-        @click="isFormatToggled = !isFormatToggled"
-        :flat="!isFormatToggled"
-        color="accentLight"
-        :ripple="false"
+        dark
+        fab
+        outline
+        fixed
+        bottom
+        right
+        color="accent"
+        slot="activator"
+        :style="{right: '90px'}"
       >
-        <v-icon>text_format</v-icon>
+        <v-icon>apps</v-icon>
       </v-btn>
-      <template v-if="isFormatToggled">
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>format_bold</v-icon>
-        </v-btn>
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>format_italic</v-icon>
-        </v-btn>
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>format_underlined</v-icon>
-        </v-btn>
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>format_size</v-icon>
-          <sup>1</sup>
-        </v-btn>
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>format_size</v-icon>
-          <sup>2</sup>
-        </v-btn>
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>undo</v-icon>
-        </v-btn>
-        <v-btn
-          flat
-          active-class="asdfasdf"
-        >
-          <v-icon>redo</v-icon>
-        </v-btn>
-      </template>
-    </v-btn-toggle>
-    <!-- <v-speed-dial
-      v-model="fab"
+      <v-card>
+        <v-card-title class="headline">Use Google's location service?</v-card-title>
+        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click="dialog = false"
+          >Disagree</v-btn>
+          <v-btn
+            color="green darken-1"
+            flat
+            @click="dialog = false"
+          >Agree</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-speed-dial
       fixed
       bottom
       right
@@ -103,7 +78,7 @@
       >
         <v-icon>delete</v-icon>
       </v-btn>
-    </v-speed-dial> -->
+    </v-speed-dial>
     <v-content>
       <router-view />
       <v-container>
@@ -117,15 +92,22 @@
 </template>
 
 <script>
-import { VApp, VContent } from 'vuetify/lib';
-import { mapState } from 'vuex';
-import DebugPanel from '@/components/DebugPanel.vue';
-import AppToolbar from '@/components/AppToolbar.vue';
-import ReferenceContainer from '@/components/ReferenceContainer.vue';
-import * as T from '@/store/mutation-types';
+import { VApp, VContent } from "vuetify/lib";
+import { mapState } from "vuex";
+import DebugPanel from "@/components/DebugPanel.vue";
+import AppToolbar from "@/components/AppToolbar.vue";
+import ReferenceContainer from "@/components/ReferenceContainer.vue";
+import TextEditMenu from "@/components/TextEditMenu";
+import * as T from "@/store/mutation-types";
 
 export default {
-  name: 'app',
+  data() {
+    return {
+      dialog: false
+    };
+  },
+
+  name: "app",
 
   components: {
     AppToolbar,
@@ -133,18 +115,18 @@ export default {
     VContent,
     DebugPanel,
     ReferenceContainer,
+    TextEditMenu
   },
 
-  data() {
-    return {
-      // drawerIsOpen: false,
-      isFormatToggled: false,
-    };
-  },
+  // data() {
+  //   return {
+  //     isFormatToggled: false,
+  //   };
+  // },
 
   computed: {
-    ...mapState(['drawerIsOpen']),
-  },
+    ...mapState(["drawerIsOpen"])
+  }
 };
 </script>
 
