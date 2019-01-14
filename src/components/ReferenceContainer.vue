@@ -60,14 +60,6 @@
                         >
                           <v-icon>format_underlined</v-icon>
                         </v-btn>
-                        <!-- <v-btn
-                          flat
-                          :class="{ 'v-btn--active': isActive.strike() }"
-                          @click.stop.prevent="commands.strike()"
-                          active-class="asdfasdf"
-                        >
-                          <v-icon>format_strikethrough</v-icon>
-                        </v-btn> -->
                         <v-btn
                           flat
                           :class="{ 'v-btn--active': isActive.heading({ level: 1 }) }"
@@ -121,11 +113,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
-import * as R from 'ramda';
+import { mapState } from "vuex";
+import CharacterInfoCard from "@/components/CharacterInfoCard.vue";
+import * as R from "ramda";
 
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
   CodeBlock,
@@ -144,14 +136,14 @@ import {
   Underline,
   History,
   Image,
-  Mention,
-} from 'tiptap-extensions';
+  Mention
+} from "tiptap-extensions";
 
 export default {
   components: {
     EditorMenuBar,
     EditorContent,
-    CharacterInfoCard,
+    CharacterInfoCard
   },
 
   data() {
@@ -176,7 +168,7 @@ export default {
           new Underline(),
           new History(),
           new Image(),
-          new Mention(),
+          new Mention()
         ],
         content: `
           <h1>TOP NEP!</h1>
@@ -198,24 +190,24 @@ export default {
             </li>
           </ul>
           `,
-        onUpdate: this.handleEditorContentUpdate,
-      }),
+        onUpdate: this.handleEditorContentUpdate
+      })
     };
   },
 
   computed: {
-    ...mapState(['drawerIsOpen']),
+    ...mapState(["drawerIsOpen"])
   },
 
   methods: {
     handleEditorContentUpdate(stuff) {
       console.log(stuff);
-    },
+    }
   },
 
   beforeDestroy() {
     this.editor.destroy();
-  },
+  }
 };
 </script>
 
