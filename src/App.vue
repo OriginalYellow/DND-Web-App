@@ -92,22 +92,22 @@
 </template>
 
 <script>
-import { VApp, VContent } from "vuetify/lib";
-import { mapState } from "vuex";
-import DebugPanel from "@/components/DebugPanel.vue";
-import AppToolbar from "@/components/AppToolbar.vue";
-import ReferenceContainer from "@/components/ReferenceContainer.vue";
-import TextEditMenu from "@/components/TextEditMenu";
-import * as T from "@/store/mutation-types";
+import { VApp, VContent } from 'vuetify/lib';
+import { mapState } from 'vuex';
+import DebugPanel from '@/components/DebugPanel.vue';
+import AppToolbar from '@/components/AppToolbar.vue';
+import ReferenceContainer from '@/components/ReferenceContainer.vue';
+import TextEditMenu from '@/components/TextEditMenu';
+import * as T from '@/store/mutation-types';
 
 export default {
   data() {
     return {
-      dialog: false
+      dialog: false,
     };
   },
 
-  name: "app",
+  name: 'app',
 
   components: {
     AppToolbar,
@@ -115,7 +115,7 @@ export default {
     VContent,
     DebugPanel,
     ReferenceContainer,
-    TextEditMenu
+    TextEditMenu,
   },
 
   // data() {
@@ -125,8 +125,8 @@ export default {
   // },
 
   computed: {
-    ...mapState(["drawerIsOpen"])
-  }
+    ...mapState(['drawerIsOpen']),
+  },
 };
 </script>
 

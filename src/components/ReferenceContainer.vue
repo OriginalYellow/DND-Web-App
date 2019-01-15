@@ -113,11 +113,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import CharacterInfoCard from "@/components/CharacterInfoCard.vue";
-import * as R from "ramda";
+import { mapState } from 'vuex';
+import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
+import * as R from 'ramda';
 
-import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
   Blockquote,
   CodeBlock,
@@ -136,14 +136,16 @@ import {
   Underline,
   History,
   Image,
-  Mention
-} from "tiptap-extensions";
+  Mention,
+} from 'tiptap-extensions';
+
+import dummyData from '@/junk/stats-002.dummy';
 
 export default {
   components: {
     EditorMenuBar,
     EditorContent,
-    CharacterInfoCard
+    CharacterInfoCard,
   },
 
   data() {
@@ -168,46 +170,27 @@ export default {
           new Underline(),
           new History(),
           new Image(),
-          new Mention()
+          new Mention(),
         ],
-        content: `
-          <h1>TOP NEP!</h1>
-          <h3>Why nep is the best and better than the rest!</h3>
-          <p>As you can see by this digram, nep is clearly the best:</p>
-          <p>
-            <img src="http://pa1.narvii.com/6266/c557f97f2ba4bbc5500b0a20959259c62f8a9015_128.gif" contenteditable="false" draggable="true" class="">
-          </p>
-          <p>And if you look at this list you'll see my point:</p>
-          <ul>
-            <li>
-              <p>Nep is cute</p>
-            </li>
-            <li>
-              <p>Nep is perfect</p>
-            </li>
-            <li>
-              <p>Nep is the best</p>
-            </li>
-          </ul>
-          `,
-        onUpdate: this.handleEditorContentUpdate
-      })
+        content: dummyData,
+        onUpdate: this.handleEditorContentUpdate,
+      }),
     };
   },
 
   computed: {
-    ...mapState(["drawerIsOpen"])
+    ...mapState(['drawerIsOpen']),
   },
 
   methods: {
     handleEditorContentUpdate(stuff) {
       console.log(stuff);
-    }
+    },
   },
 
   beforeDestroy() {
     this.editor.destroy();
-  }
+  },
 };
 </script>
 

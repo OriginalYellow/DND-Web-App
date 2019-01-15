@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import * as R from 'ramda';
 import * as RA from 'ramda-adjunct';
-import * as U from '../../util';
+import * as U from '../util';
 
 const dummyData = [{
   index: 1,
@@ -28,14 +29,16 @@ const dummyData = [{
     name: 'Stealth',
   }],
   url: 'http://www.dnd5eapi.co/api/ability-scores/2',
-}, {
-  index: 3,
-  name: 'CON',
-  full_name: 'Constitution',
-  desc: ['Constitution measures health, stamina, and vital force.', 'Constitution checks are uncommon, and no skills apply to Constitution checks, because the endurance this ability represents is largely passive rather than involving a specific effort on the part of a character or monster.'],
-  skills: [],
-  url: 'http://www.dnd5eapi.co/api/ability-scores/3',
-}, {
+},
+// {
+//   index: 3,
+//   name: 'CON',
+//   full_name: 'Constitution',
+//   desc: ['Constitution measures health, stamina, and vital force.', 'Constitution checks are uncommon, and no skills apply to Constitution checks, because the endurance this ability represents is largely passive rather than involving a specific effort on the part of a character or monster.'],
+//   skills: [],
+//   url: 'http://www.dnd5eapi.co/api/ability-scores/3',
+// },
+{
   index: 4,
   name: 'INT',
   full_name: 'Intelligence',
@@ -100,41 +103,58 @@ const dummyData = [{
   url: 'http://www.dnd5eapi.co/api/ability-scores/6',
 }];
 
-// NOTES:
-// - propls and propor are good for missing data.
-// - adjust is good for mapping the value at one index
-// - intersperse is cool - might let you distribute br tags or something (works
-//   with lists)
-// - pickIndexes (RA)
-// - compact removes falsy values from a list (RA)
-// - pickBy is like pick but with a predicate that runs on keys
+const objToArray = R.curry(
+  (keys, obj) => R.map(
+    R.prop(R.__, obj),
+    keys,
+  ),
+);
 
 const wrapInTag = tag => R.pipe(
   R.concat(`<${tag}>`),
   RA.concatRight(`</${tag}>`),
 );
 
-const transformData = R.map(
-  R.pipe(
-    R.pick(['name', 'full_name', 'desc']),
-    R.evolve({
-      name: R.pipe(
-        wrapInTag('strong'),
-        wrapInTag('p'),
-      ),
-      full_name: R.pipe(
-        wrapInTag('strong'),
-        wrapInTag('p'),
-      ),
-      desc:
-        R.pipe(
-          R.map(wrapInTag('p')),
-          RA.concatAll,
-        ),
-    }),
-    R.values,
-    RA.concatAll,
+const transformSkills = R.pipe(
+  R.map(
+    R.pipe(
+      R.prop('name'),
+      wrapInTag('li'),
+    ),
   ),
+  RA.concatAll,
+  wrapInTag('ul'),
 );
 
-transformData(dummyData); // ?
+const transformDesc = R.pipe(
+  R.adjust(0, R.concat('<br>')),
+  R.map(wrapInTag('p')),
+  RA.concatAll,
+);
+
+const keys = ['name', 'full_name', 'desc', 'skills'];
+
+const transformData = R.pipe(
+  R.map(
+    R.pipe(
+      R.pick(keys),
+      R.evolve({
+        name: wrapInTag('h1'),
+        full_name: wrapInTag('h3'),
+        desc: transformDesc,
+        skills: transformSkills,
+      }),
+      objToArray(keys),
+      R.append('<p></p>'),
+    ),
+  ),
+  R.flatten,
+  RA.concatAll,
+);
+
+const transformedData = transformData(dummyData); // ?
+
+export default transformedData;
+
+// NOTES:
+// - viewOr (RA) might be good for dealing with missing data
