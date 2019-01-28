@@ -25,6 +25,13 @@
       >
         Log State
       </v-btn>
+      <v-btn
+        color="secondary"
+        @click="logCurrentRoute"
+        flat
+      >
+        log current route
+      </v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -79,6 +86,8 @@ export default {
 
     logBreakpoint() {
       console.log(this.$vuetify.breakpoint.name);
+      // console.log(`xsOnly: ${this.$vuetify.breakpoint.xsOnly}`);
+      console.log(`smAndDown: ${this.$vuetify.breakpoint.smAndDown}`);
     },
 
     logState() {
@@ -145,6 +154,10 @@ export default {
 
     openDrawer() {
       this.$store.dispatch(T.TOGGLE_DRAWER);
+    },
+
+    logCurrentRoute() {
+      console.log(this.$route);
     },
   },
 };

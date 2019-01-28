@@ -1,18 +1,18 @@
 <template>
-  <abilities-saves-senses-screen/>
+  <abilities-saves-senses-view/>
 </template>
 
 <script>
 import SummaryCard from './SummaryCard.vue';
 import StatsCard from './StatsCard.vue';
 import SheetToolbar from './SheetToolbar.vue';
-import AbilitiesSavesSensesScreen from '@/screens/AbilitiesSavesSensesScreen.vue';
+import AbilitiesSavesSensesView from '@/screens/AbilitiesSavesSensesView';
 
 export default {
   name: 'SheetLayout',
 
   components: {
-    AbilitiesSavesSensesScreen,
+    AbilitiesSavesSensesView,
     SummaryCard,
     StatsCard,
     SheetToolbar,

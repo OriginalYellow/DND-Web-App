@@ -11,10 +11,10 @@
           wrap
           justify-space-between
         >
+            <!-- md2 -->
           <v-flex
             xs6
             sm4
-            md2
             v-for="savingThrow in savingThrows"
             :key="savingThrow.caption"
           >

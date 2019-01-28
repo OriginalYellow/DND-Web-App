@@ -5,12 +5,12 @@
       row
       justify-center
     >
+        <!-- lg3
+        xl2 -->
       <v-flex
         xs9
         sm7
         md5
-        lg3
-        xl2
       >
         <v-layout
           row

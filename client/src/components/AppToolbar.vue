@@ -1,12 +1,12 @@
 <template>
+  <!-- :scroll-threshold="75"
+    scroll-off-screen -->
   <v-toolbar
     dark
     color="primary"
     app
-    extended
-    extension-height="140"
-    scroll-off-screen
-    :scroll-threshold="75"
+    :extended="$route.name === 'characterSheet'"
+    :extension-height="extensionHeight"
   >
     <v-toolbar-title>
       <router-link
@@ -33,63 +33,33 @@
         </span>
       </v-btn>
     </v-toolbar-items>
-    <v-container
-      grid-list-xs
+    <combat-bar
       slot="extension"
-      class="stats-container"
-    >
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex xs12>
-          <v-toolbar-items>
-            <p class="title">{{characterSummary.name | titleCase}}</p>
-            <v-spacer />
-            <p class="body-2 text-xs-right">{{levelRaceClassText | titleCase}}</p>
-          </v-toolbar-items>
-        </v-flex>
-        <v-flex xs7>
-          <v-layout
-            row
-            justify-space-between
-          >
-            <v-flex
-              xs2
-              v-for="stat in stats"
-              :key="stat.topCaption + stat.bottomCaption"
-            >
-              <stat-box v-bind="stat" />
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex xs5>
-          <v-layout
-            row
-            :justify-center="$vuetify.breakpoint.smAndDown"
-            :justify-end="$vuetify.breakpoint.mdAndUp"
-          >
-            <v-flex xs2>
-              <stat-box v-bind="hitPoints" />
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-container>
+      :name="characterSummary.name"
+      :level="characterSummary.level"
+      :race="characterSummary.race"
+      :stats="stats"
+      :hitPoints="hitPoints"
+      :characterClassName="characterSummary.characterClass.name"
+    />
   </v-toolbar>
 </template>
 
 <script>
-import StatBox from '@/components/StatBox.vue';
+import CombatBar from '@/components/CombatBar';
 
 export default {
   name: 'AppToolbar',
 
   components: {
-    StatBox,
+    CombatBar,
   },
 
   computed: {
+    extensionHeight() {
+      return this.$vuetify.breakpoint.mdAndUp ? 40 : 140;
+    },
+
     horizontalNavItems: () => [
       {
         icon: 'description',
@@ -147,18 +117,16 @@ export default {
       color: 'health',
       dark: true,
     }),
-
-    levelRaceClassText() {
-      return `level ${this.characterSummary.level} ${this.characterSummary.race} ${this.characterSummary.characterClass.name}`;
-    },
   },
 };
 </script>
 
 <style lang="stylus" scoped>
-.title-nav
-  cursor: pointer
+.title-nav {
+  cursor: pointer;
+}
 
-.stats-container
-  padding: 0
+.stats-container {
+  padding: 0;
+}
 </style>
