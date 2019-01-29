@@ -15,7 +15,14 @@ module.exports = {
     },
   },
 
-  // Query: {
-  //   getUser: async 
-  // }
+  Query: {
+    user: async (_, { username }, { User }) => {
+      const user = await User.findOne({ username });
+      if (!user) {
+        throw new Error('User doesn\'t exist');
+      }
+
+      return user;
+    },
+  },
 };

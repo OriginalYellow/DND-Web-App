@@ -42,17 +42,17 @@
 
 <script>
 export default {
-    data() {
-        return {
-          isFormatToggled: false,
-        }
-    },
+  data() {
+    return {
+      isFormatToggled: false,
+    };
+  },
 
-    computed: {
-        menuWidth() {
-            return this.isFormatToggled
-                ? '350px' : '41px';
-            }
-    }
-}
+  computed: {
+    menuWidth() {
+      return this.isFormatToggled
+        ? '350px' : '41px';
+    },
+  },
+};
 </script>

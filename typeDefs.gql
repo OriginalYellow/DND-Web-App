@@ -8,7 +8,7 @@ type User {
 }
 
 type Query {
-  getUser: User
+  user(username: String): User
 }
 
 type Mutation {

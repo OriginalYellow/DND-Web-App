@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
-// const resolvers = require('./resolvers');
+const resolvers = require('./resolvers');
 
 require('dotenv').config({ path: '.env' });
 const User = require('./models/User');
@@ -20,7 +20,8 @@ mongoose
 
 const server = new ApolloServer({
   typeDefs,
-  // resolvers,
+  resolvers,
+  context: () => ({ User }),
 });
 
 server.listen({ port: process.env.LOCAL_PORT || 4000 }).then(({ url }) => {
