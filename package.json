@@ -1,0 +1,33 @@
+{
+  "name": "dnd-web-app",
+  "version": "1.0.0",
+  "description": "## Project setup ``` npm install ```",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OriginalYellow/DND-Web-App.git"
+  },
+  "author": "Michael Joseph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OriginalYellow/DND-Web-App/issues"
+  },
+  "homepage": "https://github.com/OriginalYellow/DND-Web-App#readme",
+  "dependencies": {
+    "apollo-server": "^2.3.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^6.2.0",
+    "graphql": "^14.1.1",
+    "jsonwebtoken": "^8.4.0",
+    "md5": "^2.2.1",
+    "mongoose": "^5.4.7"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.9"
+  }
+}

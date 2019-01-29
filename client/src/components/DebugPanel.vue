@@ -153,7 +153,7 @@ export default {
     },
 
     openDrawer() {
-      this.$store.dispatch(T.TOGGLE_DRAWER);
+      this.$store.commit(T.OPEN_DRAWER);
     },
 
     logCurrentRoute() {

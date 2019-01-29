@@ -3,10 +3,13 @@
 import * as T from './mutation-types';
 
 export default {
-  [T.TOGGLE_DRAWER](state) {
-    state.drawerIsOpen = !state.drawerIsOpen;
-  },
+  // [T.TOGGLE_DRAWER](state) {
+  //   state.drawerIsOpen = !state.drawerIsOpen;
+  // },
   [T.OPEN_DRAWER](state) {
     state.drawerIsOpen = true;
+  },
+  [T.CLOSE_DRAWER](state) {
+    state.drawerIsOpen = false;
   },
 };

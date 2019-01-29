@@ -15,12 +15,9 @@
 
 <script>
 import { VApp, VContent } from 'vuetify/lib';
-import { mapState } from 'vuex';
 import DebugPanel from '@/components/DebugPanel';
 import AppToolbar from '@/components/AppToolbar';
 import ReferenceContainer from '@/components/ReferenceContainer';
-import TextEditMenu from '@/components/TextEditMenu';
-import * as T from '@/store/mutation-types';
 
 export default {
   data() {
@@ -37,12 +34,8 @@ export default {
     VContent,
     DebugPanel,
     ReferenceContainer,
-    TextEditMenu,
   },
 
-  computed: {
-    ...mapState(['drawerIsOpen']),
-  },
 };
 </script>
 

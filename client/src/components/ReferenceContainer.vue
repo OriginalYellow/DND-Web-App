@@ -5,7 +5,7 @@
     right
     fixed
     :width="500"
-    v-model="drawerIsOpen"
+    v-model="drawerIsOpenLocal"
   >
     <v-container row>
       <v-layout>
@@ -140,6 +140,7 @@ import {
 } from 'tiptap-extensions';
 
 import dummyData from '@/junk/stats-002.dummy';
+import * as T from '@/store/mutation-types';
 
 export default {
   components: {
@@ -179,7 +180,20 @@ export default {
   },
 
   computed: {
-    ...mapState(['drawerIsOpen']),
+    ...mapState({ drawerIsOpenGlobal: 'drawerIsOpen' }),
+
+    drawerIsOpenLocal: {
+      set(drawerIsOpen) {
+        if (drawerIsOpen) {
+          this.$store.commit(T.OPEN_DRAWER);
+        } else {
+          this.$store.commit(T.CLOSE_DRAWER);
+        }
+      },
+      get() {
+        return this.drawerIsOpenGlobal;
+      },
+    },
   },
 
   methods: {
