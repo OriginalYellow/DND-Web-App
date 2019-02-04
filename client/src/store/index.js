@@ -27,6 +27,8 @@ database.register(Post, posts);
 
 const state = () => ({
   drawerIsOpen: false,
+  user: null,
+  loading: false,
 });
 
 const store = {

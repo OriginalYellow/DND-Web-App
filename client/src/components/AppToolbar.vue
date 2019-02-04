@@ -32,8 +32,33 @@
           {{item.title}}
         </span>
       </v-btn>
+      <v-btn
+        flat
+        v-if="!user"
+        :to="signinButton.link"
+      >
+        <v-icon :left="$vuetify.breakpoint.smAndUp">
+          account_circle
+        </v-icon>
+        <span class="hidden-xs-only">
+          {{signinButton.title}}
+        </span>
+      </v-btn>
+      <v-btn
+        flat
+        v-else
+        @click="handleLogOut"
+      >
+        <v-icon :left="$vuetify.breakpoint.smAndUp">
+          account_circle
+        </v-icon>
+        <span class="hidden-xs-only">
+          {{signoutButton.title}}
+        </span>
+      </v-btn>
     </v-toolbar-items>
-    <combat-bar
+    <character-sheet-bar
+      v-if="$route.name === 'characterSheet'"
       slot="extension"
       :name="characterSummary.name"
       :level="characterSummary.level"
@@ -46,27 +71,53 @@
 </template>
 
 <script>
-import CombatBar from '@/components/CombatBar';
+import { mapState } from 'vuex';
+import CharacterSheetBar from '@/components/CharacterSheetBar';
+import { SIGNOUT_USER } from '@/store/action-types'
 
 export default {
   name: 'AppToolbar',
 
   components: {
-    CombatBar,
+    CharacterSheetBar,
+  },
+
+  methods: {
+    handleLogOut() {
+      this.$store.dispatch(SIGNOUT_USER);
+    },
   },
 
   computed: {
+    ...mapState(['user']),
+
     extensionHeight() {
       return this.$vuetify.breakpoint.mdAndUp ? 40 : 140;
     },
 
-    horizontalNavItems: () => [
-      {
-        icon: 'description',
-        title: 'Character Sheet',
-        link: '/character-sheet',
-      },
-    ],
+    horizontalNavItems() {
+      return [
+        {
+          icon: 'description',
+          title: 'Character Sheet',
+          link: '/character-sheet',
+        },
+      ];
+    },
+
+    signinButton() {
+      return {
+        title: 'Sign In',
+        link: '/sign-in',
+      };
+    },
+
+    signoutButton() {
+      return {
+        title: 'Sign Out',
+        // link: '/sign-in',
+      };
+    },
 
     titleNav: () => ({
       title: "Mike's Cool Tool",

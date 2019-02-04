@@ -1,3 +1,13 @@
+type Query {
+  user(username: String): User
+  getCurrentUser: User
+}
+
+type Mutation {
+  signupUser(username: String!, email: String!, password: String!): Token
+  signinUser(username: String!, password: String!): Token
+}
+
 type User {
   _id: ID
   # username: String! @unique
@@ -7,10 +17,6 @@ type User {
   joinDate: String
 }
 
-type Query {
-  user(username: String): User
-}
-
-type Mutation {
-  signupUser(username: String!, email: String!, password: String!): User
+type Token {
+  token: String!
 }

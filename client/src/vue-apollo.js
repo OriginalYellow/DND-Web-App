@@ -1,61 +1,44 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/graphql-client';
 
-// Install the vue plugin
 Vue.use(VueApollo);
 
-// Name of the localStorage item
 const AUTH_TOKEN = 'apollo-token';
-
-// Http endpoint
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql';
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:1234/graphql';
 
 // Config
 const defaultOptions = {
-  // You can use `https` for secure connection (recommended in production)
   httpEndpoint,
-  // You can use `wss` for secure connection (recommended in production)
-  // Use `null` to disable subscriptions
-  wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql',
-  // LocalStorage token
+  // wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:1234/graphql',
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
   persisting: false,
-  // Use websockets for everything (no HTTP)
-  // You need to pass a `wsEndpoint` for this to work
   websocketsOnly: false,
-  // Is being rendered on the server?
   ssr: false,
+  getAuth: (tokenName) => {
+    const token = localStorage.getItem(tokenName);
+    if (!localStorage.getItem(tokenName)) {
+      localStorage.setItem(tokenName, '');
+    }
 
-  // Override default apollo link
-  // note: don't override httpLink here, specify httpLink options in the
-  // httpLinkOptions property of defaultOptions.
-  // link: myLink
-
-  // Override default cache
-  // cache: myCache
-
-  // Override the way the Authorization header is set
-  // getAuth: (tokenName) => ...
-
-  // Additional ApolloClient options
-  // apollo: { ... }
-
-  // Client local data (see apollo-link-state)
-  // clientState: { resolvers: { ... }, defaults: { ... } }
+    return token;
+  },
 };
 
-// Call this in the Vue app file
-export function createProvider(options = {}) {
-  // Create apollo client
+export function createClient(options = {}) {
   const { apolloClient, wsClient } = createApolloClient({
     ...defaultOptions,
     ...options,
   });
-  apolloClient.wsClient = wsClient;
 
-  // Create vue apollo provider
+  // apolloClient.wsClient = wsClient;
+
+  return apolloClient;
+}
+
+export function createProvider(apolloClient) {
   const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
     defaultOptions: {
@@ -72,7 +55,6 @@ export function createProvider(options = {}) {
   return apolloProvider;
 }
 
-// Manually call this when user log in
 export async function onLogin(apolloClient, token) {
   if (typeof localStorage !== 'undefined' && token) {
     localStorage.setItem(AUTH_TOKEN, token);
@@ -86,7 +68,6 @@ export async function onLogin(apolloClient, token) {
   }
 }
 
-// Manually call this when user log out
 export async function onLogout(apolloClient) {
   if (typeof localStorage !== 'undefined') {
     localStorage.removeItem(AUTH_TOKEN);
