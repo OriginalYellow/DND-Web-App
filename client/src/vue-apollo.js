@@ -6,7 +6,8 @@ import { createApolloClient, restartWebsockets } from 'vue-cli-plugin-apollo/gra
 Vue.use(VueApollo);
 
 const AUTH_TOKEN = 'apollo-token';
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:1234/graphql';
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP;
+// const httpEndpoint = 'https://dnd-web-app-server-7xvupoynn.now.sh/graphql';
 
 // Config
 const defaultOptions = {

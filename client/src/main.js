@@ -24,10 +24,8 @@ new Vue({
   store,
   apolloProvider: createProvider(createClient),
 
-  // NOTE: Aliasing createElement to h is a common convention you’ll see in the
-  // Vue ecosystem and is actually required for JSX.
   render: h => h(App),
-  // created() {
-  //   this.$store.dispatch(AT.GET_CURRENT_USER);
-  // },
+  created() {
+    this.$store.dispatch(AT.GET_CURRENT_USER);
+  },
 });

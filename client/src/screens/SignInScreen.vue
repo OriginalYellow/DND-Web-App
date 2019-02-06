@@ -19,6 +19,21 @@
       </v-flex>
     </v-layout>
 
+    <!-- Error Alert -->
+    <v-layout
+      v-if="error"
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        sm6
+        offset-sm3
+      >
+        <form-alert :message="error.message"></form-alert>
+      </v-flex>
+    </v-layout>
+
     <!-- Signup Form -->
     <v-layout
       row
@@ -28,6 +43,8 @@
         xs12
         sm6
         offset-sm3
+        xl4
+        offset-xl4
       >
         <v-card color="primaryLight">
           <v-container>
@@ -91,8 +108,13 @@
 <script>
 import { mapState } from 'vuex';
 import * as T from '@/store/action-types';
+import FormAlert from '@/components/FormAlert';
 
 export default {
+  components: {
+    FormAlert,
+  },
+
   data() {
     return {
       isFormValid: true,
@@ -110,7 +132,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['loading', 'user']),
+    ...mapState(['loading', 'user', 'error']),
   },
 
   methods: {

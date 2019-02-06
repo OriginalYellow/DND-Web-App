@@ -29,6 +29,7 @@ const state = () => ({
   drawerIsOpen: false,
   user: null,
   loading: false,
+  error: null,
 });
 
 const store = {

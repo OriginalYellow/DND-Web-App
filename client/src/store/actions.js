@@ -34,7 +34,11 @@ export default {
       })
       .then(({ data: { getCurrentUser } }) => {
         commit(MT.SET_LOADING, false);
-        commit(MT.SET_USER, R.omit(['__typename'], getCurrentUser));
+        if (getCurrentUser) {
+          commit(MT.SET_USER, R.omit(['__typename'], getCurrentUser));
+        } else {
+          commit(MT.CLEAR_USER);
+        }
       })
       .catch((err) => {
         commit(MT.SET_LOADING, false);
@@ -43,6 +47,7 @@ export default {
   },
 
   [AT.SIGNUP_USER]({ commit, dispatch }, payload) {
+    commit(MT.CLEAR_ERROR);
     commit(MT.SET_LOADING, true);
     apolloClient.mutate({
       mutation: gql`
@@ -56,10 +61,15 @@ export default {
     }).then(({ data: { signupUser: { token } } }) => {
       commit(MT.SET_LOADING, false);
       onLogin(token, dispatch);
+    }).catch((err) => {
+      commit(MT.SET_LOADING, false);
+      commit(MT.SET_ERROR, err);
+      console.error(err);
     });
   },
 
   [AT.SIGNIN_USER]({ commit, dispatch }, payload) {
+    commit(MT.CLEAR_ERROR);
     commit(MT.SET_LOADING, true);
     apolloClient.mutate({
       mutation: gql`
@@ -73,12 +83,16 @@ export default {
     }).then(({ data: { signinUser: { token } } }) => {
       commit(MT.SET_LOADING, false);
       onLogin(token, dispatch);
+    }).catch((err) => {
+      commit(MT.SET_LOADING, false);
+      commit(MT.SET_ERROR, err);
+      console.error(err);
     });
   },
 
   async [AT.SIGNOUT_USER]({ commit }) {
     commit(MT.CLEAR_USER);
-    localStorage.setItem('token', '');
+    localStorage.setItem('apollo-token', '');
     await apolloClient.resetStore();
     router.push('/');
   },

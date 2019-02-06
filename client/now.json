@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "dnd-web-app",
+  "name": "dnd-web-app-client",
   "builds": [
       { "src": "package.json", "use": "@now/static-build" }
   ],
@@ -11,5 +11,5 @@
     {"src": "^/fonts/(.*)", "dest": "/fonts/$1"},
     {"src": ".*", "dest": "/index.html"}
   ],
-  "alias": "dnd-web-app"
+  "alias": "dnd-web-app-client"
 }

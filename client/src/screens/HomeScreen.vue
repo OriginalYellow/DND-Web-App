@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-flex>
       <span>{{statusText}}</span>
     </v-flex>

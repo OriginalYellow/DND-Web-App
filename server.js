@@ -9,7 +9,6 @@ const typeDefs = fs.readFileSync(filePath, 'utf-8');
 const resolvers = require('./resolvers');
 
 require('dotenv').config({ path: '.env' });
-require('dotenv').config({ path: '.local.env' });
 const User = require('./models/User');
 
 mongoose
@@ -36,10 +35,13 @@ const getUser = async (token) => {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  playground: true,
   context: async ({ req }) => {
     const token = req.headers.authorization;
     return { User, currentUser: await getUser(token) };
   },
+  // MIKE: this should turn off the stacktrace - u want to set this in production
+  // debug: false,
 });
 
 server.listen({ port: process.env.LOCAL_PORT || 4000 }).then(({ url }) => {
