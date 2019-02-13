@@ -1,0 +1,477 @@
+# DnD-specific types, interfaces, and enums:
+
+# MIKE: look into apollo-link when you start doing batching, polling, and
+# caching: https://www.apollographql.com/docs/link/index.html
+
+# MIKE: split these up into different files using this method:
+# https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2
+# or https://www.youtube.com/watch?v=4XmQi80nFes. Actually, this package may be
+# the best way to do it since you can keep using .gql files:
+# https://github.com/okgrow/merge-graphql-schemas, and it also has methods for
+# modularizing resolvers 
+
+# MIKE: 
+# - use the itemtype enum (or whatever you end up calling it) when you have a
+#   generic item object (call it partialItem) on the front end to pick what
+#   query to make when getting the full object for the specific item type
+# - have different queries like "getWeapon", "getVehicle", "getGear", or
+#   whatever you need
+# - the issue with this is that it kind of defeats the purpose of using graphql
+#   to reduce requests...try to think of a better way but if you can't then use
+#   this as a fallback plan
+# - maybe you could mitigate the above by having a single query take multiple
+#   generic items and return a reponse that looks like {weapons: [weapons],
+#   gear: [gear], etc.}
+
+# MIKE: use apollo mocking to mock the data before building the real resolvers
+# (important to make sure the schema is good to go before you possibly waste
+# time making useless resolvers) (see
+# https://www.apollographql.com/docs/graphql-tools/mocking.html) 
+
+# MIKE: make a custom "date" scalar type (see MIKE: CharacterClass should have a
+# "spellcasting", "levels", properties (see
+# https://www.apollographql.com/docs/graphql-tools/scalars.html)
+
+# MIKE: Install a schema linter - https://github.com/cjoudrey/graphql-schema-linter
+
+# MIKE: Some of the links are wrong in the DnD 5e API - you could use a check
+# that checks to see if the "name" field is the same as the "name" field in the
+# URL's result and then throw an error instead of using the incorrect info.
+# Maybe you can use some kind of search by name thing to get the correct info if
+# the API supports that but I doubt it
+
+# NOTES:
+# - ignore weight/encumbrance for now - we aren't using encumberance in our game
+#   atm.
+# - Put fields like "additional traits", "additional [whatever else]" on Race,
+#   CharacterClass, etc., and it will be filled in by players through a simple
+#   text editor.
+# - you will need to make some kind of validator for making sure that characters
+#   always have a certain amount of ability scores and skills
+
+interface URLNode {
+  name: String!
+  URL: String!
+  # MIKE: maybe URLNodeType should be called "entity" or "entityType"?
+  type: URLNodeType!
+}
+
+interface Character {
+  name: String!
+  level: Int!
+  alignment: String!
+  size: String!
+  weapons: [Weapon]
+  attacks: [Attack]!
+  armorClass: Int!
+  armor: Armor
+  equipment: [Equipment]
+  initiative: Int!
+  hitpointDice: String!
+  hitpoints: Int!
+  abilityScores: [AbilityScoreValue]!
+  speed: Int!
+  skills: [SkillValue]!
+  spells: [Spell]
+  race: Race!
+  subRace: SubRace
+  languages: [Language]!
+}
+
+interface BonusSource {
+  value: Int
+  type: bonusSourceType!
+}
+
+interface Equipment {
+  name: String!
+  cost: String!
+  description: String!
+  "actual items in an inventory (and other places where it makes sense) should have a quantity value"
+  quantity: Int
+}
+
+type DescriptionSection {
+  name: String!
+  description: String!
+}
+
+type EquipmentSet {
+  equipment: [Equipment]
+}
+
+type Prerequisite implements URLNode {
+  name: String!
+  type: URLNodeType!
+  URL: String!
+}
+
+# MIKE: you will need to change certain fields nullable because an incomplete
+# character may not have them
+type PlayerCharacter implements Character {
+  name: String!
+  level: Int!
+  alignment: String!
+  size: String!
+  age: Int!
+  weapons: [Weapon]!
+  attacks: [Attack]!
+  armorClass: Int!
+  armor: Armor!
+  equipment: [Equipment]
+  initiative: Int!
+  hitpointDice: String!
+  hitpoints: Int!
+  abilityScores: [AbilityScoreValue]
+  speed: Int!
+  proficiencyBonus: ProficiencyBonus!
+  skills: [SkillValue]!
+  features: [Features]!
+  spells: [Spell]
+  race: Race!
+  subRace: SubRace
+  languages: [Language]!
+  traits: [Trait]!
+  campaigns: [Campaign]
+  characterClass: [CharacterClass]!
+  characterSubClass: [CharacterSubClass]!
+  "The state of the character creation process that this character is currently in."
+  creationState: Int!
+}
+
+type CharacterClass {
+  name: String!
+  # MIKE: I dont think this hitDie type lines up with the actual rules - it
+  # changes depending on the level and can either be static or based on a roll -
+  # see rulebook
+  hitDie: int!
+  skillProficiencyChoices: [SkillProficiencyChoices]!
+  genericproficiencyChoices: [GenericProficiencyChoices]!
+  skillProficiencies: [Skills]!
+  savingThrowProficiencies: [AbilityScore]!
+  startingEquipment: StartingEquipment!
+  characterClassLevels: [ClassLevel]!
+  characterSubclasses: [CharacterSubclass]!
+  spellCasting: SpellCasting
+}
+
+type CharacterSubclass {
+  name: String!
+  subclassFlavor: String!
+  description: String!
+  features: [Feature]
+  spells: [LockedSpell]
+}
+
+type SpellCasting {
+  level: Int!
+  spellcastingAbility: AbilityScore!
+  description: [DescriptionSection]!
+}
+
+type SkillProficiencyChoices {
+  choose: Int!
+  from: [Skill]!
+}
+
+type GenericProficiencyChoices {
+  choose: Int!
+  from: [GenericProficiency]!
+}
+
+# MIKE: you may need to add an enum like "proficiency type" so you can display
+# the proficiency in different places - for example, if they are proficient in a
+# weapon type then all weapons of that type in their inventory may be marked as
+# such
+type GenericProficiency {
+  name: String!
+}
+
+type HitDie {
+  dice: Dice!
+  bonusSources: [BonusSource]
+}
+
+type ProficiencyBonus {
+  value: Int!
+  bonusSources: [BonusSource]
+}
+
+type Dice {
+  count: Int!
+  # MIKE: maybe make an enum called "dieType" and use that instead of value
+  value: Int!
+}
+
+type Weapon implements Equipment, URLNode {
+  name: String!
+  cost: String!
+  weight: Int!
+  description: String!
+  quantity: Int
+  damageDice: Dice!
+  type: URLNodeType!
+  URL: String!
+  # damageType: damageType
+  # range: String
+  # handedness: handedness
+  # tags: [String]
+}
+
+type Gear implements Equipment, URLNode {
+  name: String!
+  cost: String!
+  weight: Int!
+  description: String!
+  quantity: Int
+  type: URLNodeType!
+  URL: String!
+}
+
+type StartingEquipment {
+  startingEquipment: EquipmentSet!
+  startingEquipmentChoiceChoices: StartingEquipmentChoiceChoices!
+}
+
+type StartingEquipmentChoiceChoices {
+  choose: Int!
+  from: StartingEquipmentChoices!
+}
+
+type StartingEquipmentChoices {
+  choose: Int!
+  from: [EquipmentSet]
+}
+
+type CharacterClassLevel {
+  level: Int!,
+  abilityScoreImprovement: Boolean!
+  proficiencyBonus: Int!
+  featureChoices: [FeatureChoices]
+  features: [Feature]
+  spellcastingLevel: SpellcastingLevel
+  """
+  stringified JSON - display this in a nested way (in a table or document 
+  w/headings) so that players can easily refer to it and edit their character 
+  if necessary"
+  """
+  classSpecific: String! # MIKE: you may need to eventually make custom types for each class
+}
+
+type SpellcastingLevel {
+  cantripsKnown: Int!
+  spellsKnown: Int!
+  spellSlotsLevel1: Int!
+  spellSlotsLevel2: Int!
+  spellSlotsLevel3: Int!
+  spellSlotsLevel4: Int!
+  spellSlotsLevel5: Int!
+  spellSlotsLevel6: Int!
+  spellSlotsLevel7: Int!
+  spellSlotsLevel8: Int!
+  spellSlotsLevel9: Int!
+}
+
+type FeatureChoices {
+  description: String!
+  choose: Int!
+  from: [Features]
+}
+
+type Feature {
+  name: String!
+  description: String!
+  level: Int!
+}
+
+type Race {
+  name: String!
+  speed: Int!
+  abilityBonuses: [AbilityScoreBonus]!
+  alignment: String!
+  age: String!
+  size: String!
+  sizeDescription: String!
+  proficiencies: [GenericProficiency]!
+  proficiencyChoices: [GenericProficiencyChoices]
+  languages: [Language]!
+  languageChoices: LanguageChoices
+  languageDescription: String!
+  traits: [Trait]!
+  traitChoices: TraitChoices
+  subRaces: [SubRace]
+}
+
+type SubRace {
+  name: String!
+  description: String!
+  abilityBonuses: [AbilityScoreBonus]!
+  proficiencies: [GenericProficiency]!
+  proficiencyChoices: [GenericProficiencyChoices]
+  languages: [Language]
+  languageChoices: LanguageChoices
+  traits: [Trait]
+  traitChoices: [TraitChoices]
+}
+
+# MIKE: some traits have permanent stat effects, some are spells (there could be
+# other variations as well - you should account for these somehow)
+type Trait {
+  name: String!
+  description: String!
+}
+
+type TraitChoices {
+  choose: Int!
+  from: [Trait]!
+}
+
+type Language {
+  name: String!
+  languageType: String!
+  typicalSpeakers: [String]!
+  script: String!
+}
+
+type LanguageChoices {
+  choose: Int!
+  from: [Language]
+}
+
+type Campaign {
+  name: String!
+  characters: [PlayerCharacters]
+  notes: String
+}
+
+# MIKE: you need to double check and fix this - for example the "hitPointDice" property should probably use the "Dice" type 
+type Spell {
+  name: String!
+  description: String!
+  higherLevel: String!
+  range: Int!
+  components: String!
+  material: String!
+  ritual: Boolean!
+  duration: String!
+  concentration: Boolean!
+  castingTime: String!
+  level: Int!
+  abilityScores: [AbilityScore]
+  hitPoints: Int!
+  hitPointDice: String!
+}
+
+type LockedSpell {
+  levelAquired: Int!
+  prerequisites: [Prerequisite]
+  spell: Spell
+}
+
+type SkillValue {
+  value: Int!
+  proficient: Boolean!
+  skill: Skill
+}
+
+type Skill {
+  name: String!
+  description: String!
+}
+
+type Attack {
+  name: String!
+  equipment: Equipment
+  hitDice: String!
+  damageDice: String!
+}
+
+type AbilityScoreValue {
+  value: Int!
+  BonusSources: [BonusSource]!
+  proficient: Boolean!
+  abilityScore: AbilityScore!
+}
+
+type AbilityScoreBonus {
+  value: Int!
+  abilityScore: AbilityScore!
+}
+
+type AbilityScore {
+  name: String!
+  fullName: String!
+  description: String!
+  skills: [Skill]!
+}
+
+# type Armor implements Equipment {
+#   name: String!
+#   type: EquipmentType
+#   cost: String!
+#   description: String!
+#   weight: Int!
+#   armorClass: Int!
+#   resistance: damageType
+#   tags: [String]
+# }
+
+enum bonusSourceType: {
+  PROFICIENT
+  VALUE
+  CHARACTER_CLASS
+}
+
+enum URLNodeType: {
+  PROFICIENCY
+  WEAPON
+  GEAR
+}
+
+# enum EquipmentType {
+#   ADVENTURING_GEAR
+#   AMMUNITION
+#   AXE
+#   HEAVY_ARMOR
+#   LIGHT_ARMOR
+#   MEDIUM_ARMOR
+#   MELEE_WEAPON
+#   MUNDANE
+#   RANGED_WEAPON
+#   RING
+#   SCROLL
+#   SHIELD
+#   SWORD
+#   WAND
+#   WONDROUS
+# }
+
+# enum damageType {
+#   ACID
+#   BLUDGEONING
+#   COLD
+#   FIRE
+#   FORCE
+#   LIGHTNING
+#   NECTROTIC
+#   PIERCING
+#   POISONG
+#   PSYCHIC
+#   RADIANT
+#   SLASHING
+#   THUNDER
+# }
+
+# enum handedness {
+#   ONE_HANDED
+#   TWO_HANDED
+#   VERSATILE
+# }
+
+# enum currency {
+#   CP
+#   SP
+#   EC
+#   GD
+#   PP
+# }

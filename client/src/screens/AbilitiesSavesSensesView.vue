@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import AbilityScoresContainer from '@/components/AbilityScoresContainer.vue';
-import SavingThrowsContainer from '@/components/SavingThrowsContainer.vue';
-import SensesContainer from '@/components/SensesContainer.vue';
-import CombatStatsContainer from '@/components/CombatStatsContainer.vue';
+import AbilityScoresContainer from '@/components/AbilityScoresContainer';
+import SavingThrowsContainer from '@/components/SavingThrowsContainer';
+import SensesContainer from '@/components/SensesContainer';
+import CombatStatsContainer from '@/components/CombatStatsContainer';
 
 export default {
   components: {

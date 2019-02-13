@@ -1,5 +1,5 @@
 type Query {
-  user(username: String): User
+  user(username: String!): User
   getCurrentUser: User
 }
 
@@ -10,13 +10,104 @@ type Mutation {
 
 type User {
   _id: ID
-  # username: String! @unique
   username: String!
   email: String!
   password: String!
-  joinDate: String
+  playerCharacters: [PlayerCharacter]
 }
 
 type Token {
   token: String!
+}
+
+# game-related queries:
+
+extend type Query {
+  playerCharacters: [PlayerCharacter]
+}
+
+# game-related mutations:
+
+extend type Mutation {
+  createPlayerCharacter(name: String!): PlayerCharacter
+  overrideAbilityScore(playerCharacterId: ID!, abilityScoreName: AbilityScoreName!, value: Int!): PlayerCharacter
+  overrideSkill(playerCharacterId: ID!, skillName: SkillName!, value: Int!): PlayerCharacter
+}
+
+# game-related reference types:
+
+type AbilityScore {
+  id: ID!
+  name: String!
+  fullName: String!
+  description: String!
+  skills: [Skill!]!
+}
+
+type Skill {
+  id: ID!
+  name: String!
+  description: String!
+  abilityScore: [AbilityScore!]!
+}
+
+# game-related entity types:
+
+type PlayerCharacter {
+  abilityScores: [AbilityScoreValue!]!
+  name: String!
+  skills: [Skill!]!
+  id: ID!
+}
+
+type AbilityScoreValue {
+  name: String!
+  value: Int!
+  proficient: Boolean!
+  abilityScore: AbilityScore!
+  bonusSources: [BonusSource]!
+}
+
+type SkillValue {
+  name: String!
+  value: Int!
+  proficient: Boolean!
+  skill: Skill!
+  bonusSources: [BonusSource]!
+}
+
+type BonusSource {
+  explanation: String!
+}
+
+# game-related enums:
+
+enum AbilityScoreName {
+  STR
+  DEX
+  CON
+  INT
+  WIS
+  CHA
+}
+
+enum SkillName {
+  ACROBATICS
+  ANIMAL_HANDLING
+  ARCANA
+  ATHLETICS
+  DECEPTION
+  HISTORY
+  INSIGHT
+  INTIMIDATION
+  INVESTIGATION
+  MEDICINE
+  NATURE
+  PERCEPTION
+  PERFORMANCE
+  PERSUASION
+  RELIGION
+  SLEIGHT_OF_HAND
+  STEALTH
+  SURVIVAL
 }

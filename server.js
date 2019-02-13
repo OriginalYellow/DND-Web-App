@@ -42,6 +42,7 @@ const server = new ApolloServer({
   },
   // MIKE: this should turn off the stacktrace - u want to set this in production
   // debug: false,
+  mocks: true,
 });
 
 server.listen({ port: process.env.LOCAL_PORT || 4000 }).then(({ url }) => {

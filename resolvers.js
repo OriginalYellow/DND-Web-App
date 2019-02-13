@@ -27,7 +27,7 @@ module.exports = {
       // }).populate({
       //   path: 'favorites',
       //   model: 'Post',
-      // });
+      // }); 
       return user;
     },
   },
