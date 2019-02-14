@@ -1,5 +1,4 @@
 type Query {
-  user(username: String!): User
   getCurrentUser: User
 }
 
@@ -13,6 +12,7 @@ type User {
   username: String!
   email: String!
   password: String!
+  joinDate: String
   playerCharacters: [PlayerCharacter]
 }
 
@@ -38,7 +38,7 @@ extend type Mutation {
 
 type AbilityScore {
   id: ID!
-  name: String!
+  name: AbilityScoreName!
   fullName: String!
   description: String!
   skills: [Skill!]!
@@ -46,7 +46,7 @@ type AbilityScore {
 
 type Skill {
   id: ID!
-  name: String!
+  name: SkillName!
   description: String!
   abilityScore: [AbilityScore!]!
 }
@@ -54,14 +54,15 @@ type Skill {
 # game-related entity types:
 
 type PlayerCharacter {
-  abilityScores: [AbilityScoreValue!]!
   name: String!
-  skills: [Skill!]!
+  abilityScores: [AbilityScoreValue!]!
+  skills: [SkillValue!]!
   id: ID!
+  createdBy: User!
 }
 
 type AbilityScoreValue {
-  name: String!
+  name: AbilityScoreName!
   value: Int!
   proficient: Boolean!
   abilityScore: AbilityScore!
@@ -69,7 +70,7 @@ type AbilityScoreValue {
 }
 
 type SkillValue {
-  name: String!
+  name: SkillName!
   value: Int!
   proficient: Boolean!
   skill: Skill!

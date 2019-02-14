@@ -7,9 +7,11 @@ const jwt = require('jsonwebtoken');
 const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
 const resolvers = require('./resolvers');
+const mocks = require('./mocks');
 
 require('dotenv').config({ path: '.env' });
 const User = require('./models/User');
+const PlayerCharacter = require('./models/PlayerCharacter');
 
 mongoose
   .connect(
@@ -20,7 +22,7 @@ mongoose
   .catch(err => console.error(err));
 
 // eslint-disable-next-line consistent-return
-const getUser = async (token) => {
+const getUserInfoFromToken = async (token) => {
   if (token) {
     try {
       return await jwt.verify(token, process.env.SECRET);
@@ -38,11 +40,12 @@ const server = new ApolloServer({
   playground: true,
   context: async ({ req }) => {
     const token = req.headers.authorization;
-    return { User, currentUser: await getUser(token) };
+    return { User, PlayerCharacter, currentUserInfo: await getUserInfoFromToken(token) };
   },
   // MIKE: this should turn off the stacktrace - u want to set this in production
   // debug: false,
-  mocks: true,
+  mocks,
+  mockEntireSchema: false,
 });
 
 server.listen({ port: process.env.LOCAL_PORT || 4000 }).then(({ url }) => {

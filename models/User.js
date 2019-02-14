@@ -3,20 +3,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-// const dummyPassword = '12345678';
-// const wrongDummyPassword = '12345345';
-// const saltRounds = 10;
-
-// bcrypt.genSalt();
-
-// bcrypt.genSalt(saltRounds)
-//   .then(salt => bcrypt.hash(dummyPassword, salt))
-//   .then(async (hash) => {
-//     hash; // ?
-//     await bcrypt.compare(dummyPassword, hash); // ?
-//     await bcrypt.compare(wrongDummyPassword, hash); // ?
-//   });
-
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -38,6 +24,13 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  // playerCharacters: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     required: true,
+  //     ref: 'PlayerCharacter',
+  //   },
+  // ],
 });
 
 UserSchema.pre('save', function (next) {
