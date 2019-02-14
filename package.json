@@ -1,41 +1,38 @@
 {
-  "name": "new-dnd-project",
-  "version": "0.1.0",
-  "private": true,
+  "name": "dnd-web-app",
+  "version": "1.0.0",
+  "description": "## Project setup ``` npm install ```",
+  "main": "server.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "start": "node server.js",
+    "server": "nodemon --inspect server.js",
+    "client": "cd client && npm run serve",
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OriginalYellow/DND-Web-App.git"
+  },
+  "author": "Michael Joseph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OriginalYellow/DND-Web-App/issues"
+  },
+  "homepage": "https://github.com/OriginalYellow/DND-Web-App#readme",
   "dependencies": {
-    "@vuex-orm/core": "^0.31.1",
-    "material-design-icons-iconfont": "^3.0.3",
-    "partial.lenses": "^14.17.0",
-    "ramda": "^0.26.1",
-    "ramda-adjunct": "^2.13.0",
-    "ramda-lens-map": "^1.0.1",
-    "roboto-fontface": "*",
-    "rxjs": "^6.3.3",
-    "tiptap": "^1.7.0",
-    "tiptap-extensions": "^1.7.0",
-    "vue": "^2.5.17",
-    "vue-router": "^3.0.2",
-    "vuelidate": "^0.7.4",
-    "vuetify": "^1.3.0",
-    "vuex": "^3.0.1"
+    "apollo-server": "^2.3.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^6.2.0",
+    "graphql": "^14.1.1",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.7"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.2.0",
-    "@vue/cli-plugin-eslint": "^3.2.0",
-    "@vue/cli-service": "^3.2.0",
-    "@vue/eslint-config-airbnb": "^4.0.0",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
-    "eslint-plugin-vue": "^5.0.0-0",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-vuetify": "^0.4.6",
-    "vue-template-compiler": "^2.5.17",
-    "vuetify-loader": "^1.0.5"
+    "concurrently": "^4.1.0",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.15.0",
+    "nodemon": "^1.18.9"
   }
 }
