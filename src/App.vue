@@ -1,49 +1,16 @@
 <template>
   <v-app>
     <app-toolbar />
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="290"
-      :style="{'z-index': 1002}"
-    >
-      <v-btn
-        dark
-        fab
-        outline
-        fixed
-        bottom
-        right
-        color="accent"
-        slot="activator"
-        :style="{right: '90px'}"
-      >
-        <v-icon>apps</v-icon>
-      </v-btn>
-      <v-card>
-        <v-card-title class="headline">Use Google's location service?</v-card-title>
-        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            flat
-            @click="dialog = false"
-          >Disagree</v-btn>
-          <v-btn
-            color="green darken-1"
-            flat
-            @click="dialog = false"
-          >Agree</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+
+    <navigation-modal />
+
     <v-speed-dial
       fixed
       bottom
       right
       direction="top"
       :style="{'z-index': 1000}"
+      
     >
       <v-btn
         dark
@@ -51,32 +18,9 @@
         outline
         color="accent"
         slot="activator"
+        @click="isToggled=!isToggled"
       >
         <v-icon large>arrow_back</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="green"
-      >
-        <v-icon>edit</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="indigo"
-      >
-        <v-icon>add</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="red"
-      >
-        <v-icon>delete</v-icon>
       </v-btn>
     </v-speed-dial>
     <v-content>
@@ -87,7 +31,10 @@
         </v-layout>
       </v-container>
     </v-content>
-    <reference-container />
+    
+    <reference-container  
+      :isToggled="isToggled"
+    />
   </v-app>
 </template>
 
@@ -99,11 +46,13 @@ import AppToolbar from "@/components/AppToolbar.vue";
 import ReferenceContainer from "@/components/ReferenceContainer.vue";
 import TextEditMenu from "@/components/TextEditMenu";
 import * as T from "@/store/mutation-types";
+import NavigationModal from "@/components/NavigationModal.vue"
 
 export default {
   data() {
     return {
-      dialog: false
+      dialog: false,
+      isToggled: false
     };
   },
 
@@ -115,6 +64,7 @@ export default {
     VContent,
     DebugPanel,
     ReferenceContainer,
+    NavigationModal,
     TextEditMenu
   },
 

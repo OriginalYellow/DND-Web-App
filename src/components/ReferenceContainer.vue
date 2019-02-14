@@ -5,7 +5,7 @@
     right
     fixed
     :width="500"
-    v-model="drawerIsOpen"
+    v-model="isToggled"
   >
     <v-container row>
       <v-layout>
@@ -195,8 +195,15 @@ export default {
     };
   },
 
-  computed: {
-    ...mapState(["drawerIsOpen"])
+  // computed: {
+  //   ...mapState(["drawerIsOpen"])
+  // },
+
+  props: {
+    isToggled: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   methods: {
