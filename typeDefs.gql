@@ -20,23 +20,35 @@ type Token {
   token: String!
 }
 
-# game-related queries:
+# game-related queries and input types:
 
 extend type Query {
   playerCharacters: [PlayerCharacter]
 }
 
-# game-related mutations:
+# game-related mutations and input types:
 
 extend type Mutation {
   createPlayerCharacter(name: String!): PlayerCharacter
-  overrideAbilityScore(playerCharacterId: ID!, abilityScoreName: AbilityScoreName!, value: Int!): PlayerCharacter
-  overrideSkill(playerCharacterId: ID!, skillName: SkillName!, value: Int!): PlayerCharacter
+  overrideAbilityScoreValue(abilityScore: overrideAbilityScoreInput!, value: Int!): PlayerCharacter
+  overrideAbilityScoreProficiency(abilityScore: overrideAbilityScoreInput!, proficient: Boolean!): PlayerCharacter
+  overrideSkillValue(skill: overrideSkillInput!, value: Int!): PlayerCharacter
+  overrideSkillProficiency(skill: overrideSkillInput!, proficient: Boolean!): PlayerCharacter
+}
+
+input overrideAbilityScoreInput {
+  playerCharacterId: ID!
+  abilityScoreName: AbilityScoreName!
+}
+
+input overrideSkillInput {
+  playerCharacterId: ID!
+  skillName: SkillName!
 }
 
 # game-related reference types:
 
-type AbilityScore {
+type AbilityScoreInfo {
   id: ID!
   name: AbilityScoreName!
   fullName: String!
@@ -44,36 +56,67 @@ type AbilityScore {
   skills: [Skill!]!
 }
 
-type Skill {
+type SkillInfo {
   id: ID!
   name: SkillName!
   description: String!
-  abilityScore: [AbilityScore!]!
+  abilityScore: [AbilityScoreInfo!]!
 }
 
 # game-related entity types:
 
 type PlayerCharacter {
   name: String!
-  abilityScores: [AbilityScoreValue!]!
-  skills: [SkillValue!]!
+  abilityScores: AbilityScores!
+  # skills: [Skill!]!
+  skills: Skills!
   id: ID!
   createdBy: User!
 }
 
-type AbilityScoreValue {
+type AbilityScores {
+  str: AbilityScore!,
+  dex: AbilityScore!,
+  con: AbilityScore!,
+  int: AbilityScore!,
+  wis: AbilityScore!,
+  cha: AbilityScore!,
+}
+
+type AbilityScore {
   name: AbilityScoreName!
   value: Int!
   proficient: Boolean!
-  abilityScore: AbilityScore!
+  info: AbilityScoreInfo!
   bonusSources: [BonusSource]!
 }
 
-type SkillValue {
+type Skills {
+  acrobatics: Skill!
+  animalHandling: Skill!
+  arcana: Skill!
+  athletics: Skill!
+  deception: Skill!
+  history: Skill!
+  insight: Skill!
+  intimidation: Skill!
+  investigation: Skill!
+  medicine: Skill!
+  nature: Skill!
+  perception: Skill!
+  performance: Skill!
+  persuasion: Skill!
+  religion: Skill!
+  slightOfHand: Skill!
+  stealth: Skill!
+  survival: Skill!
+}
+
+type Skill {
   name: SkillName!
   value: Int!
   proficient: Boolean!
-  skill: Skill!
+  info: SkillInfo!
   bonusSources: [BonusSource]!
 }
 

@@ -24,13 +24,6 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  // playerCharacters: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     required: true,
-  //     ref: 'PlayerCharacter',
-  //   },
-  // ],
 });
 
 UserSchema.pre('save', function (next) {
