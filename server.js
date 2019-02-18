@@ -58,7 +58,7 @@ const server = new ApolloServer({
     autho: AuthorizationDirective,
   },
   // MIKE: this should turn off the stacktrace - u want to set this in production
-  // debug: false,
+  debug: false,
   mocks,
   mockEntireSchema: false,
 });

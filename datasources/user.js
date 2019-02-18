@@ -58,11 +58,11 @@ class UserAPI extends DataSource {
     return playerCharacter.save();
   }
 
-  async setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficiency) {
+  async setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficient) {
     const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
 
     playerCharacter
-      .abilityScores[this.screamingToCamelCase(abilityScoreName)].proficiency = proficiency;
+      .abilityScores[this.screamingToCamelCase(abilityScoreName)].proficient = proficient;
     return playerCharacter.save();
   }
 
@@ -73,10 +73,10 @@ class UserAPI extends DataSource {
     return playerCharacter.save();
   }
 
-  async setSkillProficiency(playerCharacterId, skillName, proficiency) {
+  async setSkillProficiency(playerCharacterId, skillName, proficient) {
     const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
 
-    playerCharacter.skill[this.screamingToCamelCase(skillName)].proficiency = proficiency;
+    playerCharacter.skills[this.screamingToCamelCase(skillName)].proficient = proficient;
     return playerCharacter.save();
   }
 

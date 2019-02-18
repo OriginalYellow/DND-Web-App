@@ -26,13 +26,12 @@ type Token {
 # game-related queries and input types:
 
 # extend type Query {
-#   playerCharacters: [PlayerCharacter]
 # }
 
 # game-related mutations and input types:
 
 extend type Mutation {
-  createPlayerCharacter(name: String!): PlayerCharacter
+  createPlayerCharacter(name: String!): PlayerCharacter @autho
   overrideAbilityScoreValue(name: AbilityScoreName!, value: Int!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
   overrideAbilityScoreProficiency(name: AbilityScoreName!, proficient: Boolean!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
   overrideSkillValue(name: SkillName!, value: Int!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen

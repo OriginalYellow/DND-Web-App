@@ -97,7 +97,7 @@ module.exports = {
       { name, proficient, playerCharacter },
       { dataSources: { userAPI } },
     ) => {
-      return userAPI.setSkillValue(playerCharacter.id, name, proficient);
+      return userAPI.setSkillProficiency(playerCharacter.id, name, proficient);
     },
   },
 
