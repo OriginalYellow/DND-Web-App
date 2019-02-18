@@ -1,4 +1,9 @@
 /* eslint-disable arrow-body-style */
+/* eslint-disable no-underscore-dangle */
+
+// MIKE: use a function from graphql-tools to merge schemas:
+// https://www.apollographql.com/docs/graphql-tools/schema-stitching.html
+
 // MIKE: ENTITY FRAMEWORK BUT BETTER!!!!!!!: https://www.prisma.io/with-graphql/
 // switch to this when things get too unwieldly
 
@@ -16,20 +21,7 @@
 // bookmarks) to match mongoose projections to specific queries to reduce
 // network load
 
-// MIKE: you can use something like this to wrap resolvers for authentication
-// and authorization so your error handling is centralized in functions like
-// this one (you can use graphql-resolvers to save typing):
-
-// export const authenticated = next => (root, args, context, info) => {
-//   if (!context.currentUser) {
-//       throw new Error(`Unauthenticated!`);
-//   }
-
-//   return next(root, args, context, info);
-// };
-
-/* eslint-disable no-underscore-dangle */
-const { skip, combineResolvers } = require('graphql-resolvers');
+// const { skip, combineResolvers } = require('graphql-resolvers');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const R = require('ramda');
@@ -78,34 +70,34 @@ module.exports = {
 
     overrideAbilityScoreValue: async (
       _,
-      { abilityScore: { playerCharacterId, abilityScoreName }, value },
+      { name, value, playerCharacter },
       { dataSources: { userAPI } },
     ) => {
-      return userAPI.setAbilityScoreValue(playerCharacterId, abilityScoreName, value);
+      return userAPI.setAbilityScoreValue(playerCharacter.id, name, value);
     },
 
     overrideAbilityScoreProficiency: async (
       _,
-      { abilityScore: { playerCharacterId, abilityScoreName }, proficient },
+      { name, proficient, playerCharacter },
       { dataSources: { userAPI } },
     ) => {
-      return userAPI.setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficient);
+      return userAPI.setAbilityScoreProficiency(playerCharacter.id, name, proficient);
     },
 
     overrideSkillValue: async (
       _,
-      { skill: { playerCharacterId, skillName }, value },
+      { name, value, playerCharacter },
       { dataSources: { userAPI } },
     ) => {
-      return userAPI.setSkillValue(playerCharacterId, skillName, value);
+      return userAPI.setSkillValue(playerCharacter.id, name, value);
     },
 
     overrideSkillProficiency: async (
       _,
-      { skill: { playerCharacterId, skillName }, proficient },
+      { name, proficient, playerCharacter },
       { dataSources: { userAPI } },
     ) => {
-      return userAPI.setSkillValue(playerCharacterId, skillName, proficient);
+      return userAPI.setSkillValue(playerCharacter.id, name, proficient);
     },
   },
 

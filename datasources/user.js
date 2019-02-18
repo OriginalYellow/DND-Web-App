@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 const { DataSource } = require('apollo-datasource');
-const mongoose = require('mongoose');
 const R = require('ramda');
 
 const User = require('../models/User');
@@ -8,6 +7,8 @@ const PlayerCharacter = require('../models/PlayerCharacter');
 
 class UserAPI extends DataSource {
   initialize(config) {
+    // MIKE: there is a "cache" object in the config object - prob want to use
+    // for something
     this.context = config.context;
   }
 

@@ -29,3 +29,6 @@ VUETIFY CENTERING:
 VUETIFY NAVIGATION DRAWER:
 -"Using null as the starting value for its v-model will initialize the drawer as
 closed on mobile and as open on desktop."
+
+GRAPHQL-MODULES:
+-"You can use Inject and Injectable as regular functions to wrap your arguments and classes."

@@ -1,5 +1,8 @@
+directive @autho on FIELD_DEFINITION
+directive @authen on FIELD_DEFINITION
+
 type Query {
-  getCurrentUser: User
+  getCurrentUser: User @authen
 }
 
 type Mutation {
@@ -22,28 +25,22 @@ type Token {
 
 # game-related queries and input types:
 
-extend type Query {
-  playerCharacters: [PlayerCharacter]
-}
+# extend type Query {
+#   playerCharacters: [PlayerCharacter]
+# }
 
 # game-related mutations and input types:
 
 extend type Mutation {
   createPlayerCharacter(name: String!): PlayerCharacter
-  overrideAbilityScoreValue(abilityScore: overrideAbilityScoreInput!, value: Int!): PlayerCharacter
-  overrideAbilityScoreProficiency(abilityScore: overrideAbilityScoreInput!, proficient: Boolean!): PlayerCharacter
-  overrideSkillValue(skill: overrideSkillInput!, value: Int!): PlayerCharacter
-  overrideSkillProficiency(skill: overrideSkillInput!, proficient: Boolean!): PlayerCharacter
+  overrideAbilityScoreValue(name: AbilityScoreName!, value: Int!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
+  overrideAbilityScoreProficiency(name: AbilityScoreName!, proficient: Boolean!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
+  overrideSkillValue(name: SkillName!, value: Int!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
+  overrideSkillProficiency(name: SkillName!, proficient: Boolean!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
 }
 
-input overrideAbilityScoreInput {
-  playerCharacterId: ID!
-  abilityScoreName: AbilityScoreName!
-}
-
-input overrideSkillInput {
-  playerCharacterId: ID!
-  skillName: SkillName!
+input playerCharacterInput {
+  id: ID!
 }
 
 # game-related reference types:

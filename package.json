@@ -25,7 +25,9 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^6.2.0",
     "graphql": "^14.1.1",
+    "graphql-import": "^0.7.1",
     "graphql-resolvers": "^0.3.2",
+    "graphql-tools": "^4.0.4",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.7",
     "ramda": "^0.26.1"
