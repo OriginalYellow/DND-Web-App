@@ -107,7 +107,7 @@ type Skills {
   performance: Skill!
   persuasion: Skill!
   religion: Skill!
-  slightOfHand: Skill!
+  sleightOfHand: Skill!
   stealth: Skill!
   survival: Skill!
 }

@@ -8,10 +8,11 @@ const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
 const resolvers = require('./resolvers');
 const mocks = require('./mocks');
+const UserAPI = require('./datasources/user');
 
 require('dotenv').config({ path: '.env' });
-const User = require('./models/User');
-const PlayerCharacter = require('./models/PlayerCharacter');
+// const User = require('./models/User');
+// const PlayerCharacter = require('./models/PlayerCharacter');
 
 mongoose
   .connect(
@@ -40,8 +41,10 @@ const server = new ApolloServer({
   playground: true,
   context: async ({ req }) => {
     const token = req.headers.authorization;
-    return { User, PlayerCharacter, currentUserInfo: await getUserInfoFromToken(token) };
+    // return { User, PlayerCharacter, currentUserInfo: await getUserInfoFromToken(token) };
+    return { currentUserInfo: await getUserInfoFromToken(token) };
   },
+  dataSources: () => ({ userAPI: new UserAPI() }),
   // MIKE: this should turn off the stacktrace - u want to set this in production
   // debug: false,
   mocks,

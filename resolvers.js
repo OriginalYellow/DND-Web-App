@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 // MIKE: ENTITY FRAMEWORK BUT BETTER!!!!!!!: https://www.prisma.io/with-graphql/
 // switch to this when things get too unwieldly
 
@@ -15,48 +16,50 @@
 // bookmarks) to match mongoose projections to specific queries to reduce
 // network load
 
+// MIKE: you can use something like this to wrap resolvers for authentication
+// and authorization so your error handling is centralized in functions like
+// this one (you can use graphql-resolvers to save typing):
+
+// export const authenticated = next => (root, args, context, info) => {
+//   if (!context.currentUser) {
+//       throw new Error(`Unauthenticated!`);
+//   }
+
+//   return next(root, args, context, info);
+// };
+
 /* eslint-disable no-underscore-dangle */
+const { skip, combineResolvers } = require('graphql-resolvers');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
 const R = require('ramda');
 
+const NEW_TOKEN_AGE = '24hr';
+
 const createToken = (user, secret, expiresIn) => {
-  // NOTE: AHA! this is how you do that destructuring trick!:
   const { username, email } = user;
   return jwt.sign({ username, email }, secret, { expiresIn });
 };
 
 module.exports = {
   Query: {
-    getCurrentUser: async (
-      _,
-      args,
-      { User, currentUserInfo },
-    ) => User
-      .findOne({
-        username: currentUserInfo.username,
-      }),
+    getCurrentUser: (_, args, { dataSources: { userAPI } }) => userAPI.getCurrentUser(),
   },
 
   Mutation: {
-    signupUser: async (_, { username, email, password }, { User }) => {
-      const user = await User.findOne({ username });
+    signupUser: async (_, { username, email, password }, { dataSources: { userAPI } }) => {
+      const user = await userAPI.getUserByName(username);
       if (user) {
         throw new Error('User already exists');
       }
 
-      const newUser = await new User({
-        username,
-        email,
-        password,
-      }).save();
+      const newUser = await userAPI.createUser(username, email, password);
 
-      return { token: createToken(newUser, process.env.SECRET, '24hr') };
+      return { token: createToken(newUser, process.env.SECRET, NEW_TOKEN_AGE) };
     },
 
-    signinUser: async (_, { username, password }, { User }) => {
-      const user = await User.findOne({ username });
+    signinUser: async (_, { username, password }, { dataSources: { userAPI } }) => {
+      const user = await userAPI.getUserByName(username);
       if (!user) {
         throw new Error('User not found');
       }
@@ -66,117 +69,50 @@ module.exports = {
         throw new Error('Invalid password');
       }
 
-      return { token: createToken(user, process.env.SECRET, '24hr') };
+      return { token: createToken(user, process.env.SECRET, NEW_TOKEN_AGE) };
     },
 
-    createPlayerCharacter: async (
-      _,
-      { name },
-      { User, PlayerCharacter, currentUserInfo },
-    ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const newPlayerCharacter = await new PlayerCharacter({
-        name,
-        createdBy: user,
-      }).save();
-
-      return newPlayerCharacter.populate('createdBy').execPopulate();
+    createPlayerCharacter: async (_, { name }, { dataSources: { userAPI } }) => {
+      return userAPI.createPlayerCharacter(name);
     },
 
     overrideAbilityScoreValue: async (
       _,
       { abilityScore: { playerCharacterId, abilityScoreName }, value },
-      { User, PlayerCharacter, currentUserInfo },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      playerCharacter.abilityScores[abilityScoreName.toLowerCase()].value = value;
-      playerCharacter.save();
- 
-      return playerCharacter;
+      return userAPI.setAbilityScoreValue(playerCharacterId, abilityScoreName, value);
     },
 
     overrideAbilityScoreProficiency: async (
       _,
       { abilityScore: { playerCharacterId, abilityScoreName }, proficient },
-      { User, PlayerCharacter, currentUserInfo },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      playerCharacter.abilityScores[abilityScoreName.toLowerCase()].proficient = proficient;
-      playerCharacter.save();
-
-      return playerCharacter;
+      return userAPI.setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficient);
     },
 
     overrideSkillValue: async (
       _,
       { skill: { playerCharacterId, skillName }, value },
-      { User, PlayerCharacter, currentUserInfo },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      // YOU WHERE HERE (you just copy/pasted this from below, you how to
-      // actually make it - it's the same as camelToEnumCase right now). Then
-      // you have to make the overrideSkillProfeciency resolver
-      // const enumToCamelCase = str => str
-      //   .replace(
-      //     /([A-Z])/g,
-      //     x => R.concat('_', x),
-      //   )
-      //   .toUpperCase();
-
-      playerCharacter.skills[skillName.toLowerCase()].value = value;
-      playerCharacter.save();
-
-      return playerCharacter;
+      return userAPI.setSkillValue(playerCharacterId, skillName, value);
     },
 
     overrideSkillProficiency: async (
       _,
       { skill: { playerCharacterId, skillName }, proficient },
-      { User, PlayerCharacter, currentUserInfo },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      playerCharacter.skills[skillName.toLowerCase()].proficient = proficient;
-      playerCharacter.save();
-
-      return playerCharacter;
+      return userAPI.setSkillValue(playerCharacterId, skillName, proficient);
     },
   },
 
   User: {
-    playerCharacters: async (user, _, { PlayerCharacter }) => PlayerCharacter.find({ createdBy: user }),
+    playerCharacters: async (user, _, { dataSources: { userAPI } }) => {
+      return userAPI.getPlayerCharacters();
+    },
   },
 
   AbilityScore: {
@@ -197,16 +133,3 @@ module.exports = {
     },
   },
 };
-
-// const getPopulatedUser = async (userInfo, User) => {
-//   if (!userInfo) {
-//     return null;
-//   }
-
-//   return User
-//     .findOne({
-//       username: userInfo.username,
-//     })
-//     .populate('playerCharacters')
-//     .exec();
-// };
