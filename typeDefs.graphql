@@ -55,6 +55,7 @@ type AbilityScoreInfo {
 type SkillInfo {
   id: ID!
   name: SkillName!
+  fullName: String!
   description: String!
   abilityScore: [AbilityScoreInfo!]!
 }
@@ -64,7 +65,6 @@ type SkillInfo {
 type PlayerCharacter {
   name: String!
   abilityScores: AbilityScores!
-  # skills: [Skill!]!
   skills: Skills!
   id: ID!
   createdBy: User!

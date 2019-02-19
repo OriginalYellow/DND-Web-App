@@ -8,7 +8,7 @@ const PlayerCharacter = require('../models/PlayerCharacter');
 class UserAPI extends DataSource {
   initialize(config) {
     // MIKE: there is a "cache" object in the config object - prob want to use
-    // for something
+    // for something (see https://www.npmjs.com/package/apollo-server-caching)
     this.context = config.context;
   }
 

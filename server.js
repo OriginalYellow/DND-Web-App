@@ -1,5 +1,5 @@
-const { ApolloServer, AuthenticationError } = require('apollo-server');
-const { importSchema } = require('graphql-import');
+const { ApolloServer } = require('apollo-server');
+// const { importSchema } = require('graphql-import');
 const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
@@ -19,6 +19,7 @@ const { AuthenticationDirective, AuthorizationDirective } = require('./security'
 const resolvers = require('./resolvers');
 const mocks = require('./mocks');
 const UserAPI = require('./datasources/user');
+const RulesAPI = require('./datasources/rules');
 
 require('dotenv').config({ path: '.env' });
 
@@ -37,9 +38,6 @@ const getUserInfoFromToken = async (token) => {
       return await jwt.verify(token, process.env.SECRET);
     } catch (error) {
       console.warn(`Unable to authenticate using auth token: ${token}`);
-      // throw new AuthenticationError(
-      //   'Your session has ended. Please sign in again.',
-      // );
     }
   }
 };
@@ -52,13 +50,15 @@ const server = new ApolloServer({
     const token = req.headers.authorization;
     return { currentUserInfo: await getUserInfoFromToken(token) };
   },
-  dataSources: () => ({ userAPI: new UserAPI() }),
+  dataSources: () => ({
+    userAPI: new UserAPI(),
+    rulesAPI: new RulesAPI(),
+  }),
   schemaDirectives: {
     authen: AuthenticationDirective,
     autho: AuthorizationDirective,
   },
-  // MIKE: this should turn off the stacktrace - u want to set this in production
-  debug: false,
+  debug: true,
   mocks,
   mockEntireSchema: false,
 });

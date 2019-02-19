@@ -21,6 +21,7 @@
   "homepage": "https://github.com/OriginalYellow/DND-Web-App#readme",
   "dependencies": {
     "apollo-datasource": "^0.3.1",
+    "apollo-datasource-rest": "^0.3.1",
     "apollo-server": "^2.3.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^6.2.0",
@@ -30,7 +31,8 @@
     "graphql-tools": "^4.0.4",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.7",
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "ramda-adjunct": "^2.16.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

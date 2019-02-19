@@ -33,6 +33,15 @@ const createToken = (user, secret, expiresIn) => {
   return jwt.sign({ username, email }, secret, { expiresIn });
 };
 
+// MIKE: refactor this to use ramda (just for consistency)
+const camelToEnumCase = str => str
+  .replace(
+    /([A-Z])/g,
+    x => R.concat('_', x),
+  )
+  .toUpperCase();
+
+
 module.exports = {
   Query: {
     getCurrentUser: (_, args, { dataSources: { userAPI } }) => userAPI.getCurrentUser(),
@@ -109,19 +118,21 @@ module.exports = {
 
   AbilityScore: {
     name: (_, __, ___, info) => info.path.prev.key.toUpperCase(),
+
+    info: (_, __, { dataSources: { rulesAPI } }, info) => {
+      return rulesAPI.getAbilityScore(info.path.prev.key);
+    },
   },
 
   Skill: {
     name: (_, __, ___, info) => {
-      // MIKE: put this somewhere else when u start using it in other places
-      const camelToEnumCase = str => str
-        .replace(
-          /([A-Z])/g,
-          x => R.concat('_', x),
-        )
-        .toUpperCase();
-
       return camelToEnumCase(info.path.prev.key);
+    },
+
+    info: async (_, __, { dataSources: { rulesAPI } }, info) => {
+      const skill = await rulesAPI.getSkill(info.path.prev.key);
+      skill.name = camelToEnumCase(info.path.prev.key);
+      return skill;
     },
   },
 };

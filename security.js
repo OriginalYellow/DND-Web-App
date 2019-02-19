@@ -10,7 +10,6 @@ class AuthenticationDirective extends SchemaDirectiveVisitor {
 
     // eslint-disable-next-line func-names
     field.resolve = async function (...args) {
-      console.log('fug1');
       const context = args[2];
 
       if (!context.currentUserInfo) {
@@ -30,7 +29,6 @@ class AuthorizationDirective extends SchemaDirectiveVisitor {
 
     // eslint-disable-next-line func-names
     field.resolve = async function (...args) {
-      console.log('fug2');
       const { userAPI } = args[2].dataSources;
       const user = await userAPI.getCurrentUser();
       const playerCharacter = await userAPI.getPlayerCharacterById(
