@@ -23,8 +23,7 @@
 
 // const { skip, combineResolvers } = require('graphql-resolvers');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const R = require('ramda');
+const { camelToEnumCase } = require('./util');
 
 const NEW_TOKEN_AGE = '24hr';
 
@@ -33,15 +32,6 @@ const createToken = (user, secret, expiresIn) => {
   return jwt.sign({ username, email }, secret, { expiresIn });
 };
 
-// MIKE: refactor this to use ramda (just for consistency)
-const camelToEnumCase = str => str
-  .replace(
-    /([A-Z])/g,
-    x => R.concat('_', x),
-  )
-  .toUpperCase();
-
-
 module.exports = {
   Query: {
     getCurrentUser: (_, args, { dataSources: { userAPI } }) => userAPI.getCurrentUser(),
@@ -49,26 +39,13 @@ module.exports = {
 
   Mutation: {
     signupUser: async (_, { username, email, password }, { dataSources: { userAPI } }) => {
-      const user = await userAPI.getUserByName(username);
-      if (user) {
-        throw new Error('User already exists');
-      }
-
       const newUser = await userAPI.createUser(username, email, password);
 
       return { token: createToken(newUser, process.env.SECRET, NEW_TOKEN_AGE) };
     },
 
     signinUser: async (_, { username, password }, { dataSources: { userAPI } }) => {
-      const user = await userAPI.getUserByName(username);
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      const isValidPassword = await bcrypt.compare(password, user.password);
-      if (!isValidPassword) {
-        throw new Error('Invalid password');
-      }
+      const user = await userAPI.signinUser(username, password);
 
       return { token: createToken(user, process.env.SECRET, NEW_TOKEN_AGE) };
     },
@@ -114,6 +91,7 @@ module.exports = {
     playerCharacters: async (user, _, { dataSources: { userAPI } }) => {
       return userAPI.getPlayerCharacters();
     },
+    joinDate: user => user.joinDate.toString(),
   },
 
   AbilityScore: {
@@ -133,6 +111,19 @@ module.exports = {
       const skill = await rulesAPI.getSkill(info.path.prev.key);
       skill.name = camelToEnumCase(info.path.prev.key);
       return skill;
+    },
+
+  },
+
+  AbilityScoreInfo: {
+    skills: async (parent, __, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getSkills(parent.skills);
+    },
+  },
+
+  SkillInfo: {
+    abilityScore: async (parent, __, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getAbilityScore(parent.abilityScore);
     },
   },
 };

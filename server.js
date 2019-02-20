@@ -12,14 +12,14 @@ const { AuthenticationDirective, AuthorizationDirective } = require('./security'
 
 // MIKE: there is an issue with this package where extended types wheren't being
 // imported (they are missing from imported string). see
-// https://github.com/prisma/graphql-import/issues/203 const typeDefs =
+// https://github.com/prisma/graphql-import/issues/203 :
 
-// importSchema('typeDefs.graphql');
+// const typeDefs = importSchema('typeDefs.graphql');
 
 const resolvers = require('./resolvers');
 const mocks = require('./mocks');
-const UserAPI = require('./datasources/user');
-const RulesAPI = require('./datasources/rules');
+const UserAPI = require('./datasources/UserAPI');
+const RulesAPI = require('./datasources/RulesAPI');
 
 require('dotenv').config({ path: '.env' });
 
@@ -35,7 +35,7 @@ mongoose
 const getUserInfoFromToken = async (token) => {
   if (token) {
     try {
-      return await jwt.verify(token, process.env.SECRET);
+      return jwt.verify(token, process.env.SECRET);
     } catch (error) {
       console.warn(`Unable to authenticate using auth token: ${token}`);
     }
