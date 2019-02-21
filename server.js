@@ -50,6 +50,8 @@ const server = new ApolloServer({
     const token = req.headers.authorization;
     return { currentUserInfo: await getUserInfoFromToken(token) };
   },
+  // NOTE: you must initialize datasources inside of a function like this
+  // because they are meant to be initialzed for every request
   dataSources: () => ({
     userAPI: new UserAPI(),
     rulesAPI: new RulesAPI(),
@@ -61,6 +63,20 @@ const server = new ApolloServer({
   debug: true,
   mocks,
   mockEntireSchema: false,
+
+  // NOTE: this option only changes the chache used for datasources extending
+  // apollo's RESTDataSource class (see
+  // https://stackoverflow.com/questions/53358443/apollo-server-confusion-about-cache-datasource-options)
+
+  // cache: redis or somesuch
+
+  // NOTE: include this option with a logging function to log responses back to the
+  // client
+
+  // formatResponse: (response) => {
+  //   console.log(response);
+  //   return response;
+  // },
 });
 
 server.listen({ port: process.env.LOCAL_PORT || 4000 }).then(({ url }) => {

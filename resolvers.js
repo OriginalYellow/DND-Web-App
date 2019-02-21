@@ -28,8 +28,8 @@ const { camelToEnumCase } = require('./util');
 const NEW_TOKEN_AGE = '24hr';
 
 const createToken = (user, secret, expiresIn) => {
-  const { username, email } = user;
-  return jwt.sign({ username, email }, secret, { expiresIn });
+  const { username, email, id } = user;
+  return jwt.sign({ username, email, id: id.toString() }, secret, { expiresIn });
 };
 
 module.exports = {
@@ -89,9 +89,16 @@ module.exports = {
 
   User: {
     playerCharacters: async (user, _, { dataSources: { userAPI } }) => {
-      return userAPI.getPlayerCharacters();
+      return userAPI.getPlayerCharactersOfUser();
     },
+
     joinDate: user => user.joinDate.toString(),
+  },
+
+  PlayerCharacter: {
+    createdBy: async (playerCharacter, _, { dataSources: { userAPI } }) => {
+      return userAPI.getUserById(playerCharacter.createdBy);
+    },
   },
 
   AbilityScore: {
@@ -112,7 +119,6 @@ module.exports = {
       skill.name = camelToEnumCase(info.path.prev.key);
       return skill;
     },
-
   },
 
   AbilityScoreInfo: {

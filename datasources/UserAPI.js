@@ -1,33 +1,73 @@
 /* eslint-disable class-methods-use-this */
 const { DataSource } = require('apollo-datasource');
 const bcrypt = require('bcryptjs');
+const R = require('ramda');
+const DataLoader = require('dataloader');
+// eslint-disable-next-line import/nyo-unresolved
+const { mongooseLoader } = require('@entria/graphql-mongoose-loader');
 
 const { screamingToCamelCase } = require('../util');
 const User = require('../models/User');
 const PlayerCharacter = require('../models/PlayerCharacter');
 
+// util:
+
+const promiseAll = Promise.all.bind(Promise);
+
+// i thought the name "mongooseLoader" wasn't appropriate so i renamed it:
+const batchFindById = R.curry(mongooseLoader);
+
+const find = R.curry(
+  (many, byField, parentId) => many.find({ [byField]: parentId }),
+);
+
+const prime = R.curry(
+  (findByIdLoader, child) => findByIdLoader.prime(child.id, child),
+);
+
+const batchOneToMany = (manyModel, byField, findByIdLoader) => R.pipe(
+  R.map(
+    R.pipeP(
+      find(manyModel, byField),
+      R.tap(
+        R.forEach(prime(findByIdLoader)),
+      ),
+    ),
+  ),
+  promiseAll,
+);
+
 class UserAPI extends DataSource {
   initialize(config) {
-    // MIKE: there is a "cache" object in the config object - prob want to use
-    // for something (see https://www.npmjs.com/package/apollo-server-caching)
     this.context = config.context;
+
+    this.userLoader = new DataLoader(batchFindById(User));
+    this.playerCharacterLoader = new DataLoader(batchFindById(PlayerCharacter));
+
+    this.playerCharactersOfUserLoader = new DataLoader(
+      batchOneToMany(PlayerCharacter, 'createdBy', this.playerCharacterLoader),
+    );
   }
 
-  async getCurrentUser() {
-    return User.findOne({ username: this.context.currentUserInfo.username });
+  getUserById(id) {
+    return this.userLoader.load(id);
   }
 
-  async getUserByName(username) {
+  getUserByName(username) {
     return User.findOne({ username });
   }
 
-  async getPlayerCharacterById(id) {
-    return PlayerCharacter.findById(id);
+  getCurrentUser() {
+    return this.getUserById(this.context.currentUserInfo.id);
   }
 
-  async getPlayerCharacters() {
+  getPlayerCharacterById(id) {
+    return this.playerCharacterLoader.load(id);
+  }
+
+  async getPlayerCharactersOfUser() {
     const user = await this.getCurrentUser();
-    return PlayerCharacter.find({ createdBy: user.id });
+    return this.playerCharactersOfUserLoader.load(user.id.toString());
   }
 
   async createUser(username, email, password) {

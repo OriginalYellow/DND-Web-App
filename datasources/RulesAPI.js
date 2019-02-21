@@ -45,14 +45,16 @@ class RulesAPI extends RESTDataSource {
   }
 
   async getAbilityScore(name) {
+    // included skills property so it can be passed to skills resolver
     const transform = R.pipe(
       RA.renameKeys({
         _id: 'id', desc: 'description', full_name: 'fullName',
       }),
-      R.pick(['id', 'description', 'fullName', 'name', 'skills']),
+      R.pick(
+        ['id', 'description', 'fullName', 'name', 'skills'],
+      ),
       R.evolve({
         description: transformDescription,
-        // only included so it can be passed to "skills" resolver:
         skills: R.map(R.prop(['name'])),
       }),
     );
@@ -65,15 +67,16 @@ class RulesAPI extends RESTDataSource {
   }
 
   async getSkill(name) {
+    // included abilityScore property so it can be passed to abilityScore resolver
     const transform = R.pipe(
-      R.tap(x => console.log(x)),
       RA.renameKeys({
         _id: 'id', desc: 'description', name: 'fullName', ability_score: 'abilityScore',
       }),
-      R.pick(['id', 'description', 'fullName', 'abilityScore']),
+      R.pick(
+        ['id', 'description', 'fullName', 'abilityScore'],
+      ),
       R.evolve({
         description: transformDescription,
-        // only included so it can be passed to "abilityScore" resolver:
         abilityScore: R.prop(['name']),
       }),
     );

@@ -31,4 +31,20 @@ VUETIFY NAVIGATION DRAWER:
 closed on mobile and as open on desktop."
 
 GRAPHQL-MODULES:
--"You can use Inject and Injectable as regular functions to wrap your arguments and classes."
+-"You can use Inject and Injectable as regular functions to wrap your arguments
+and classes."
+
+BACKEND CACHING:
+-RESTDataSource does caching automatically but it seems to only be per request
+(see https://www.youtube.com/watch?v=qNXhhrJIv-w)
+-use cachegoose for caching with mongodb
+(https://www.npmjs.com/package/cachegoose)
+
+BACKEND BATCHING: 
+-I do not think I need to add batching to anything using RESTDataSource because
+it doesn't make much sense
+-Use a technique like the one in this article if your mongodb queries get more
+complex:
+http://www.petecorey.com/blog/2017/08/21/advanced-mongodb-query-batching-with-dataloader-and-sift/
+the problem with complex queries is sorting the results since dataloader needs
+them to be in the same order as their queries.
