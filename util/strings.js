@@ -1,5 +1,3 @@
-// MIKE: eventually turn this into a package so you can reuse it in client and server
-
 const R = require('ramda');
 
 const transformFirstLetter = transform => R.pipe(

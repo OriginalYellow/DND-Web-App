@@ -1,7 +1,3 @@
-// MIKE: if you end up calling populate() a lot on entities, look in to the
-// autopopulate mongoose plugin:
-// http://plugins.mongoosejs.io/plugins/autopopulate
-
 const mongoose = require('mongoose');
 
 const bonusSource = {

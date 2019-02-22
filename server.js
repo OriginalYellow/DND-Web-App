@@ -18,8 +18,10 @@ const { AuthenticationDirective, AuthorizationDirective } = require('./security'
 
 const resolvers = require('./resolvers');
 const mocks = require('./mocks');
-const UserAPI = require('./datasources/UserAPI');
-const RulesAPI = require('./datasources/RulesAPI');
+const {
+  UserAPI,
+  RulesAPI,
+} = require('./datasources');
 
 require('dotenv').config({ path: '.env' });
 
