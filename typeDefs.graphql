@@ -17,28 +17,30 @@ type User {
   password: String!
   joinDate: String!
   playerCharacters: [PlayerCharacter]
+  campaigns: [Campaign]
 }
 
 type Token {
   token: String!
 }
 
-# game-related queries and input types:
-
-# extend type Query {
-# }
-
 # game-related mutations and input types:
 
 extend type Mutation {
-  createPlayerCharacter(name: String!): PlayerCharacter @autho
-  overrideAbilityScoreValue(name: AbilityScoreName!, value: Int!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
-  overrideAbilityScoreProficiency(name: AbilityScoreName!, proficient: Boolean!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
-  overrideSkillValue(name: SkillName!, value: Int!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
-  overrideSkillProficiency(name: SkillName!, proficient: Boolean!, playerCharacter: playerCharacterInput!): PlayerCharacter @autho @authen
+  createCampaign(name: String!): Campaign @authen
+  joinCampaign(campaign: CampaignInput!, playerCharacter: PlayerCharacterInput!): Campaign @autho @authen
+  createPlayerCharacter(name: String!): PlayerCharacter @authen
+  overrideAbilityScoreValue(name: AbilityScoreName!, value: Int!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
+  overrideAbilityScoreProficiency(name: AbilityScoreName!, proficient: Boolean!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
+  overrideSkillValue(name: SkillName!, value: Int!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
+  overrideSkillProficiency(name: SkillName!, proficient: Boolean!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
 }
 
-input playerCharacterInput {
+input PlayerCharacterInput {
+  id: ID!
+}
+
+input CampaignInput {
   id: ID!
 }
 
@@ -62,12 +64,21 @@ type SkillInfo {
 
 # game-related entity types:
 
+type Campaign {
+  id: ID!
+  name: String!
+  playerCharacters: [PlayerCharacter]
+  notes: String
+  createdBy: User!
+}
+
 type PlayerCharacter {
+  id: ID!
   name: String!
   abilityScores: AbilityScores!
   skills: Skills!
-  id: ID!
   createdBy: User!
+  campaigns: [Campaign]
 }
 
 type AbilityScores {

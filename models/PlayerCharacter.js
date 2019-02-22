@@ -43,7 +43,7 @@ const PlayerCharacterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-  }, 
+  },
   abilityScores: {
     str: abilityScore,
     dex: abilityScore,

@@ -1,26 +1,6 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 
-// MIKE: use a function from graphql-tools to merge schemas:
-// https://www.apollographql.com/docs/graphql-tools/schema-stitching.html
-
-// MIKE: ENTITY FRAMEWORK BUT BETTER!!!!!!!: https://www.prisma.io/with-graphql/
-// switch to this when things get too unwieldly
-
-// MIKE: you can use mongoose "virtuals" for aggregates and many-to-many
-// relationships (and just doing random stuff within the query instead of after
-// the fact - see https://github.com/Automattic/mongoose/issues/5801), although
-// there may be other options that you should look into first
-
-// MIKE: use this package to combine, pipe, etc. resolvers (you can use for
-// access control, as well as having one field depend on the result of the
-// resolver of another field):
-// https://github.com/lucasconstantino/graphql-resolvers/blob/master/docs/API.md
-
-// MIKE: you can use a graphql projection package (i have a few saved in my
-// bookmarks) to match mongoose projections to specific queries to reduce
-// network load
-
 // const { skip, combineResolvers } = require('graphql-resolvers');
 const jwt = require('jsonwebtoken');
 const { camelToEnumCase } = require('./util');
@@ -38,6 +18,8 @@ module.exports = {
   },
 
   Mutation: {
+    // users:
+
     signupUser: async (_, { username, email, password }, { dataSources: { userAPI } }) => {
       const newUser = await userAPI.createUser(username, email, password);
 
@@ -49,6 +31,18 @@ module.exports = {
 
       return { token: createToken(user, process.env.SECRET, NEW_TOKEN_AGE) };
     },
+
+    // campaigns:
+
+    createCampaign: async (_, { name }, { dataSources: { userAPI } }) => {
+      return userAPI.createCampaign(name);
+    },
+
+    joinCampaign: async (_, { campaign, playerCharacter }, { dataSources: { userAPI } }) => {
+      return userAPI.joinCampaign(campaign.id, playerCharacter.id);
+    },
+
+    // player characters:
 
     createPlayerCharacter: async (_, { name }, { dataSources: { userAPI } }) => {
       return userAPI.createPlayerCharacter(name);
@@ -92,7 +86,21 @@ module.exports = {
       return userAPI.getPlayerCharactersOfUser();
     },
 
+    campaigns: async (user, _, { dataSources: { userAPI } }) => {
+      return userAPI.getCampaignsOfUser(user);
+    },
+
     joinDate: user => user.joinDate.toString(),
+  },
+
+  Campaign: {
+    createdBy: async (campaign, _, { dataSources: { userAPI } }) => {
+      return userAPI.getUserById(campaign.createdBy);
+    },
+
+    playerCharacters: async (campaign, _, { dataSources: { userAPI } }) => {
+      return userAPI.getPlayerCharactersOfCampaign(campaign);
+    },
   },
 
   PlayerCharacter: {
@@ -133,3 +141,12 @@ module.exports = {
     },
   },
 };
+
+// TODO:
+
+// MIKE: use a function from graphql-tools to merge schemas:
+// https://www.apollographql.com/docs/graphql-tools/schema-stitching.html
+
+// MIKE: you can use a graphql projection package (i have a few saved in my
+// bookmarks) to match mongoose projections to specific queries to reduce
+// network load
