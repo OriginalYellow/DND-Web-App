@@ -48,3 +48,17 @@ complex:
 http://www.petecorey.com/blog/2017/08/21/advanced-mongodb-query-batching-with-dataloader-and-sift/
 the problem with complex queries is sorting the results since dataloader needs
 them to be in the same order as their queries.
+
+MONGODB ATOMICITY:
+
+- it seems that you can only lock one document while modifying another (using
+mongodb's "transactions") between different "replica sets" (redundant
+databases). But I think you only need to worry about atomicity if you don't
+block the thread between modifications to different documents or if you end up
+using replica sets (you'd have to pay for it if you are using MLab)
+
+- the above is wrong in that node handles io (different requests) asyncronously,
+it is only within a single request that it can't spawn multiple threads
+
+- here is how you can lock a single document between requests:
+https://stackoverflow.com/questions/37269180/preventing-concurrent-access-to-documents-in-mongoose

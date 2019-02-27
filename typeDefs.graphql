@@ -28,8 +28,13 @@ type Token {
 
 extend type Mutation {
   createCampaign(name: String!): Campaign @authen
+  # MIKE: add an @autho here once you make the function more generic
+  deleteCampaign(campaign: CampaignInput!): User @authen
   joinCampaign(campaign: CampaignInput!, playerCharacter: PlayerCharacterInput!): Campaign @autho @authen
+  
   createPlayerCharacter(name: String!): PlayerCharacter @authen
+  deletePlayerCharacter(playerCharacter: PlayerCharacterInput): User @autho @authen
+
   overrideAbilityScoreValue(name: AbilityScoreName!, value: Int!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
   overrideAbilityScoreProficiency(name: AbilityScoreName!, proficient: Boolean!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
   overrideSkillValue(name: SkillName!, value: Int!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen

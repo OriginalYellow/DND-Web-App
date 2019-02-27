@@ -98,6 +98,19 @@ class UserAPI extends DataSource {
     }).save();
   }
 
+  // MIKE: you need to use a different database than mongodb to properly implement this
+  async deletePlayerCharacter(id) {
+    const playerCharacter = await this.getPlayerCharacterById(id);
+
+    Campaign.updateMany(
+      { playerCharacters: { $in: id } },
+      { playerCharacters: { $pull: { $eq: id } } },
+    );
+
+    playerCharacter.delete();
+    playerCharacter.save();
+  }
+
   // MIKE: maybe reduce redundant code here with composition
 
   async setAbilityScoreValue(playerCharacterId, abilityScoreName, value) {
@@ -152,6 +165,13 @@ class UserAPI extends DataSource {
     }).save();
   }
 
+  async deleteCampaign(id) {
+    const campaign = await this.getCampaignById(id);
+
+    campaign.delete();
+    campaign.save();
+  }
+
   async joinCampaign(campaignId, playerCharacterId) {
     const campaign = await this.getCampaignById(campaignId);
 
@@ -166,8 +186,6 @@ module.exports = UserAPI;
 // TODO:
 
 // MIKE: possibly split this into different files like "CampaignAPI", "playerCharacterAPI", etc.
-
-// MIKE: add delete operations
 
 // const batchOneToMany = (childModel, byField, childIdLoader) => R.pipe(
 //   R.map(

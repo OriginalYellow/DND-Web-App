@@ -38,6 +38,11 @@ module.exports = {
       return userAPI.createCampaign(name);
     },
 
+    deleteCampaign: async (_, { campaign }, { dataSources: { userAPI } }) => {
+      userAPI.deleteCampaign(campaign.id);
+      return userAPI.getCurrentUser();
+    },
+
     joinCampaign: async (_, { campaign, playerCharacter }, { dataSources: { userAPI } }) => {
       return userAPI.joinCampaign(campaign.id, playerCharacter.id);
     },
@@ -46,6 +51,11 @@ module.exports = {
 
     createPlayerCharacter: async (_, { name }, { dataSources: { userAPI } }) => {
       return userAPI.createPlayerCharacter(name);
+    },
+
+    deletePlayerCharacter: async (_, { playerCharacter }, { dataSources: { userAPI } }) => {
+      userAPI.deletePlayerCharacter(playerCharacter.id);
+      return userAPI.getCurrentUser();
     },
 
     overrideAbilityScoreValue: async (

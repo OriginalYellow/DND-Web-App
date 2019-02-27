@@ -35,7 +35,6 @@ const camelToEnumCase = R.pipe(
 );
 
 module.exports = {
-  transformFirstLetter,
   screamingToCamelCase,
   snakeToTitleCase,
   camelToEnumCase,
