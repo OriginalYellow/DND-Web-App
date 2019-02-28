@@ -28,14 +28,30 @@ export default {
               username
               email
               password
+              playerCharacters {
+                id
+                name
+                # abilityScores {
+                #   str {
+                #     name
+
+                #   }
+                #   dex
+                #   con
+                #   int
+                #   wis
+                #   cha
+                # }
+              }
             }
           }
         `,
       })
-      .then(({ data: { getCurrentUser } }) => {
+      .then(({ data: { getCurrentUser: result } }) => {
         commit(MT.SET_LOADING, false);
-        if (getCurrentUser) {
-          commit(MT.SET_USER, R.omit(['__typename'], getCurrentUser));
+        if (result) {
+          commit(MT.SET_USER, R.omit(['__typename', 'playerCharacters'], result));
+          commit(MT.SET_PLAYER_CHARACTERS, result.playerCharacters);
         } else {
           commit(MT.CLEAR_USER);
         }
@@ -92,8 +108,20 @@ export default {
 
   async [AT.SIGNOUT_USER]({ commit }) {
     commit(MT.CLEAR_USER);
+    commit(MT.CLEAR_PLAYER_CHARACTERS);
+    commit(MT.CLEAR_SELECTED_PLAYER_CHARACTER);
     localStorage.setItem('apollo-token', '');
     await apolloClient.resetStore();
     router.push('/');
+  },
+
+  [AT.SELECT_PLAYER_CHARACTER]({ commit, state }, id) {
+    commit(
+      MT.SET_SELECTED_PLAYER_CHARACTER,
+      R.find(
+        R.propEq('id', id),
+        state.playerCharacters,
+      ),
+    );
   },
 };

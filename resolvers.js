@@ -1,7 +1,8 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 
-// const { skip, combineResolvers } = require('graphql-resolvers');
+// const { isDependee, pipeResolvers, resolveDependee } = require('graphql-resolvers');
+// const R = require('ramda');
 const jwt = require('jsonwebtoken');
 const { camelToEnumCase } = require('./util');
 
@@ -117,13 +118,26 @@ module.exports = {
     createdBy: async (playerCharacter, _, { dataSources: { userAPI } }) => {
       return userAPI.getUserById(playerCharacter.createdBy);
     },
+
+    // abilityScores: isDependee(
+    //   async (playerCharacter, _, { dataSources: { userAPI } }) => {
+    //     console.log('i got called!');
+    //     return userAPI.getUserById(playerCharacter.createdBy).abilityScores;
+    //   },
+    // ),
+
+    // abilityScoreList: pipeResolvers(
+    //   resolveDependee('abilityScores'),
+    //   R.tap(x => console.log(x)),
+    //   R.values,
+    // ),
   },
 
   AbilityScore: {
-    name: (_, __, ___, info) => info.path.prev.key.toUpperCase(),
+    // name: (_, __, ___, info) => info.path.prev.key.toUpperCase(),
 
-    info: (_, __, { dataSources: { rulesAPI } }, info) => {
-      return rulesAPI.getAbilityScore(info.path.prev.key);
+    info: (abilityScore, __, { dataSources: { rulesAPI } }, info) => {
+      return rulesAPI.getAbilityScore(abilityScore.name);
     },
   },
 

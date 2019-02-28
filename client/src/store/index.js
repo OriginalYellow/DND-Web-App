@@ -28,6 +28,8 @@ database.register(Post, posts);
 const state = () => ({
   drawerIsOpen: false,
   user: null,
+  playerCharacters: [],
+  selectedPlayerCharacter: null,
   loading: false,
   error: null,
 });

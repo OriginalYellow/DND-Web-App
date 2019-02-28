@@ -1,8 +1,8 @@
 <template>
   <v-card
-   color="primaryLight"
-   flat
-   >
+    color="primaryLight"
+    flat
+  >
     <v-card-title
       primary-title
       class="pt-2 pb-2"
@@ -13,7 +13,7 @@
     </v-card-title>
     <v-divider light />
     <v-card-text>
-      <slot/>
+      <slot />
     </v-card-text>
   </v-card>
 </template>

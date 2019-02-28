@@ -115,7 +115,6 @@ export default {
     signoutButton() {
       return {
         title: 'Sign Out',
-        // link: '/sign-in',
       };
     },
 

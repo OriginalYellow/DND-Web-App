@@ -36,4 +36,16 @@ const screamingToCamelCase = R.compose(
   R.split('_'),
 );
 
-enumToCamelCase2('COOL_FUCKING_ENUM'); // ?
+// enumToCamelCase2('COOL_FUCKING_ENUM'); // ?
+
+const nestedObject = {
+  level1: {
+    level2: 'level 2 text',
+  },
+};
+
+const spreadTest1 = ({ level1: { level2: renamedLevel2 } }) => {
+  renamedLevel2; // ?
+};
+
+spreadTest1(nestedObject);

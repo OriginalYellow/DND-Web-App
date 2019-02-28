@@ -19,6 +19,22 @@ export default {
     state.user = null;
   },
 
+  [T.SET_PLAYER_CHARACTERS](state, playerCharacters) {
+    state.playerCharacters = playerCharacters;
+  },
+
+  [T.CLEAR_PLAYER_CHARACTERS](state) {
+    state.playerCharacters = [];
+  },
+
+  [T.SET_SELECTED_PLAYER_CHARACTER](state, playerCharacter) {
+    state.selectedPlayerCharacter = playerCharacter;
+  },
+
+  [T.CLEAR_SELECTED_PLAYER_CHARACTER](state) {
+    state.selectedPlayerCharacter = null;
+  },
+
   [T.SET_LOADING](state, loading) {
     state.loading = loading;
   },

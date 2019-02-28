@@ -182,7 +182,7 @@ class UserAPI extends DataSource {
 
 module.exports = UserAPI;
 
-
+ 
 // TODO:
 
 // MIKE: possibly split this into different files like "CampaignAPI", "playerCharacterAPI", etc.

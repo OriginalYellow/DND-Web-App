@@ -1,4 +1,6 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
+const R = require('ramda');
 
 const bonusSource = {
   explanation: {
@@ -21,6 +23,15 @@ const abilityScore = {
   bonusSources: [bonusSource],
 };
 
+const abilityScores = {
+  str: abilityScore,
+  dex: abilityScore,
+  con: abilityScore,
+  int: abilityScore,
+  wis: abilityScore,
+  cha: abilityScore,
+};
+
 const skill = {
   value: {
     type: Number,
@@ -40,14 +51,7 @@ const PlayerCharacterSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  abilityScores: {
-    str: abilityScore,
-    dex: abilityScore,
-    con: abilityScore,
-    int: abilityScore,
-    wis: abilityScore,
-    cha: abilityScore,
-  },
+  abilityScores,
   skills: {
     acrobatics: skill,
     animalHandling: skill,
@@ -79,9 +83,24 @@ const PlayerCharacterSchema = new mongoose.Schema({
   },
 });
 
-// // Create index to search on all fields of posts
-// PostSchema.index({
-//   '$**': 'text',
-// });
+PlayerCharacterSchema.virtual('abilityScoreList').get(function () {
+  return R.pipe(
+    R.values,
+    // for some reason there is an extra boolean element in abilityScores so i'm
+    // removing it here:
+    R.dropWhile(R.complement(R.is(Object))),
+  )(this.abilityScores);
+});
+
+const createNameVirtuals = (schema, path, nameProperty, transform) => R.forEachObjIndexed(
+  (_, key) => {
+    schema.virtual(`${path}.${key}.${nameProperty}`).get(() => transform(key));
+  },
+);
+
+createNameVirtuals(PlayerCharacterSchema, 'abilityScores', 'name', R.toUpper)(abilityScores);
+
+PlayerCharacterSchema.set('toObject', { virtuals: true });
+PlayerCharacterSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('PlayerCharacter', PlayerCharacterSchema);
