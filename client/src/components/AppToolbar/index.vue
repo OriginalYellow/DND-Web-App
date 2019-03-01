@@ -72,7 +72,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import CharacterSheetBar from '@/components/CharacterSheetBar';
+import CharacterSheetBar from './CharacterSheetBar';
 import { SIGNOUT_USER } from '@/store/action-types';
 
 export default {

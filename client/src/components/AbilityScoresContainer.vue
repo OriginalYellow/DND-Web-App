@@ -1,5 +1,5 @@
 <template>
-  <character-info-card title="ability scores">
+  <basic-card title="ability scores">
     <v-layout
       row
       wrap
@@ -9,32 +9,32 @@
         xs4
         sm2
         class="pa-2"
-        v-for="abilityScore in abilityScoreList"
+        v-for="abilityScore in abilityScores"
         :key="abilityScore.name"
       >
-        <stat-box
+        <square-stat-box
           :value="abilityScore.modifier | addSign"
           :topCaption="abilityScore.name | allCaps"
           :bottomCaption="`${abilityScore.value}`"
         />
       </v-flex>
     </v-layout>
-  </character-info-card>
+  </basic-card>
 </template>
 
 <script>
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
-import StatBox from '@/components/StatBox.vue';
+import BasicCard from '@/components/BasicCard.vue';
+import SquareStatBox from '@/components/SquareStatBox.vue';
 
 export default {
   name: 'AbilityScoresContainer',
 
   components: {
-    CharacterInfoCard,
-    StatBox,
+    BasicCard,
+    SquareStatBox,
   },
 
-  props: ['abilityScoreList'],
+  props: ['abilityScores'],
 };
 </script>
 

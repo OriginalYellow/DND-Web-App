@@ -99,7 +99,9 @@ playerCharacterSchema.virtual('abilityScoreList').get(function () {
   )(this.abilityScores);
 });
 
-// MIKE: at some point use composition to make this less nasty looking:
+// MIKE: instead of using these crazy virtuals for embedded documents, use
+// subdocuments and regular-ass virtuals (see
+// https://mongoosejs.com/docs/subdocs.html)
 
 const createNameVirtuals = (schema, path, nameProperty, transform) => R.forEachObjIndexed(
   (_, key) => {

@@ -25,7 +25,7 @@
               <combat-stats-container />
             </v-flex>
             <v-flex xs12>
-              <ability-scores-container :abilityScoreList="selectedPlayerCharacter.abilityScoreList" />
+              <ability-scores-container :abilityScores="selectedPlayerCharacter.abilityScoreList" />
             </v-flex>
             <v-flex xs12>
               <senses-container />
@@ -39,7 +39,7 @@
     </v-layout>
   </v-container>
 </template>
-
+ 
 <script>
 import { mapState } from 'vuex';
 

@@ -42,7 +42,7 @@
                   v-for="stat in stats"
                   :key="stat.topCaption + stat.bottomCaption"
                 >
-                  <stat-box v-bind="stat" />
+                  <square-stat-box v-bind="stat" />
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -53,7 +53,7 @@
                 :justify-end="$vuetify.breakpoint.mdAndUp"
               >
                 <v-flex xs2>
-                  <stat-box v-bind="hitPoints" />
+                  <square-stat-box v-bind="hitPoints" />
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -65,11 +65,11 @@
 </template>
 
 <script>
-import StatBox from '@/components/StatBox';
+import SquareStatBox from '@/components/SquareStatBox';
 
 export default {
   components: {
-    StatBox,
+    SquareStatBox,
   },
 
   computed: {

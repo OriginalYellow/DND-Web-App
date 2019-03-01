@@ -1,5 +1,5 @@
 <template>
-  <character-info-card title="my characters">
+  <basic-card title="my characters">
     <!-- justify-space-between -->
     <v-layout
       row
@@ -33,15 +33,15 @@
         </v-card>
       </v-flex>
     </v-layout>
-  </character-info-card>
+  </basic-card>
 </template>
 
 <script>
-import CharacterInfoCard from '@/components/CharacterInfoCard';
+import BasicCard from '@/components/BasicCard';
 
 export default {
   components: {
-    CharacterInfoCard,
+    BasicCard,
   },
 
   props: ['playerCharacters'],
