@@ -118,25 +118,10 @@ module.exports = {
     createdBy: async (playerCharacter, _, { dataSources: { userAPI } }) => {
       return userAPI.getUserById(playerCharacter.createdBy);
     },
-
-    // abilityScores: isDependee(
-    //   async (playerCharacter, _, { dataSources: { userAPI } }) => {
-    //     console.log('i got called!');
-    //     return userAPI.getUserById(playerCharacter.createdBy).abilityScores;
-    //   },
-    // ),
-
-    // abilityScoreList: pipeResolvers(
-    //   resolveDependee('abilityScores'),
-    //   R.tap(x => console.log(x)),
-    //   R.values,
-    // ),
   },
 
   AbilityScore: {
-    // name: (_, __, ___, info) => info.path.prev.key.toUpperCase(),
-
-    info: (abilityScore, __, { dataSources: { rulesAPI } }, info) => {
+    info: (abilityScore, _, { dataSources: { rulesAPI } }) => {
       return rulesAPI.getAbilityScore(abilityScore.name);
     },
   },
@@ -154,14 +139,14 @@ module.exports = {
   },
 
   AbilityScoreInfo: {
-    skills: async (parent, __, { dataSources: { rulesAPI } }) => {
-      return rulesAPI.getSkills(parent.skills);
+    skills: async (abilityScoreInfo, __, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getSkills(abilityScoreInfo.skills);
     },
   },
 
   SkillInfo: {
-    abilityScore: async (parent, __, { dataSources: { rulesAPI } }) => {
-      return rulesAPI.getAbilityScore(parent.abilityScore);
+    abilityScore: async (skillInfo, __, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getAbilityScore(skillInfo.abilityScore);
     },
   },
 };

@@ -31,17 +31,15 @@ export default {
               playerCharacters {
                 id
                 name
-                # abilityScores {
-                #   str {
-                #     name
-
-                #   }
-                #   dex
-                #   con
-                #   int
-                #   wis
-                #   cha
-                # }
+                abilityScoreList {
+                  name
+                  value
+                  proficient
+                  modifier
+                  info {
+                    fullName
+                  }
+                }
               }
             }
           }
@@ -123,5 +121,6 @@ export default {
         state.playerCharacters,
       ),
     );
+    router.push('/character-sheet');
   },
 };

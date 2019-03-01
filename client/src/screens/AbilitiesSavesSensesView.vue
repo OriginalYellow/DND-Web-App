@@ -25,7 +25,7 @@
               <combat-stats-container />
             </v-flex>
             <v-flex xs12>
-              <ability-scores-container />
+              <ability-scores-container :abilityScoreList="selectedPlayerCharacter.abilityScoreList" />
             </v-flex>
             <v-flex xs12>
               <senses-container />
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import AbilityScoresContainer from '@/components/AbilityScoresContainer';
 import SavingThrowsContainer from '@/components/SavingThrowsContainer';
 import SensesContainer from '@/components/SensesContainer';
@@ -52,6 +54,10 @@ export default {
     SavingThrowsContainer,
     SensesContainer,
     CombatStatsContainer,
+  },
+
+  computed: {
+    ...mapState(['selectedPlayerCharacter']),
   },
 };
 </script>

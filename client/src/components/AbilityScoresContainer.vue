@@ -9,10 +9,14 @@
         xs4
         sm2
         class="pa-2"
-        v-for="abilityScore in abilityScores"
-        :key="abilityScore.topCaption + abilityScore.bottomCaption"
+        v-for="abilityScore in abilityScoreList"
+        :key="abilityScore.name"
       >
-        <stat-box v-bind="abilityScore" />
+        <stat-box
+          :value="abilityScore.modifier | addSign"
+          :topCaption="abilityScore.name | allCaps"
+          :bottomCaption="`${abilityScore.value}`"
+        />
       </v-flex>
     </v-layout>
   </character-info-card>
@@ -30,40 +34,7 @@ export default {
     StatBox,
   },
 
-  computed: {
-    abilityScores: () => [
-      {
-        value: '+0',
-        topCaption: 'strength',
-        bottomCaption: '10',
-      },
-      {
-        value: '+2',
-        topCaption: 'dexterity',
-        bottomCaption: '14',
-      },
-      {
-        value: '+0',
-        topCaption: 'constitution',
-        bottomCaption: '11',
-      },
-      {
-        value: '+2',
-        topCaption: 'intelligence',
-        bottomCaption: '14',
-      },
-      {
-        value: '+1',
-        topCaption: 'wisdom',
-        bottomCaption: '13',
-      },
-      {
-        value: '+2',
-        topCaption: 'charisma',
-        bottomCaption: '14',
-      },
-    ],
-  },
+  props: ['abilityScoreList'],
 };
 </script>
 

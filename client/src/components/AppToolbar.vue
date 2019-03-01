@@ -73,7 +73,7 @@
 <script>
 import { mapState } from 'vuex';
 import CharacterSheetBar from '@/components/CharacterSheetBar';
-import { SIGNOUT_USER } from '@/store/action-types'
+import { SIGNOUT_USER } from '@/store/action-types';
 
 export default {
   name: 'AppToolbar',
@@ -89,17 +89,21 @@ export default {
   },
 
   computed: {
-    ...mapState(['user']),
+    ...mapState(['user', 'selectedPlayerCharacter']),
 
     extensionHeight() {
       return this.$vuetify.breakpoint.mdAndUp ? 40 : 140;
     },
 
     horizontalNavItems() {
+      if (!this.selectedPlayerCharacter) {
+        return [];
+      }
       return [
         {
           icon: 'description',
           title: 'Character Sheet',
+          // title: this.selectedPlayerCharacter.name,
           link: '/character-sheet',
         },
       ];
@@ -123,16 +127,19 @@ export default {
       link: '/',
     }),
 
-    characterSummary: () => ({
-      name: 'philobough swaggins',
-      bio: 'The second coolest guy around',
-      level: 3,
-      race: 'halfling',
-      characterClass: {
-        name: 'bard',
-        icon: 'music_note',
-      },
-    }),
+    characterSummary() {
+      return {
+      // name: 'philobough swaggins',
+        name: this.selectedPlayerCharacter.name,
+        bio: 'The second coolest guy around',
+        level: 3,
+        race: 'halfling',
+        characterClass: {
+          name: 'bard',
+          icon: 'music_note',
+        },
+      };
+    },
 
     stats: () => [
       {

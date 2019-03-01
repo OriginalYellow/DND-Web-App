@@ -81,7 +81,7 @@ type PlayerCharacter {
   id: ID!
   name: String!
   abilityScores: AbilityScores!
-  abilityScoreList: [AbilityScore]
+  abilityScoreList: [AbilityScore!]!
   skills: Skills!
   createdBy: User!
   campaigns: [Campaign]
@@ -100,6 +100,7 @@ type AbilityScore {
   name: AbilityScoreName!
   value: Int!
   proficient: Boolean!
+  modifier: Int!
   info: AbilityScoreInfo!
   bonusSources: [BonusSource]!
 }

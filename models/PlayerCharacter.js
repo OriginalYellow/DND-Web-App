@@ -1,6 +1,9 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
 const R = require('ramda');
+const RA = require('ramda-adjunct');
+
+// embedded documents:
 
 const bonusSource = {
   explanation: {
@@ -46,7 +49,9 @@ const skill = {
   bonusSources: [bonusSource],
 };
 
-const PlayerCharacterSchema = new mongoose.Schema({
+// schema:
+
+const playerCharacterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -83,7 +88,9 @@ const PlayerCharacterSchema = new mongoose.Schema({
   },
 });
 
-PlayerCharacterSchema.virtual('abilityScoreList').get(function () {
+// virtuals:
+
+playerCharacterSchema.virtual('abilityScoreList').get(function () {
   return R.pipe(
     R.values,
     // for some reason there is an extra boolean element in abilityScores so i'm
@@ -92,15 +99,28 @@ PlayerCharacterSchema.virtual('abilityScoreList').get(function () {
   )(this.abilityScores);
 });
 
+// MIKE: at some point use composition to make this less nasty looking:
+
 const createNameVirtuals = (schema, path, nameProperty, transform) => R.forEachObjIndexed(
   (_, key) => {
-    schema.virtual(`${path}.${key}.${nameProperty}`).get(() => transform(key));
+    schema.virtual(`${path}.${key}.${nameProperty}`)
+      .get(() => transform(key));
   },
 );
 
-createNameVirtuals(PlayerCharacterSchema, 'abilityScores', 'name', R.toUpper)(abilityScores);
+const createModifierVirtuals = (schema, path, modifierProperty) => R.forEachObjIndexed(
+  (_, key) => {
+    schema.virtual(`${path}.${key}.${modifierProperty}`)
+      .get(function () {
+        return RA.floor((this[path][key].value - 10) / 2);
+      });
+  },
+);
 
-PlayerCharacterSchema.set('toObject', { virtuals: true });
-PlayerCharacterSchema.set('toJSON', { virtuals: true });
+createNameVirtuals(playerCharacterSchema, 'abilityScores', 'name', R.toUpper)(abilityScores);
+createModifierVirtuals(playerCharacterSchema, 'abilityScores', 'modifier')(abilityScores);
 
-module.exports = mongoose.model('PlayerCharacter', PlayerCharacterSchema);
+playerCharacterSchema.set('toObject', { virtuals: true });
+playerCharacterSchema.set('toJSON', { virtuals: true });
+
+module.exports = mongoose.model('PlayerCharacter', playerCharacterSchema);
