@@ -1,7 +1,7 @@
 const mocks = {
-  Int: () => 111,
+  Int: () => 123,
   String: () => 'Hello world!!!',
-  ID: () => '111abcd',
+  ID: () => '123abc',
 };
 
 module.exports = mocks;

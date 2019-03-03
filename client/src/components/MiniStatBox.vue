@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import * as R from 'ramda';
 
 export default {
   name: 'MiniStatBox',
@@ -63,7 +62,7 @@ export default {
 
   computed: {
     small() {
-      return R.not(this.large);
+      return !this.large;
     },
   },
 };

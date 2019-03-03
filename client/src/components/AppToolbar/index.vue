@@ -103,7 +103,6 @@ export default {
         {
           icon: 'description',
           title: 'Character Sheet',
-          // title: this.selectedPlayerCharacter.name,
           link: '/character-sheet',
         },
       ];
@@ -129,7 +128,6 @@ export default {
 
     characterSummary() {
       return {
-      // name: 'philobough swaggins',
         name: this.selectedPlayerCharacter.name,
         bio: 'The second coolest guy around',
         level: 3,

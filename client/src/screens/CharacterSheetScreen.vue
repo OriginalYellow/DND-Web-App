@@ -39,7 +39,7 @@
     </v-layout>
   </v-container>
 </template>
- 
+
 <script>
 import { mapState } from 'vuex';
 

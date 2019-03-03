@@ -49,25 +49,7 @@ input CampaignInput {
   id: ID!
 }
 
-# game-related reference types:
-
-type AbilityScoreInfo {
-  id: ID!
-  name: AbilityScoreName!
-  fullName: String!
-  description: String!
-  skills: [SkillInfo!]!
-}
-
-type SkillInfo {
-  id: ID!
-  name: SkillName!
-  fullName: String!
-  description: String!
-  abilityScore: AbilityScoreInfo!
-}
-
-# game-related entity types:
+# game-related types:
 
 type Campaign {
   id: ID!
@@ -80,11 +62,124 @@ type Campaign {
 type PlayerCharacter {
   id: ID!
   name: String!
+  # race-dependent:
   abilityScores: AbilityScores!
   abilityScoreList: [AbilityScore!]!
+  # MIKE: creation-dependent:
   skills: Skills!
   createdBy: User!
   campaigns: [Campaign]
+  
+  
+  # independent:
+  
+  level: Int!
+  alignment: Alignment
+  age: Int
+  # creation-dependent:
+  race: Race!
+  # creation-dependent:
+  characterClass: CharacterClass
+  armor: [Armor]
+  
+
+  # abilityScore-dependent:
+
+  initiativeModifier: Int  
+
+  
+  # level-dependent:
+
+  # calculation - 7 plus your level, divided by 4, rounded down
+  proficiencyBonus: Int
+
+
+  # race-dependent:
+
+  size: Size 
+  # armor/dexterity-dependent:
+  speed: Int
+  # creation-dependent:
+  subRace: SubRace
+  # subRace-dependent:
+  languages: [Language]
+  # subRace-dependent:
+  traits: [Trait]
+
+
+  # class-dependent:
+
+  # (inital value):
+  weapons: [Weapon]
+  # (inital value):
+  equipment: [Equipment]
+  # level-dependent
+  hitDice: [Dice!]
+  # level, subclass-dependent:
+  features: [Feature]
+  # level, subclass-dependent
+  spells: [Spell]
+  characterSubClass: CharacterSubClass
+
+
+  # complex dependencies:
+
+  # level, class, roll-dependent
+  hitPoints: HitPoints
+  # armor, dexterity-dependent*
+  armorClass: Int
+  # MIKE: weapons-dependent
+  attacks: [Attack]
+}
+
+
+# utility: 
+
+type BonusSource {
+  explanation: String!
+}
+
+type Dice {
+  die: Die!
+  count: Int!
+}
+
+
+# combat:
+
+type HitPoints {
+  max: Int!
+  current: Int!
+  maxModifier: Int!
+  temp: Int!
+}
+
+type Attack {
+  name: String!
+  description: String
+  hitDice: [Dice!]!
+  damageDice: [Dice!]!
+  weapon: Weapon
+}
+
+
+# ability scores:
+
+type AbilityScore {
+  name: AbilityScoreName!
+  value: Int!
+  proficient: Boolean!
+  modifier: Int!
+  info: AbilityScoreInfo!
+  bonusSources: [BonusSource]!
+}
+
+type AbilityScoreInfo {
+  id: ID!
+  name: AbilityScoreName!
+  fullName: String!
+  description: String!
+  skills: [SkillInfo!]!
 }
 
 type AbilityScores {
@@ -96,13 +191,23 @@ type AbilityScores {
   cha: AbilityScore!,
 }
 
-type AbilityScore {
-  name: AbilityScoreName!
+
+# skills:
+
+type Skill {
+  name: SkillName!
   value: Int!
   proficient: Boolean!
-  modifier: Int!
-  info: AbilityScoreInfo!
+  info: SkillInfo!
   bonusSources: [BonusSource]!
+}
+
+type SkillInfo {
+  id: ID!
+  name: SkillName!
+  fullName: String!
+  description: String!
+  abilityScore: AbilityScoreInfo!
 }
 
 type Skills {
@@ -126,19 +231,152 @@ type Skills {
   survival: Skill!
 }
 
-type Skill {
-  name: SkillName!
-  value: Int!
-  proficient: Boolean!
-  info: SkillInfo!
-  bonusSources: [BonusSource]!
+
+# # character classes, subclasses, and features:
+
+type CharacterClass {
+  name: CharacterClassName!
+  info: CharacterClassInfo!
 }
 
-type BonusSource {
-  explanation: String!
+# stub:
+type CharacterClassInfo {
+  fullName: String!
 }
+
+# stub:
+type CharacterSubClass {
+  name: CharacterSubClassName!
+  info: CharacterSubClassInfo!
+}
+
+# stub:
+type CharacterSubClassInfo {
+  fullName: String!
+}
+
+# MIKE: you may want to fold this into a more generic type
+# stub:
+type Feature {
+  name: FeatureName!
+  info: FeatureInfo!
+}
+
+# stub:
+type FeatureInfo {
+  fullName: String!
+}
+
+
+# # races and subraces:
+
+type Race {
+  name: RaceName!
+  info: RaceInfo! 
+}
+
+# stub:
+type RaceInfo {
+  fullName: String!
+}
+
+type SubRace {
+  name: SubRaceName!
+  info: SubRaceInfo!
+}
+
+# stub:
+type SubRaceInfo {
+  fullName: String!
+}
+
+
+# spells:
+
+# stub:
+type Spell {
+  id: ID!
+  info: SpellInfo!
+}
+
+# stub:
+type SpellInfo {
+  fullName: String!
+}
+
+# languages:
+
+type Language {
+  name: LanguageName!
+  info: LanguageInfo!
+}
+
+# stub:
+type LanguageInfo {
+  fullName: String!
+}
+
+
+# traits:
+
+type Trait {
+  name: TraitName!
+  info: TraitInfo!
+}
+
+type TraitInfo {
+  fullName: String!
+  description: String!
+}
+
+
+# weapons, armor, and other equipment:
+
+# stub:
+type Weapon {
+  name: String!
+  info: WeaponInfo!
+}
+
+# stub:
+type WeaponInfo {
+  fullName: String!
+}
+
+# stub:
+type Armor {
+  name: String!
+  armorClass: Int!
+  info: ArmorInfo!
+}
+
+# stub:
+type ArmorInfo {
+  fullName: String!
+}
+
+# stub:
+type Equipment {
+  name: String!
+  info: EquipmentInfo!
+}
+
+# stub:
+type EquipmentInfo {
+  fullName: String!
+}
+
 
 # game-related enums:
+
+enum Die {
+  D4
+  D6
+  D8
+  D10
+  D12
+  D20
+}
 
 enum AbilityScoreName {
   STR
@@ -168,4 +406,133 @@ enum SkillName {
   SLEIGHT_OF_HAND
   STEALTH
   SURVIVAL
+}
+
+enum CharacterClassName {
+  BARBARIAN
+  BARD
+  CLERIC
+  DRUID
+  FIGHTER
+  MONK
+  PALADIN
+  RANGER
+  ROGUE
+  SORCERER
+  WARLOCK
+  WIZARD
+}
+
+enum CharacterSubClassName {
+  BERSERKER
+  LORE
+  LIFE
+  LAND
+  CHAMPION
+  OPEN_HAND
+  DEVOTION
+  HUNTER
+  THIEF
+  DRACONIC
+  FIEND
+  EVOCATION
+}
+
+enum RaceName {
+  DRAGONBORN
+  DWARF
+  ELF
+  GNOME
+  # MIKE: the full name has a hyphen (maybe use directive for full name)
+  HALF_ELF
+  # MIKE: the full name has a hyphen (maybe use directive for full name)
+  HALF_ORC
+  HALFLING
+  TIEFLING
+}
+
+enum SubRaceName {
+  HILL_DWARF
+  HIGH_ELF
+  ROCK_GNOME
+  LIGHTFOOT
+}
+
+enum TraitName {
+  DARKVISION
+  DWARVEN_RESILIENCE
+  DWARVEN_COMBAT_TRAINING
+  STONECUNNING
+  DWARVEN_TOUGHNESS
+  KEEN_SENSES
+  FEY_ANCESTRY
+  TRANCE
+  ELF_WEAPON_TRAINING
+  HIGH_ELF_CANTRIP
+  EXTRA_LANGUAGE
+  LUCKY
+  BRAVE
+  HALFING_NIMBLENESS
+  NATURALLY_STEALTHY
+  DRACONIC_ANCESTRY
+  BREATH_WEAPON
+  GNOME_CUNNING
+  # MIKE: the full name has a hyphen (maybe use directive for full name)
+  ARTIFICIERS_LORE
+  TINKER
+  SKILL_VERSATILITY
+  MENACING
+  RELENTLESS_ENDURANCE
+  SAVAGE_ATTACKS
+  HELLISH_RESISTANCE
+  INTERNAL_LEGACY
+}
+
+enum Alignment {
+  LAWFUL_GOOD
+  NEUTRAL_GOOD
+  CHAOTIC_GOOD
+  LAWFUL_NEUTRAL
+  TRUE_NEUTRAL
+  CHAOTIC_NEUTRAL
+  LAWFUL_EVIL
+  NEUTRAL_EVIL
+  CHAOTIC_EVIL
+}
+
+enum Size {
+  FINE
+  DIMINUTIVE
+  TINY
+  SMALL
+  MEDIUM
+  LARGE
+  HUGE
+  GARGANTUAN
+  COLOSSAL
+}
+
+enum LanguageName {
+  COMMON
+  DWARVISH
+  ELVISH
+  GIANT
+  GNOMISH
+  GOBLIN
+  HALFLING
+  ORC
+  ABYSSAL
+  CELESTIAL
+  DEEP_SPEECH
+  INFERNAL
+  PRIMORDIAL
+  SYLVAN
+  UNDERCOMMON
+}
+
+# stub:
+# MIKE: finish this or figure out another way (features may not be regular
+# enough to categorize them in this way)
+enum FeatureName {
+  PLACEHOLDER
 }
