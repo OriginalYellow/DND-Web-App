@@ -1,7 +1,11 @@
+/* eslint-disable no-unexpected-multiline */
+/* eslint-disable no-param-reassign */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable class-methods-use-this */
 const { DataSource } = require('apollo-datasource');
 const bcrypt = require('bcryptjs');
 const DataLoader = require('dataloader');
+const R = require('ramda');
 
 const {
   screamingToCamelCase,
@@ -15,6 +19,23 @@ const {
   Campaign,
   PlayerCharacter,
 } = require('../models');
+
+const setEntityProperty = async (
+  entityId,
+  property,
+  newVal,
+  asyncGetter,
+  parentProperty,
+  grandparentProperty,
+  propertyTransform = R.identity,
+) => {
+  const entity = await asyncGetter(entityId);
+  entity
+    [grandparentProperty]
+    [propertyTransform(parentProperty)]
+    [property] = newVal;
+  return entity.save();
+};
 
 class UserAPI extends DataSource {
   initialize(config) {
@@ -35,6 +56,9 @@ class UserAPI extends DataSource {
     this.playerCharactersOfCampaignLoader = new DataLoader(
       batchManyToMany(PlayerCharacter, 'playerCharacters', this.campaignLoader, this.playerCharacterLoader),
     );
+
+    // binding "this" for convenience:
+    this.getPlayerCharacterById = this.getPlayerCharacterById.bind(this);
   }
 
   // users:
@@ -85,8 +109,11 @@ class UserAPI extends DataSource {
   }
 
   async getPlayerCharactersOfUser() {
+    // return this.playerCharactersOfUserLoader.load(user.id.toString());
+    // DEBUG:
     const user = await this.getCurrentUser();
-    return this.playerCharactersOfUserLoader.load(user.id.toString());
+    const ret = await this.playerCharactersOfUserLoader.load(user.id.toString());
+    return ret;
   }
 
   async createPlayerCharacter(name) {
@@ -111,35 +138,58 @@ class UserAPI extends DataSource {
     playerCharacter.save();
   }
 
-  // MIKE: maybe reduce redundant code here with composition
+  async createRandomPlayerCharacter() {
 
-  async setAbilityScoreValue(playerCharacterId, abilityScoreName, value) {
-    const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
-
-    playerCharacter.abilityScores[screamingToCamelCase(abilityScoreName)].value = value;
-    return playerCharacter.save();
   }
 
-  async setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficient) {
-    const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
+  // MIKE: awww yeah fluent api time!!!
 
-    playerCharacter
-      .abilityScores[screamingToCamelCase(abilityScoreName)].proficient = proficient;
-    return playerCharacter.save();
+  setAbilityScoreValue(playerCharacterId, abilityScoreName, value) {
+    return setEntityProperty(
+      playerCharacterId,
+      abilityScoreName,
+      value,
+      this.getPlayerCharacterById,
+      'abilityScores',
+      'value',
+      screamingToCamelCase,
+    );
   }
 
-  async setSkillValue(playerCharacterId, skillName, value) {
-    const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
-
-    playerCharacter.skills[screamingToCamelCase(skillName)].value = value;
-    return playerCharacter.save();
+  setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficient) {
+    return setEntityProperty(
+      playerCharacterId,
+      abilityScoreName,
+      proficient,
+      this.getPlayerCharacterById,
+      'abilityScores',
+      'proficient',
+      screamingToCamelCase,
+    );
   }
 
-  async setSkillProficiency(playerCharacterId, skillName, proficient) {
-    const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
+  setSkillValue(playerCharacterId, skillName, value) {
+    return setEntityProperty(
+      playerCharacterId,
+      skillName,
+      value,
+      this.getPlayerCharacterById,
+      'skills',
+      'value',
+      screamingToCamelCase,
+    );
+  }
 
-    playerCharacter.skills[screamingToCamelCase(skillName)].proficient = proficient;
-    return playerCharacter.save();
+  setSkillProficiency(playerCharacterId, skillName, proficient) {
+    return setEntityProperty(
+      playerCharacterId,
+      skillName,
+      proficient,
+      this.getPlayerCharacterById,
+      'skills',
+      'proficient',
+      screamingToCamelCase,
+    );
   }
 
   // campaigns:
@@ -182,7 +232,7 @@ class UserAPI extends DataSource {
 
 module.exports = UserAPI;
 
- 
+
 // TODO:
 
 // MIKE: possibly split this into different files like "CampaignAPI", "playerCharacterAPI", etc.

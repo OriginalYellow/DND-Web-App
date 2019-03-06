@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import * as RA from 'ramda-adjunct';
 
 
 // let count = 0;
@@ -40,17 +41,27 @@ const lowerCaseFirst = R.compose(
   ]),
 );
 
-
-const screamingToCamelCase = R.compose(
-  lowerCaseFirst,
+const transformFirstLetter = transform => R.pipe(
+  R.juxt([
+    R.pipe(
+      R.head,
+      transform,
+    ),
+    R.tail,
+  ]),
   R.join(''),
+);
+
+const screamingToCamelCase = R.pipe(
+  R.split('_'),
   R.map(
-    R.compose(
-      capitalizeFirst,
+    R.pipe(
       R.toLower,
+      transformFirstLetter(R.toUpper),
     ),
   ),
-  R.split('_'),
+  R.join(''),
+  transformFirstLetter(R.toLower),
 );
 
 // enumToCamelCase2('COOL_FUCKING_ENUM'); // ?
@@ -151,3 +162,229 @@ const isEqualToAnyVars = (inputVar, varsToCompareTo) => {
 
 isEqualToAnyVars('ayy', ['', 'sheet']); // returns false
 isEqualToAnyVars('ayy', ['', 'sheet', 'ayy', 'fug']); // returns true
+
+// testing out bonuses:
+
+const abilityScoreTest = {
+  name: 'INT',
+  value: 17,
+  proficient: false,
+  bonusSources: [],
+  bonusTargets: ['a', 'b'],
+};
+
+const abilityScoreTest2 = {
+  name: 'DEX',
+  value: 11,
+  proficient: false,
+  bonusSources: [],
+  bonusTargets: ['c', 'd'],
+};
+
+const abilityScoreTest3 = {
+  name: 'STR',
+  value: 11,
+  proficient: false,
+  bonusSources: [],
+  bonusTargets: ['e', 'f'],
+};
+
+const playerCharacterTest = {
+  abilityScores: {
+    wis: abilityScoreTest,
+    dex: abilityScoreTest2,
+    con: abilityScoreTest3,
+  },
+  skills: {
+    acrobatics: {
+      name: 'ACROBATICS', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    arcana: {
+      name: 'ARCANA', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    athletics: {
+      name: 'ATHLETICS', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    history: {
+      name: 'HISTORY',
+      baseValue: 4,
+      proficient: false,
+      bonusSources: [{
+        targetName: 'HISTORY',
+        targetType: 'SKILL',
+        sourceName: 'INT',
+        sourceType: 'ABILITY_SCORE',
+        value: 10,
+        explanation: 'placeholder',
+      }],
+    },
+    investigation: {
+      name: 'INVESTIGATION', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    nature: {
+      name: 'NATURE', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    religion: {
+      name: 'RELIGION', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    sleightOfHand: {
+      name: 'SLEIGHT_OF_HAND', baseValue: 4, proficient: false, bonusSources: [],
+    },
+    stealth: {
+      name: 'STEALTH', baseValue: 4, proficient: false, bonusSources: [],
+    },
+  },
+};
+
+const bonusMap = [
+  {
+    abilityScore: 'STR',
+    skills: [
+      'ATHLETICS',
+    ],
+  },
+  {
+    abilityScore: 'DEX',
+    skills: [
+      'ACROBATICS',
+      'SLEIGHT_OF_HAND',
+      'STEALTH',
+    ],
+  },
+  {
+    abilityScore: 'CON',
+    skills: [],
+  },
+  {
+    abilityScore: 'INT',
+    skills: [
+      'ARCANA',
+      'HISTORY',
+      'INVESTIGATION',
+      'NATURE',
+      'RELIGION',
+    ],
+  },
+  {
+    abilityScore: 'WIS',
+    skills: [
+      'ANIMAL_HANDLING',
+      'INSIGHT',
+      'MEDICINE',
+      'PERCEPTION',
+      'SURVIVAL',
+    ],
+  },
+  {
+    abilityScore: 'CHA',
+    skills: [
+      'DECEPTION',
+      'INTIMIDATION',
+      'PERFORMANCE',
+      'PERSAUSION',
+    ],
+  },
+
+];
+
+const getModifier = abilityScore => RA.floor((abilityScore.value - 10) / 2);
+
+const getBonusTargets = abilityScore => R.pipe(
+  R.find(R.propEq('abilityScore', abilityScore.name)),
+  R.prop('skills'),
+  R.map(
+    R.applySpec({
+      targetName: R.identity,
+      targetType: R.always('SKILL'),
+      sourceName: R.always(abilityScore.name),
+      sourceType: R.always('ABILITY_SCORE'),
+      value: R.always(getModifier(abilityScore)),
+      explanation: R.always('placeholder'),
+    }),
+  ),
+);
+
+getBonusTargets(abilityScoreTest)(bonusMap); // ?
+getBonusTargets(abilityScoreTest3)(bonusMap); // ?
+
+const setBonusTargets = R.pipe(
+  R.prop('abilityScores'),
+  R.forEach((abilityScore) => {
+    // eslint-disable-next-line no-param-reassign
+    abilityScore.bonusTargets = getBonusTargets(abilityScore);
+  }),
+);
+
+playerCharacterTest.abilityScores.dex.bonusTargets = getBonusTargets(playerCharacterTest.abilityScores.dex)(bonusMap);
+playerCharacterTest.abilityScores.con.bonusTargets = getBonusTargets(playerCharacterTest.abilityScores.con)(bonusMap);
+playerCharacterTest.abilityScores.wis.bonusTargets = getBonusTargets(playerCharacterTest.abilityScores.wis)(bonusMap);
+
+const getPlayerCharacterBonusTargets = R.pipe(
+  R.prop('abilityScores'),
+  R.values,
+  R.map(R.prop('bonusTargets')),
+  R.flatten,
+);
+
+const bonusTargetsTest = getPlayerCharacterBonusTargets(playerCharacterTest); // ?
+
+const setBonusSources = playerCharacter => R.map(
+  R.pipe(
+    (bonusTarget) => {
+      const skill = playerCharacter.skills[screamingToCamelCase(bonusTarget.targetName)];
+
+      if (skill) {
+        skill.bonusSources.push(bonusTarget);
+      }
+    },
+  ),
+);
+
+// const bonusSources = [{ sourceName: 'fug', sourceType: 'fugu' }];
+
+// const oldBonusSourceIndex = R.findIndex(
+//   R.allPass([
+//     R.propEq('sourceName', bonusTargetsTest[0].sourceName),
+//     R.propEq('sourceType', bonusTargetsTest[0].sourceType),
+//   ]),
+//   bonusSources,
+// );
+
+// oldBonusSourceIndex; // ?
+
+const setBonusSources2 = playerCharacter => R.forEach(
+  (bonusTarget) => {
+    const skill = playerCharacter.skills[screamingToCamelCase(bonusTarget.targetName)];
+
+    if (skill) {
+    // eslint-disable-next-line prefer-destructuring
+      const bonusSources = skill.bonusSources;
+
+      const oldBonusSourceIndex = R.findIndex(
+        R.allPass([
+          R.propEq('sourceName', bonusTarget.sourceName),
+          R.propEq('sourceType', bonusTarget.sourceType),
+        ]),
+        bonusSources,
+      );
+
+      // eslint-disable-next-line no-bitwise
+      if (~oldBonusSourceIndex) {
+        skill.bonusSources[oldBonusSourceIndex] = bonusTarget;
+      } else {
+        skill.bonusSources.push(bonusTarget);
+      }
+    }
+  },
+);
+
+setBonusSources2(playerCharacterTest)(bonusTargetsTest); // ?
+playerCharacterTest.skills.history.bonusSources; // ?
+
+const calcBonuses = R.pipe(
+  R.prop('bonuses'),
+  R.map(R.prop('value')),
+  R.sum,
+);
+
+calcBonuses(playerCharacterTest)

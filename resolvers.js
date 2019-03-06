@@ -54,6 +54,10 @@ module.exports = {
       return userAPI.createPlayerCharacter(name);
     },
 
+    createRandomPlayerCharacter: async (_, __, { dataSources: { userAPI } }) => {
+      return userAPI.createRandomPlayerCharacter();
+    },
+
     deletePlayerCharacter: async (_, { playerCharacter }, { dataSources: { userAPI } }) => {
       userAPI.deletePlayerCharacter(playerCharacter.id);
       return userAPI.getCurrentUser();

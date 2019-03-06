@@ -24,6 +24,7 @@ type Token {
   token: String!
 }
 
+
 # game-related mutations and input types:
 
 extend type Mutation {
@@ -33,6 +34,7 @@ extend type Mutation {
   joinCampaign(campaign: CampaignInput!, playerCharacter: PlayerCharacterInput!): Campaign @autho @authen
   
   createPlayerCharacter(name: String!): PlayerCharacter @authen
+  createRandomPlayerCharacter: PlayerCharacter @authen
   deletePlayerCharacter(playerCharacter: PlayerCharacterInput): User @autho @authen
 
   overrideAbilityScoreValue(name: AbilityScoreName!, value: Int!, playerCharacter: PlayerCharacterInput!): PlayerCharacter @autho @authen
@@ -48,6 +50,7 @@ input PlayerCharacterInput {
 input CampaignInput {
   id: ID!
 }
+
 
 # game-related types:
 
@@ -137,6 +140,8 @@ type PlayerCharacter {
 
 type BonusSource {
   explanation: String!
+  sourceName: String!
+  sourceType: String!
 }
 
 type Dice {
@@ -171,7 +176,7 @@ type AbilityScore {
   proficient: Boolean!
   modifier: Int!
   info: AbilityScoreInfo!
-  bonusSources: [BonusSource]!
+  # bonusSources: [BonusSource]!
 }
 
 type AbilityScoreInfo {
@@ -197,6 +202,7 @@ type AbilityScores {
 type Skill {
   name: SkillName!
   value: Int!
+  baseValue: Int!
   proficient: Boolean!
   info: SkillInfo!
   bonusSources: [BonusSource]!
