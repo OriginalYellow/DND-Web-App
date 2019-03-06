@@ -1,9 +1,9 @@
+// eslint-disable-next-line import/extensions
+
 import VueRouter from 'vue-router';
 import Vue from 'vue';
-// eslint-disable-next-line import/extensions
-// import SheetModule from '@/modules/SheetModule';
 import HomeScreen from '@/screens/HomeScreen';
-import AbilitiesSavesSensesView from '@/screens/AbilitiesSavesSensesView';
+import CharacterSheetScreen from '@/screens/CharacterSheetScreen';
 import SignUpScreen from '@/screens/SignUpScreen';
 import SignInScreen from '@/screens/SignInScreen';
 
@@ -19,8 +19,7 @@ export default new VueRouter({
     {
       path: '/character-sheet',
       name: 'characterSheet',
-      // component: SheetModule,
-      component: AbilitiesSavesSensesView,
+      component: CharacterSheetScreen,
     },
     {
       path: '/sign-up',

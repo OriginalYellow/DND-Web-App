@@ -1,5 +1,5 @@
 <template>
-  <character-info-card title="ability scores">
+  <basic-card title="ability scores">
     <v-layout
       row
       wrap
@@ -10,60 +10,31 @@
         sm2
         class="pa-2"
         v-for="abilityScore in abilityScores"
-        :key="abilityScore.topCaption + abilityScore.bottomCaption"
+        :key="abilityScore.name"
       >
-        <stat-box v-bind="abilityScore" />
+        <square-stat-box
+          :value="abilityScore.modifier | addSign"
+          :topCaption="abilityScore.name | allCaps"
+          :bottomCaption="`${abilityScore.value}`"
+        />
       </v-flex>
     </v-layout>
-  </character-info-card>
+  </basic-card>
 </template>
 
 <script>
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
-import StatBox from '@/components/StatBox.vue';
+import BasicCard from '@/components/BasicCard.vue';
+import SquareStatBox from '@/components/SquareStatBox.vue';
 
 export default {
   name: 'AbilityScoresContainer',
 
   components: {
-    CharacterInfoCard,
-    StatBox,
+    BasicCard,
+    SquareStatBox,
   },
 
-  computed: {
-    abilityScores: () => [
-      {
-        value: '+0',
-        topCaption: 'strength',
-        bottomCaption: '10',
-      },
-      {
-        value: '+2',
-        topCaption: 'dexterity',
-        bottomCaption: '14',
-      },
-      {
-        value: '+0',
-        topCaption: 'constitution',
-        bottomCaption: '11',
-      },
-      {
-        value: '+2',
-        topCaption: 'intelligence',
-        bottomCaption: '14',
-      },
-      {
-        value: '+1',
-        topCaption: 'wisdom',
-        bottomCaption: '13',
-      },
-      {
-        value: '+2',
-        topCaption: 'charisma',
-        bottomCaption: '14',
-      },
-    ],
-  },
+  props: ['abilityScores'],
 };
 </script>
 

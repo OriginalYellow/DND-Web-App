@@ -2,8 +2,8 @@
 /* eslint-disable no-param-reassign */
 import gql from 'graphql-tag';
 import * as R from 'ramda';
-import * as AT from './action-types';
-import * as MT from './mutation-types';
+import * as A from './action-types';
+import * as M from './mutation-types';
 import { apolloClient } from '@/main';
 // import { onLogin } from '@/vue-apollo';
 import router from '@/router';
@@ -12,14 +12,16 @@ function onLogin(token, dispatch) {
   localStorage.setItem('apollo-token', token);
   apolloClient.resetStore()
     .then(() => {
-      dispatch(AT.GET_CURRENT_USER);
+      dispatch(A.GET_CURRENT_USER);
       router.push('/');
     });
 }
 
+// MIKE: put your query strings in their own folder and name them to make this
+// less retarded:
 export default {
-  [AT.GET_CURRENT_USER]({ commit }) {
-    commit(MT.SET_LOADING, true);
+  [A.GET_CURRENT_USER]({ commit }) {
+    commit(M.SET_LOADING, true);
     apolloClient
       .query({
         query: gql`
@@ -28,27 +30,36 @@ export default {
               username
               email
               password
-            }
-          }
-        `,
+              playerCharacters {
+                id
+                name
+                abilityScoreList {
+                  name
+                  value
+                  proficient
+                  modifier
+                  info {
+                    fullName
+                  }}}}}`,
       })
-      .then(({ data: { getCurrentUser } }) => {
-        commit(MT.SET_LOADING, false);
-        if (getCurrentUser) {
-          commit(MT.SET_USER, R.omit(['__typename'], getCurrentUser));
+      .then(({ data: { getCurrentUser: result } }) => {
+        commit(M.SET_LOADING, false);
+        if (result) {
+          commit(M.SET_USER, R.omit(['__typename', 'playerCharacters'], result));
+          commit(M.SET_PLAYER_CHARACTERS, result.playerCharacters);
         } else {
-          commit(MT.CLEAR_USER);
+          commit(M.CLEAR_USER);
         }
       })
       .catch((err) => {
-        commit(MT.SET_LOADING, false);
+        commit(M.SET_LOADING, false);
         console.error(err);
       });
   },
 
-  [AT.SIGNUP_USER]({ commit, dispatch }, payload) {
-    commit(MT.CLEAR_ERROR);
-    commit(MT.SET_LOADING, true);
+  [A.SIGNUP_USER]({ commit, dispatch }, payload) {
+    commit(M.CLEAR_ERROR);
+    commit(M.SET_LOADING, true);
     apolloClient.mutate({
       mutation: gql`
         mutation ($username: String!, $email: String!, $password: String!) {
@@ -59,18 +70,18 @@ export default {
       `,
       variables: payload,
     }).then(({ data: { signupUser: { token } } }) => {
-      commit(MT.SET_LOADING, false);
+      commit(M.SET_LOADING, false);
       onLogin(token, dispatch);
     }).catch((err) => {
-      commit(MT.SET_LOADING, false);
-      commit(MT.SET_ERROR, err);
+      commit(M.SET_LOADING, false);
+      commit(M.SET_ERROR, err);
       console.error(err);
     });
   },
 
-  [AT.SIGNIN_USER]({ commit, dispatch }, payload) {
-    commit(MT.CLEAR_ERROR);
-    commit(MT.SET_LOADING, true);
+  [A.SIGNIN_USER]({ commit, dispatch }, payload) {
+    commit(M.CLEAR_ERROR);
+    commit(M.SET_LOADING, true);
     apolloClient.mutate({
       mutation: gql`
         mutation ($username: String!, $password: String!) {
@@ -81,19 +92,32 @@ export default {
       `,
       variables: payload,
     }).then(({ data: { signinUser: { token } } }) => {
-      commit(MT.SET_LOADING, false);
+      commit(M.SET_LOADING, false);
       onLogin(token, dispatch);
     }).catch((err) => {
-      commit(MT.SET_LOADING, false);
-      commit(MT.SET_ERROR, err);
+      commit(M.SET_LOADING, false);
+      commit(M.SET_ERROR, err);
       console.error(err);
     });
   },
 
-  async [AT.SIGNOUT_USER]({ commit }) {
-    commit(MT.CLEAR_USER);
+  async [A.SIGNOUT_USER]({ commit }) {
+    commit(M.CLEAR_USER);
+    commit(M.CLEAR_PLAYER_CHARACTERS);
+    commit(M.CLEAR_SELECTED_PLAYER_CHARACTER);
     localStorage.setItem('apollo-token', '');
     await apolloClient.resetStore();
     router.push('/');
+  },
+
+  [A.SELECT_PLAYER_CHARACTER]({ commit, state }, id) {
+    commit(
+      M.SET_SELECTED_PLAYER_CHARACTER,
+      R.find(
+        R.propEq('id', id),
+        state.playerCharacters,
+      ),
+    );
+    router.push('/character-sheet');
   },
 };

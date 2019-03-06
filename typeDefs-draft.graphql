@@ -295,7 +295,7 @@ type Race {
   proficiencies: [GenericProficiency]!
   proficiencyChoices: [GenericProficiencyChoices]
   languages: [Language]!
-  languageChoices: LanguageChoices
+  languageChoices: LanguageChoics
   languageDescription: String!
   traits: [Trait]!
   traitChoices: TraitChoices

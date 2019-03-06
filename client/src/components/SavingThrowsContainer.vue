@@ -1,5 +1,5 @@
 <template>
-  <character-info-card title="saving throws">
+  <basic-card title="saving throws">
     <v-layout
       class="pt-1 pb-2"
       row
@@ -42,18 +42,18 @@
         </template>
       </v-flex>
     </v-layout>
-  </character-info-card>
+  </basic-card>
 </template>
 
 <script>
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
+import BasicCard from '@/components/BasicCard.vue';
 import MiniStatBox from '@/components/MiniStatBox.vue';
 
 export default {
   name: 'SavingThrowsContainer',
 
   components: {
-    CharacterInfoCard,
+    BasicCard,
     MiniStatBox,
   },
 

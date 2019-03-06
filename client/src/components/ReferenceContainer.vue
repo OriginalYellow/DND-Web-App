@@ -10,7 +10,7 @@
     <v-container row>
       <v-layout>
         <v-flex xs12>
-          <character-info-card title="editor">
+          <basic-card title="editor">
             <v-container
               grid-list-md
               class="pa-0"
@@ -105,7 +105,7 @@
                 </v-flex>
               </v-layout>
             </v-container>
-          </character-info-card>
+          </basic-card>
         </v-flex>
       </v-layout>
     </v-container>
@@ -114,7 +114,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
+import BasicCard from '@/components/BasicCard.vue';
 import * as R from 'ramda';
 
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
@@ -146,7 +146,7 @@ export default {
   components: {
     EditorMenuBar,
     EditorContent,
-    CharacterInfoCard,
+    BasicCard,
   },
 
   data() {

@@ -1,5 +1,5 @@
 <template>
-  <character-info-card title="Combat">
+  <basic-card title="Combat">
     <v-layout
       row
       wrap
@@ -12,22 +12,22 @@
         v-for="combatStat in combatStats"
         :key="combatStat.topCaption + combatStat.bottomCaption"
       >
-        <stat-box v-bind="combatStat" />
+        <square-stat-box v-bind="combatStat" />
       </v-flex>
     </v-layout>
-  </character-info-card>
+  </basic-card>
 </template>
 
 <script>
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
-import StatBox from '@/components/StatBox.vue';
+import BasicCard from '@/components/BasicCard.vue';
+import SquareStatBox from '@/components/SquareStatBox.vue';
 
 export default {
   name: 'CombatStatsContainer',
 
   components: {
-    CharacterInfoCard,
-    StatBox,
+    BasicCard,
+    SquareStatBox,
   },
 
   computed: {

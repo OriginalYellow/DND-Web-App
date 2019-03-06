@@ -29,3 +29,36 @@ VUETIFY CENTERING:
 VUETIFY NAVIGATION DRAWER:
 -"Using null as the starting value for its v-model will initialize the drawer as
 closed on mobile and as open on desktop."
+
+GRAPHQL-MODULES:
+-"You can use Inject and Injectable as regular functions to wrap your arguments
+and classes."
+
+BACKEND CACHING:
+-RESTDataSource does caching automatically but it seems to only be per request
+(see https://www.youtube.com/watch?v=qNXhhrJIv-w)
+-use cachegoose for caching with mongodb
+(https://www.npmjs.com/package/cachegoose)
+
+BACKEND BATCHING: 
+-I do not think I need to add batching to anything using RESTDataSource because
+it doesn't make much sense
+-Use a technique like the one in this article if your mongodb queries get more
+complex:
+http://www.petecorey.com/blog/2017/08/21/advanced-mongodb-query-batching-with-dataloader-and-sift/
+the problem with complex queries is sorting the results since dataloader needs
+them to be in the same order as their queries.
+
+MONGODB ATOMICITY:
+
+- it seems that you can only lock one document while modifying another (using
+mongodb's "transactions") between different "replica sets" (redundant
+databases). But I think you only need to worry about atomicity if you don't
+block the thread between modifications to different documents or if you end up
+using replica sets (you'd have to pay for it if you are using MLab)
+
+- the above is wrong in that node handles io (different requests) asyncronously,
+it is only within a single request that it can't spawn multiple threads
+
+- here is how you can lock a single document between requests:
+https://stackoverflow.com/questions/37269180/preventing-concurrent-access-to-documents-in-mongoose

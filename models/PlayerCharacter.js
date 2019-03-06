@@ -1,8 +1,9 @@
-// MIKE: if you end up calling populate() a lot on entities, look in to the
-// autopopulate mongoose plugin:
-// http://plugins.mongoosejs.io/plugins/autopopulate
-
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
+const R = require('ramda');
+const RA = require('ramda-adjunct');
+
+// embedded documents:
 
 const bonusSource = {
   explanation: {
@@ -25,6 +26,15 @@ const abilityScore = {
   bonusSources: [bonusSource],
 };
 
+const abilityScores = {
+  str: abilityScore,
+  dex: abilityScore,
+  con: abilityScore,
+  int: abilityScore,
+  wis: abilityScore,
+  cha: abilityScore,
+};
+
 const skill = {
   value: {
     type: Number,
@@ -39,19 +49,14 @@ const skill = {
   bonusSources: [bonusSource],
 };
 
-const PlayerCharacterSchema = new mongoose.Schema({
+// schema:
+
+const playerCharacterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  abilityScores: {
-    str: abilityScore,
-    dex: abilityScore,
-    con: abilityScore,
-    int: abilityScore,
-    wis: abilityScore,
-    cha: abilityScore,
-  },
+  abilityScores,
   skills: {
     acrobatics: skill,
     animalHandling: skill,
@@ -68,7 +73,7 @@ const PlayerCharacterSchema = new mongoose.Schema({
     performance: skill,
     persuasion: skill,
     religion: skill,
-    slightOfHand: skill,
+    sleightOfHand: skill,
     stealth: skill,
     survival: skill,
   },
@@ -83,9 +88,41 @@ const PlayerCharacterSchema = new mongoose.Schema({
   },
 });
 
-// // Create index to search on all fields of posts
-// PostSchema.index({
-//   '$**': 'text',
-// });
+// virtuals:
 
-module.exports = mongoose.model('PlayerCharacter', PlayerCharacterSchema);
+playerCharacterSchema.virtual('abilityScoreList').get(function () {
+  return R.pipe(
+    R.values,
+    // for some reason there is an extra boolean element in abilityScores so i'm
+    // removing it here:
+    R.dropWhile(R.complement(R.is(Object))),
+  )(this.abilityScores);
+});
+
+// MIKE: instead of using these crazy virtuals for embedded documents, use
+// subdocuments and regular-ass virtuals (see
+// https://mongoosejs.com/docs/subdocs.html)
+
+const createNameVirtuals = (schema, path, nameProperty, transform) => R.forEachObjIndexed(
+  (_, key) => {
+    schema.virtual(`${path}.${key}.${nameProperty}`)
+      .get(() => transform(key));
+  },
+);
+
+const createModifierVirtuals = (schema, path, modifierProperty) => R.forEachObjIndexed(
+  (_, key) => {
+    schema.virtual(`${path}.${key}.${modifierProperty}`)
+      .get(function () {
+        return RA.floor((this[path][key].value - 10) / 2);
+      });
+  },
+);
+
+createNameVirtuals(playerCharacterSchema, 'abilityScores', 'name', R.toUpper)(abilityScores);
+createModifierVirtuals(playerCharacterSchema, 'abilityScores', 'modifier')(abilityScores);
+
+playerCharacterSchema.set('toObject', { virtuals: true });
+playerCharacterSchema.set('toJSON', { virtuals: true });
+
+module.exports = mongoose.model('PlayerCharacter', playerCharacterSchema);

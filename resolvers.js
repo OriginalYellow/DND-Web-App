@@ -1,212 +1,161 @@
-// MIKE: ENTITY FRAMEWORK BUT BETTER!!!!!!!: https://www.prisma.io/with-graphql/
-// switch to this when things get too unwieldly
-
-// MIKE: you can use mongoose "virtuals" for aggregates and many-to-many
-// relationships (and just doing random stuff within the query instead of after
-// the fact - see https://github.com/Automattic/mongoose/issues/5801), although
-// there may be other options that you should look into first
-
-// MIKE: use this package to combine, pipe, etc. resolvers (you can use for
-// access control, as well as having one field depend on the result of the
-// resolver of another field):
-// https://github.com/lucasconstantino/graphql-resolvers/blob/master/docs/API.md
-
-// MIKE: you can use a graphql projection package (i have a few saved in my
-// bookmarks) to match mongoose projections to specific queries to reduce
-// network load
-
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
-const R = require('ramda');
+// const { isDependee, pipeResolvers, resolveDependee } = require('graphql-resolvers');
+// const R = require('ramda');
+const jwt = require('jsonwebtoken');
+const { camelToEnumCase } = require('./util');
+
+const NEW_TOKEN_AGE = '24hr';
 
 const createToken = (user, secret, expiresIn) => {
-  // NOTE: AHA! this is how you do that destructuring trick!:
-  const { username, email } = user;
-  return jwt.sign({ username, email }, secret, { expiresIn });
+  const { username, email, id } = user;
+  return jwt.sign({ username, email, id: id.toString() }, secret, { expiresIn });
 };
 
 module.exports = {
   Query: {
-    getCurrentUser: async (
-      _,
-      args,
-      { User, currentUserInfo },
-    ) => User
-      .findOne({
-        username: currentUserInfo.username,
-      }),
+    getCurrentUser: (_, args, { dataSources: { userAPI } }) => userAPI.getCurrentUser(),
   },
 
   Mutation: {
-    signupUser: async (_, { username, email, password }, { User }) => {
-      const user = await User.findOne({ username });
-      if (user) {
-        throw new Error('User already exists');
-      }
+    // users:
 
-      const newUser = await new User({
-        username,
-        email,
-        password,
-      }).save();
+    signupUser: async (_, { username, email, password }, { dataSources: { userAPI } }) => {
+      const newUser = await userAPI.createUser(username, email, password);
 
-      return { token: createToken(newUser, process.env.SECRET, '24hr') };
+      return { token: createToken(newUser, process.env.SECRET, NEW_TOKEN_AGE) };
     },
 
-    signinUser: async (_, { username, password }, { User }) => {
-      const user = await User.findOne({ username });
-      if (!user) {
-        throw new Error('User not found');
-      }
+    signinUser: async (_, { username, password }, { dataSources: { userAPI } }) => {
+      const user = await userAPI.signinUser(username, password);
 
-      const isValidPassword = await bcrypt.compare(password, user.password);
-      if (!isValidPassword) {
-        throw new Error('Invalid password');
-      }
-
-      return { token: createToken(user, process.env.SECRET, '24hr') };
+      return { token: createToken(user, process.env.SECRET, NEW_TOKEN_AGE) };
     },
 
-    createPlayerCharacter: async (
-      _,
-      { name },
-      { User, PlayerCharacter, currentUserInfo },
-    ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
+    // campaigns:
 
-      const newPlayerCharacter = await new PlayerCharacter({
-        name,
-        createdBy: user,
-      }).save();
+    createCampaign: async (_, { name }, { dataSources: { userAPI } }) => {
+      return userAPI.createCampaign(name);
+    },
 
-      return newPlayerCharacter.populate('createdBy').execPopulate();
+    deleteCampaign: async (_, { campaign }, { dataSources: { userAPI } }) => {
+      userAPI.deleteCampaign(campaign.id);
+      return userAPI.getCurrentUser();
+    },
+
+    joinCampaign: async (_, { campaign, playerCharacter }, { dataSources: { userAPI } }) => {
+      return userAPI.joinCampaign(campaign.id, playerCharacter.id);
+    },
+
+    // player characters:
+
+    createPlayerCharacter: async (_, { name }, { dataSources: { userAPI } }) => {
+      return userAPI.createPlayerCharacter(name);
+    },
+
+    deletePlayerCharacter: async (_, { playerCharacter }, { dataSources: { userAPI } }) => {
+      userAPI.deletePlayerCharacter(playerCharacter.id);
+      return userAPI.getCurrentUser();
     },
 
     overrideAbilityScoreValue: async (
       _,
-      { abilityScore: { playerCharacterId, abilityScoreName }, value },
-      { User, PlayerCharacter, currentUserInfo },
+      { name, value, playerCharacter },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      playerCharacter.abilityScores[abilityScoreName.toLowerCase()].value = value;
-      playerCharacter.save();
- 
-      return playerCharacter;
+      return userAPI.setAbilityScoreValue(playerCharacter.id, name, value);
     },
 
     overrideAbilityScoreProficiency: async (
       _,
-      { abilityScore: { playerCharacterId, abilityScoreName }, proficient },
-      { User, PlayerCharacter, currentUserInfo },
+      { name, proficient, playerCharacter },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      playerCharacter.abilityScores[abilityScoreName.toLowerCase()].proficient = proficient;
-      playerCharacter.save();
-
-      return playerCharacter;
+      return userAPI.setAbilityScoreProficiency(playerCharacter.id, name, proficient);
     },
 
     overrideSkillValue: async (
       _,
-      { skill: { playerCharacterId, skillName }, value },
-      { User, PlayerCharacter, currentUserInfo },
+      { name, value, playerCharacter },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      // YOU WHERE HERE (you just copy/pasted this from below, you how to
-      // actually make it - it's the same as camelToEnumCase right now). Then
-      // you have to make the overrideSkillProfeciency resolver
-      // const enumToCamelCase = str => str
-      //   .replace(
-      //     /([A-Z])/g,
-      //     x => R.concat('_', x),
-      //   )
-      //   .toUpperCase();
-
-      playerCharacter.skills[skillName.toLowerCase()].value = value;
-      playerCharacter.save();
-
-      return playerCharacter;
+      return userAPI.setSkillValue(playerCharacter.id, name, value);
     },
 
     overrideSkillProficiency: async (
       _,
-      { skill: { playerCharacterId, skillName }, proficient },
-      { User, PlayerCharacter, currentUserInfo },
+      { name, proficient, playerCharacter },
+      { dataSources: { userAPI } },
     ) => {
-      const user = await User.findOne({ username: currentUserInfo.username });
-
-      const playerCharacter = await PlayerCharacter
-        .findById(playerCharacterId);
-
-      if (user.id !== playerCharacter.createdBy.toString()) {
-        throw new Error('current user does not have authorization to modify that character');
-      }
-
-      playerCharacter.skills[skillName.toLowerCase()].proficient = proficient;
-      playerCharacter.save();
-
-      return playerCharacter;
+      return userAPI.setSkillProficiency(playerCharacter.id, name, proficient);
     },
   },
 
   User: {
-    playerCharacters: async (user, _, { PlayerCharacter }) => PlayerCharacter.find({ createdBy: user }),
+    playerCharacters: async (user, _, { dataSources: { userAPI } }) => {
+      return userAPI.getPlayerCharactersOfUser();
+    },
+
+    campaigns: async (user, _, { dataSources: { userAPI } }) => {
+      return userAPI.getCampaignsOfUser(user);
+    },
+
+    joinDate: user => user.joinDate.toString(),
+  },
+
+  Campaign: {
+    createdBy: async (campaign, _, { dataSources: { userAPI } }) => {
+      return userAPI.getUserById(campaign.createdBy);
+    },
+
+    playerCharacters: async (campaign, _, { dataSources: { userAPI } }) => {
+      return userAPI.getPlayerCharactersOfCampaign(campaign);
+    },
+  },
+
+  PlayerCharacter: {
+    createdBy: async (playerCharacter, _, { dataSources: { userAPI } }) => {
+      return userAPI.getUserById(playerCharacter.createdBy);
+    },
   },
 
   AbilityScore: {
-    name: (_, __, ___, info) => info.path.prev.key.toUpperCase(),
+    info: (abilityScore, _, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getAbilityScore(abilityScore.name);
+    },
   },
 
   Skill: {
     name: (_, __, ___, info) => {
-      // MIKE: put this somewhere else when u start using it in other places
-      const camelToEnumCase = str => str
-        .replace(
-          /([A-Z])/g,
-          x => R.concat('_', x),
-        )
-        .toUpperCase();
-
       return camelToEnumCase(info.path.prev.key);
+    },
+
+    info: async (_, __, { dataSources: { rulesAPI } }, info) => {
+      const skill = await rulesAPI.getSkill(info.path.prev.key);
+      skill.name = camelToEnumCase(info.path.prev.key);
+      return skill;
+    },
+  },
+
+  AbilityScoreInfo: {
+    skills: async (abilityScoreInfo, __, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getSkills(abilityScoreInfo.skills);
+    },
+  },
+
+  SkillInfo: {
+    abilityScore: async (skillInfo, __, { dataSources: { rulesAPI } }) => {
+      return rulesAPI.getAbilityScore(skillInfo.abilityScore);
     },
   },
 };
 
-// const getPopulatedUser = async (userInfo, User) => {
-//   if (!userInfo) {
-//     return null;
-//   }
+// TODO:
 
-//   return User
-//     .findOne({
-//       username: userInfo.username,
-//     })
-//     .populate('playerCharacters')
-//     .exec();
-// };
+// MIKE: use a function from graphql-tools to merge schemas:
+// https://www.apollographql.com/docs/graphql-tools/schema-stitching.html
+
+// MIKE: you can use a graphql projection package (i have a few saved in my
+// bookmarks) to match mongoose projections to specific queries to reduce
+// network load

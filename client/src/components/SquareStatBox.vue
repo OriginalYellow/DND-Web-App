@@ -2,7 +2,7 @@
 
 <template>
   <v-card
-    class="stat-box-card text-xs-center"
+    class="square-stat-box-card text-xs-center"
     :class="color"
     flat
     :dark="dark"
@@ -27,7 +27,7 @@ import * as R from 'ramda';
 const HIDDEN_CAPTION_PLACEHOLDER = 'placeholder';
 
 export default {
-  name: 'StatBox',
+  name: 'SquareStatBox',
 
   props: {
     topCaption: {
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.stat-box-card {
+.square-stat-box-card {
   min-width 75px
 }
 </style>

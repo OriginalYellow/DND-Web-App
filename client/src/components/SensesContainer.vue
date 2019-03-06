@@ -1,5 +1,5 @@
 <template>
-  <character-info-card title="senses">
+  <basic-card title="senses">
     <v-layout
       class="pt-1 pb-2"
       row
@@ -30,18 +30,18 @@
         </v-layout>
       </v-flex>
     </v-layout>
-  </character-info-card>
+  </basic-card>
 </template>
 
 <script>
-import CharacterInfoCard from '@/components/CharacterInfoCard.vue';
+import BasicCard from '@/components/BasicCard.vue';
 import MiniStatBox from '@/components/MiniStatBox.vue';
 
 export default {
   name: 'SensesContainer',
 
   components: {
-    CharacterInfoCard,
+    BasicCard,
     MiniStatBox,
   },
 
