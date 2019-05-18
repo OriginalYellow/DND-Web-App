@@ -1,3 +1,32 @@
+// AGGREGATE ROOTS:
+
+// it probably isn't a good idea to put multiple objects that are part of the
+// DAL in its interface - according to DDD you want to have all outside
+// communication come through an "aggregate root" (source:
+// https://martinfowler.com/bliki/DDD_Aggregate.html)
+
+// that being said, you could expose the constituent parts of the aggregate as
+// read-only if necessary, that would keep the protected (the point of the
+// aggregate root is to protect invariants)
+
+// also, you could expose some part of the internals in a read-write manner if
+// absolutely necessary and consumers of the aggregate can be trusted with it,
+// but try not to
+
+
+// you could make a very simple class just for fluent API usage - all functions
+// are the equivalent of extension methods and they are pure, and inject that
+// into the class that you already have for your dal
+
+// you could use the top level dal class as the orchestrator between its
+// dependencies
+
+// the benefit is due to the fact that a class is the best way to enforce
+// grouping of functions that are specific to the same data structure
+
+// MIKE: put all the dataloader shit into a different folder and/or file and
+// encapsulate it in an object then compose this class with that
+
 /* eslint-disable no-unexpected-multiline */
 /* eslint-disable no-param-reassign */
 /* eslint-disable implicit-arrow-linebreak */
@@ -144,11 +173,14 @@ class UserAPI extends DataSource {
 
   }
 
+  // MIKE: you may want to change the parameters of these into options objects:
   async setAbilityScoreValue(playerCharacterId, abilityScoreName, value) {
     const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
     playerCharacter.abilityScores[screamingToCamelCase(abilityScoreName)].value = value;
     return playerCharacter.save();
   }
+
+  // CharacterSheet.Abilityscore[Int].setproficiency()
 
   async setAbilityScoreProficiency(playerCharacterId, abilityScoreName, proficient) {
     const playerCharacter = await this.getPlayerCharacterById(playerCharacterId);
@@ -208,7 +240,3 @@ class UserAPI extends DataSource {
 }
 
 module.exports = UserAPI;
-
-// TODO:
-
-// MIKE: possibly split this into different files like "CampaignAPI", "playerCharacterAPI", etc.

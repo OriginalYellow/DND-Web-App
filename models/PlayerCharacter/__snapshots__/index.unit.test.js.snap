@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ability score names should be set 1`] = `
+Object {
+  "abilityScores": Object {
+    "dex": Object {
+      "bonusSources": Array [],
+      "bonusTargets": Array [
+        "c",
+        "d",
+      ],
+      "name": "DEX",
+      "proficient": false,
+      "value": 11,
+    },
+    "str": Object {
+      "bonusSources": Array [],
+      "bonusTargets": Array [
+        "e",
+        "f",
+      ],
+      "name": "STR",
+      "proficient": false,
+      "value": 11,
+    },
+    "wis": Object {
+      "bonusSources": Array [],
+      "bonusTargets": Array [
+        "a",
+        "b",
+      ],
+      "name": "WIS",
+      "proficient": false,
+      "value": 17,
+    },
+  },
+  "skills": Object {
+    "acrobatics": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "ACROBATICS",
+      "proficient": false,
+    },
+    "arcana": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "ARCANA",
+      "proficient": false,
+    },
+    "athletics": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "ATHLETICS",
+      "proficient": false,
+    },
+    "history": Object {
+      "baseValue": 4,
+      "bonusSources": Array [
+        Object {
+          "explanation": "placeholder",
+          "sourceName": "INT",
+          "sourceType": "ABILITY_SCORE",
+          "targetName": "HISTORY",
+          "targetType": "SKILL",
+          "value": 10,
+        },
+      ],
+      "name": "HISTORY",
+      "proficient": false,
+    },
+    "investigation": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "INVESTIGATION",
+      "proficient": false,
+    },
+    "nature": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "NATURE",
+      "proficient": false,
+    },
+    "religion": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "RELIGION",
+      "proficient": false,
+    },
+    "sleightOfHand": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "SLEIGHT_OF_HAND",
+      "proficient": false,
+    },
+    "stealth": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "STEALTH",
+      "proficient": false,
+    },
+  },
+}
+`;
+
+exports[`should get the correct bonus targets 1`] = `
+Object {
+  "0": "a",
+  "1": "b",
+  "2": "c",
+  "3": "d",
+  "4": "e",
+  "5": "f",
+}
+`;
+
+exports[`should set the bonus sources correctly 1`] = `
+Object {
+  "abilityScores": Object {
+    "dex": Object {
+      "bonusSources": Array [],
+      "bonusTargets": Array [
+        "c",
+        "d",
+      ],
+      "name": "DEX",
+      "proficient": false,
+      "value": 11,
+    },
+    "str": Object {
+      "bonusSources": Array [],
+      "bonusTargets": Array [
+        "e",
+        "f",
+      ],
+      "name": "STR",
+      "proficient": false,
+      "value": 11,
+    },
+    "wis": Object {
+      "bonusSources": Array [],
+      "bonusTargets": Array [
+        "a",
+        "b",
+      ],
+      "name": "INT",
+      "proficient": false,
+      "value": 17,
+    },
+  },
+  "skills": Object {
+    "acrobatics": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "ACROBATICS",
+      "proficient": false,
+    },
+    "arcana": Object {
+      "baseValue": 4,
+      "bonusSources": Array [
+        Object {
+          "explanation": "explanation is not yet set",
+          "sourceName": "INT",
+          "sourceType": "ABILITY_SCORE",
+          "targetName": "ARCANA",
+          "targetType": "SKILL",
+          "value": 1,
+        },
+      ],
+      "name": "ARCANA",
+      "proficient": false,
+    },
+    "athletics": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "ATHLETICS",
+      "proficient": false,
+    },
+    "history": Object {
+      "baseValue": 4,
+      "bonusSources": Array [
+        Object {
+          "explanation": "explanation is not yet set",
+          "sourceName": "INT",
+          "sourceType": "ABILITY_SCORE",
+          "targetName": "HISTORY",
+          "targetType": "SKILL",
+          "value": 1,
+        },
+      ],
+      "name": "HISTORY",
+      "proficient": false,
+    },
+    "investigation": Object {
+      "baseValue": 4,
+      "bonusSources": Array [
+        Object {
+          "explanation": "explanation is not yet set",
+          "sourceName": "INT",
+          "sourceType": "ABILITY_SCORE",
+          "targetName": "INVESTIGATION",
+          "targetType": "SKILL",
+          "value": 1,
+        },
+      ],
+      "name": "INVESTIGATION",
+      "proficient": false,
+    },
+    "nature": Object {
+      "baseValue": 4,
+      "bonusSources": Array [
+        Object {
+          "explanation": "explanation is not yet set",
+          "sourceName": "INT",
+          "sourceType": "ABILITY_SCORE",
+          "targetName": "NATURE",
+          "targetType": "SKILL",
+          "value": 1,
+        },
+      ],
+      "name": "NATURE",
+      "proficient": false,
+    },
+    "religion": Object {
+      "baseValue": 4,
+      "bonusSources": Array [
+        Object {
+          "explanation": "explanation is not yet set",
+          "sourceName": "INT",
+          "sourceType": "ABILITY_SCORE",
+          "targetName": "RELIGION",
+          "targetType": "SKILL",
+          "value": 1,
+        },
+      ],
+      "name": "RELIGION",
+      "proficient": false,
+    },
+    "sleightOfHand": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "SLEIGHT_OF_HAND",
+      "proficient": false,
+    },
+    "stealth": Object {
+      "baseValue": 4,
+      "bonusSources": Array [],
+      "name": "STEALTH",
+      "proficient": false,
+    },
+  },
+}
+`;

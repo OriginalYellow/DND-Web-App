@@ -23,13 +23,13 @@ const skillSchema = new mongoose.Schema({
   bonusSources: [bonusSource],
 });
 
-skillSchema.virtual('value').get(function () {
-  const calcBonuses = R.pipe(
-    R.prop('bonusSources'),
-    R.map(R.prop('value')),
-    R.sum,
-  );
+const calcBonuses = R.pipe(
+  R.prop('bonusSources'),
+  R.map(R.prop('value')),
+  R.sum,
+);
 
+skillSchema.virtual('value').get(function () {
   return this.baseValue + calcBonuses(this);
 });
 

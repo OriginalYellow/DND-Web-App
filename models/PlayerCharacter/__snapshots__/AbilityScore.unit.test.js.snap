@@ -1,0 +1,1308 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createBonusTarget should create a bonus target with a default explanation 1`] = `
+Object {
+  "explanation": "explanation is not yet set",
+  "sourceName": "the source name",
+  "sourceType": "the source type",
+  "targetName": "the target name",
+  "targetType": "the target type",
+  "value": 5,
+}
+`;
+
+exports[`createBonusTarget should create a bonus target with all of the passed in info 1`] = `
+Object {
+  "explanation": "the explanation",
+  "sourceName": "the source name",
+  "sourceType": "the source type",
+  "targetName": "the target name",
+  "targetType": "the target type",
+  "value": 5,
+}
+`;
+
+exports[`findTargetNames should return the passed in ability score's "bonus recepients' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's "bonus recepients'" names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's ' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bo' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bon' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus ' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus r' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus re' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus rece' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus recepie' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus recepient' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus recepient's names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus recepients names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus recepients' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability score's bonus targets' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`findTargetNames should return the passed in ability scores bonus recepients' names 1`] = `
+Array [
+  "ARCANA",
+  "HISTORY",
+  "INVESTIGATION",
+  "NATURE",
+  "RELIGION",
+]
+`;
+
+exports[`getBonusTargets  computes the effects of ability scores on skills and returns as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getBonusTargets computes the effects of ability scores on skills and returns as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getBonusTargets sho computes the effects of ability scores on skills and returns as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getBonusTargets should compute the effects of ability scores on skills and return as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getBonusTargets should compute the effects of ability scores on skills and returns as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getBonusTargets should computes the effects of ability scores on skills and returns as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getBonuses should compute the effects of ability scores on skills and return as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of  given ability score on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of  on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of a given ability score on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability  on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability scores on skills and return as "bonus =" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability scores on skills and return as "bonus ==" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability scores on skills and return as "bonus targets" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability scores on skills and return as "bonus" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability scores on skills and return as "bonuse" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of ability scores on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of gi on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given  on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given ab on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given abili on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given ability  on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given ability sco on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given ability score on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;
+
+exports[`getOutgoingBonuses should compute the effects of given on skills and return as "bonuses" 1`] = `
+Array [
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "ARCANA",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "HISTORY",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "INVESTIGATION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "NATURE",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+  Object {
+    "explanation": "explanation is not yet set",
+    "sourceName": "INT",
+    "sourceType": "ABILITY_SCORE",
+    "targetName": "RELIGION",
+    "targetType": "SKILL",
+    "value": 1,
+  },
+]
+`;

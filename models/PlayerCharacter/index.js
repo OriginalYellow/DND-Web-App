@@ -1,11 +1,12 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
 const R = require('ramda');
 const { screamingToCamelCase } = require('../../util');
 
-const abilityScoreSchema = require('./AbilityScore');
 const skillSchema = require('./Skill');
+const { abilityScoreSchema } = require('./AbilityScore');
 
 // embedded documents:
 
@@ -69,6 +70,17 @@ const playerCharacterSchema = new mongoose.Schema({
   },
 });
 
+// util:
+
+const findBonusSourceIndex = bonusTarget => R.findIndex(
+  R.allPass([
+    R.propEq('sourceName', bonusTarget.sourceName),
+    R.propEq('sourceType', bonusTarget.sourceType),
+  ]),
+);
+
+// getters:
+
 const getBonusTargets = R.pipe(
   R.prop('abilityScores'),
   R.values,
@@ -76,7 +88,9 @@ const getBonusTargets = R.pipe(
   R.flatten,
 );
 
-const setBonusSources = playerCharacter => R.forEach(
+// setters:
+
+const setBonusSources = (bonusTargets, playerCharacter) => R.forEach(
   (bonusTarget) => {
     const skill = playerCharacter.skills[screamingToCamelCase(bonusTarget.targetName)];
 
@@ -93,14 +107,14 @@ const setBonusSources = playerCharacter => R.forEach(
       }
     }
   },
+)(bonusTargets);
+
+const setAbilityScoreNames = playerCharacter => R.forEachObjIndexed(
+  (_, key) => { playerCharacter.abilityScores[key].name = R.toUpper(key); },
+  playerCharacter.abilityScores,
 );
 
-const findBonusSourceIndex = bonusTarget => R.findIndex(
-  R.allPass([
-    R.propEq('sourceName', bonusTarget.sourceName),
-    R.propEq('sourceType', bonusTarget.sourceType),
-  ]),
-);
+// mongoose:
 
 playerCharacterSchema.virtual('abilityScoreList').get(function () {
   return R.pipe(
@@ -116,16 +130,13 @@ playerCharacterSchema.pre('save', function (next) {
   // specific subdocuments in here as well
 
   if (this.isNew) {
-    R.forEachObjIndexed(
-      (_, key) => { this.abilityScores[key].name = R.toUpper(key); },
-      this.abilityScores,
-    );
+    setAbilityScoreNames(this);
   }
 
-  R.pipe(
-    getBonusTargets,
-    setBonusSources,
-  )(this);
+  if (this.isModified) {
+    const bonusTargets = getBonusTargets(this);
+    setBonusSources(bonusTargets, this);
+  }
 
   next();
 });
@@ -133,4 +144,14 @@ playerCharacterSchema.pre('save', function (next) {
 playerCharacterSchema.set('toObject', { virtuals: true });
 playerCharacterSchema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('PlayerCharacter', playerCharacterSchema);
+// module.exports = mongoose.model('PlayerCharacter', playerCharacterSchema);
+
+module.exports = {
+  PlayerCharacter: mongoose.model('PlayerCharacter', playerCharacterSchema),
+  tests: {
+    findBonusSourceIndex,
+    getBonusTargets,
+    setBonusSources,
+    setAbilityScoreNames,
+  },
+};

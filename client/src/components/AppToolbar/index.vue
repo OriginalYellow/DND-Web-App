@@ -25,9 +25,9 @@
         :key="item.title"
         :to="item.link"
       >
-        <v-icon :left="$vuetify.breakpoint.smAndUp">
+        <!-- <v-icon :left="$vuetify.breakpoint.smAndUp">
           {{item.icon}}
-        </v-icon>
+        </v-icon> -->
         <span class="hidden-xs-only">
           {{item.title}}
         </span>
@@ -37,9 +37,9 @@
         v-if="!user"
         :to="signinButton.link"
       >
-        <v-icon :left="$vuetify.breakpoint.smAndUp">
+        <!-- <v-icon :left="$vuetify.breakpoint.smAndUp">
           account_circle
-        </v-icon>
+        </v-icon> -->
         <span class="hidden-xs-only">
           {{signinButton.title}}
         </span>

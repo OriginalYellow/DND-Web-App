@@ -14,7 +14,7 @@ import * as RA from 'ramda-adjunct';
 //   }
 // });
 
-// count; // ?
+// count; 
 
 // my solution:
 
@@ -64,7 +64,7 @@ const screamingToCamelCase = R.pipe(
   transformFirstLetter(R.toLower),
 );
 
-// enumToCamelCase2('COOL_FUCKING_ENUM'); // ?
+// enumToCamelCase2('COOL_FUCKING_ENUM'); 
 
 const nestedObject = {
   level1: {
@@ -73,7 +73,7 @@ const nestedObject = {
 };
 
 const spreadTest1 = ({ level1: { level2: renamedLevel2 } }) => {
-  renamedLevel2; // ?
+  renamedLevel2; 
 };
 
 spreadTest1(nestedObject);
@@ -145,8 +145,8 @@ switchFunction(myConditions)(data); // returns 3
 
 const eq = (inputString, isEqualToVar) => inputString === isEqualToVar;
 
-eq('ayy', 'ayy'); // ?
-eq('ayy', 'ayyy'); // ?
+eq('ayy', 'ayy'); 
+eq('ayy', 'ayyy'); 
 
 const isEqualToAnyVars = (inputVar, varsToCompareTo) => {
   let ret = false;
@@ -304,16 +304,16 @@ const getBonusTargets = abilityScore => R.pipe(
   ),
 );
 
-getBonusTargets(abilityScoreTest)(bonusMap); // ?
-getBonusTargets(abilityScoreTest3)(bonusMap); // ?
+getBonusTargets(abilityScoreTest)(bonusMap); 
+getBonusTargets(abilityScoreTest3)(bonusMap); 
 
-const setBonusTargets = R.pipe(
-  R.prop('abilityScores'),
-  R.forEach((abilityScore) => {
-    // eslint-disable-next-line no-param-reassign
-    abilityScore.bonusTargets = getBonusTargets(abilityScore);
-  }),
-);
+// const setBonusTargets = R.pipe(
+//   R.prop('abilityScores'),
+//   R.forEach((abilityScore) => {
+//     // eslint-disable-next-line no-param-reassign
+//     abilityScore.bonusTargets = getBonusTargets(abilityScore);
+//   }),
+// );
 
 playerCharacterTest.abilityScores.dex.bonusTargets = getBonusTargets(playerCharacterTest.abilityScores.dex)(bonusMap);
 playerCharacterTest.abilityScores.con.bonusTargets = getBonusTargets(playerCharacterTest.abilityScores.con)(bonusMap);
@@ -326,19 +326,19 @@ const getPlayerCharacterBonusTargets = R.pipe(
   R.flatten,
 );
 
-const bonusTargetsTest = getPlayerCharacterBonusTargets(playerCharacterTest); // ?
+const bonusTargetsTest = getPlayerCharacterBonusTargets(playerCharacterTest); 
 
-const setBonusSources = playerCharacter => R.map(
-  R.pipe(
-    (bonusTarget) => {
-      const skill = playerCharacter.skills[screamingToCamelCase(bonusTarget.targetName)];
+// const setBonusSources = playerCharacter => R.map(
+//   R.pipe(
+//     (bonusTarget) => {
+//       const skill = playerCharacter.skills[screamingToCamelCase(bonusTarget.targetName)];
 
-      if (skill) {
-        skill.bonusSources.push(bonusTarget);
-      }
-    },
-  ),
-);
+//       if (skill) {
+//         skill.bonusSources.push(bonusTarget);
+//       }
+//     },
+//   ),
+// );
 
 // const bonusSources = [{ sourceName: 'fug', sourceType: 'fugu' }];
 
@@ -350,7 +350,7 @@ const setBonusSources = playerCharacter => R.map(
 //   bonusSources,
 // );
 
-// oldBonusSourceIndex; // ?
+// oldBonusSourceIndex; 
 
 const setBonusSources2 = playerCharacter => R.forEach(
   (bonusTarget) => {
@@ -378,8 +378,8 @@ const setBonusSources2 = playerCharacter => R.forEach(
   },
 );
 
-setBonusSources2(playerCharacterTest)(bonusTargetsTest); // ?
-playerCharacterTest.skills.history.bonusSources; // ?
+setBonusSources2(playerCharacterTest)(bonusTargetsTest);
+playerCharacterTest.skills.history.bonusSources;
 
 const calcBonuses = R.pipe(
   R.prop('bonuses'),
@@ -387,4 +387,42 @@ const calcBonuses = R.pipe(
   R.sum,
 );
 
-calcBonuses(playerCharacterTest)
+calcBonuses(playerCharacterTest);
+
+// const guardExplanation = R.ifElse(
+//   R.isNil,
+//   R.always('not yet entered'),
+//   R.identity,
+// );
+
+// const createBonusTarget = (value, explanation, source, target) => ({
+//   sourceName: source.name,
+//   sourceType: source.type,
+//   targetName: target.name,
+//   targetType: target.type,
+//   value,
+//   explanation: guardExplanation(explanation),
+// });
+
+// const getBonusTargets2 = (sourceAbilityScore, map) => R.pipe(
+//   R.tap(x => console.log(x)),
+//   // R.find(R.propEq('abilityScoreName', sourceAbilityScore.name)),
+//   // R.tap(x => console.log(x)),
+//   // R.prop('skillNames'),
+//   // R.map(targetSkillName => createBonusTarget(
+//   //   getModifier(sourceAbilityScore),
+//   //   `your ${sourceAbilityScore.name} score grants a bonus or penalty of ${getModifier(sourceAbilityScore)} to your ${targetSkillName}`,
+//   //   {
+//   //     name: sourceAbilityScore.name,
+//   //     type: 'ABILITY_SCORE',
+//   //   },
+//   //   {
+//   //     name: targetSkillName,
+//   //     type: 'SKILL',
+//   //   },
+//   // )),
+// )(map);
+
+// getBonusTargets2(abilityScoreTest, bonusMap);
+
+"fug" // ?

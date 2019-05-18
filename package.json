@@ -7,7 +7,8 @@
     "start": "node server.js",
     "server": "nodemon --inspect server.js",
     "client": "cd client && npm run serve",
-    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/OriginalYellow/DND-Web-App/issues"
   },
-  "homepage": "https://github.com/OriginalYellow/DND-Web-App#readme",
+  "homepage": "htps://github.com/OriginalYellow/DND-Web-App#readme",
   "dependencies": {
     "@entria/graphql-mongoose-loader": "^3.0.3",
     "@types/mongoose": "^5.3.20",
@@ -26,16 +27,23 @@
     "apollo-datasource-rest": "^0.3.1",
     "apollo-server": "^2.3.2",
     "bcryptjs": "^2.4.3",
+    "crocks": "^0.11.1",
     "dataloader": "^1.4.0",
     "dotenv": "^6.2.0",
     "graphql": "^14.1.1",
     "graphql-import": "^0.7.1",
     "graphql-resolvers": "^0.3.2",
     "graphql-tools": "^4.0.4",
+    "jest": "^24.4.0",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.7",
+    "oja": "^1.1.4",
+    "partial.lenses": "^14.17.0",
+    "partial.lenses.validation": "^2.0.0",
     "ramda": "^0.26.1",
-    "ramda-adjunct": "^2.16.0"
+    "ramda-adjunct": "^2.16.0",
+    "sanctuary": "^1.0.0",
+    "sanctuary-style": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

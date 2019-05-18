@@ -28,14 +28,11 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as T from '@/store/action-types';
+// DEBUG
 
 import CharactersContainer from '@/components/CharactersContainer';
 
 export default {
-  components: {
-    CharactersContainer,
-  },
-
   name: 'HomeScreen',
 
   computed: {

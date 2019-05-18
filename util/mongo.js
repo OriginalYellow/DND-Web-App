@@ -4,11 +4,10 @@
 const { mongooseLoader } = require('@entria/graphql-mongoose-loader');
 const R = require('ramda');
 
-// i thought the name "mongooseLoader" wasn't appropriate so i renamed it:
-const batchFindById = R.curry(mongooseLoader);
-
+// has side effects:
 const promiseAll = Promise.all.bind(Promise);
 
+// has side effects:
 const prime = R.curry(
   (findByIdLoader, childDocument) => findByIdLoader.prime(childDocument.id, childDocument),
 );
@@ -19,12 +18,11 @@ const findByIds = model => ids => model.find({
   _id: { $in: ids },
 });
 
-const findManyToMany = R.curry(
-  (childModel, parentField, parentIdLoader) => R.pipeP(
-    findById(parentIdLoader),
-    R.prop(parentField),
-    findByIds(childModel),
-  ),
+// MIKE: maybe rename to "findManyToManyChildren" and rename others similarly
+const findManyToMany = (childModel, parentField, parentIdLoader) => R.pipeP(
+  findById(parentIdLoader),
+  R.prop(parentField),
+  findByIds(childModel),
 );
 
 const findOneToMany = R.curry(
@@ -45,13 +43,28 @@ const batchRelationship = R.curry(
   ),
 );
 
-const batchOneToMany = (childModel, childField, childIdLoader) =>
+// Exports:
+
+// NOTE: i thought the name "mongooseLoader" wasn't appropriate so i renamed it:
+const batchFindById = R.curry(mongooseLoader);
+
+// MIKE: possibly use assertions to specify which options are optional like
+// this:
+// assert(todosRepository, 'opts.todosRepository is required.')
+// assert(currentUser, 'opts.currentUser is required.')
+
+// NOTE: i can use options objects here for more readable code when i call these
+// later, but only because they aren't meant to be piped (they make up the edge
+// of the current abstraction) so they don't have to be curried:
+const batchOneToMany = ({ childModel, childField, childIdLoader }) =>
   batchRelationship(
     findOneToMany(childModel, childField),
     childIdLoader,
   );
 
-const batchManyToMany = (childModel, parentField, parentIdLoader, childIdLoader) =>
+const batchManyToMany = ({
+  childModel, parentField, parentIdLoader, childIdLoader,
+}) =>
   batchRelationship(
     findManyToMany(childModel, parentField, parentIdLoader),
     childIdLoader,
