@@ -35,6 +35,10 @@ import CharactersContainer from '@/components/CharactersContainer';
 export default {
   name: 'HomeScreen',
 
+  components: {
+    CharactersContainer,
+  },
+
   computed: {
     ...mapState(['user', 'playerCharacters']),
 
